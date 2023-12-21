@@ -21,11 +21,11 @@ struct MapViewActionButton: View {
         }, label: {
             Image(systemName: "chevron.left")
                 .font(.title2)
-                .foregroundStyle(Color(.black))
+                .foregroundStyle(Color.theme.primaryTextColor)
                 .padding()
-                .background(.white)
+                .background(Color.theme.backgroundColor)
                 .clipShape(Circle())
-                .shadow(radius: 2)
+                .shadow(radius: 6)
         })
         .frame(maxWidth: .infinity, alignment: .leading)
     }

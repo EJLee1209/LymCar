@@ -34,12 +34,14 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
     @Published var destinationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     
+    //MARK: - Lifecycle
     override init() {
         super.init()
         
         searchCompleter.delegate = self
     }
     
+    //MARK: - Helpers
     /// 장소 검색 리스트에서 Row를 선택했을 때 호출
     func didSelectLocation(
         _ location: MKLocalSearchCompletion,
@@ -75,6 +77,7 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
         search.start(completionHandler: completion)
     }
     
+    /// 모든 프로퍼티 초기화(MapViewActionButton 클릭시)
     func clearAllPropertiesForLocationSearch() {
         startingPointCoordinate = userLocationCoordinate
         destinationCoordinate = nil

@@ -124,7 +124,7 @@ extension MapViewRepresentable {
                     edgePadding: .init(
                         top: 64,
                         left: 32,
-                        bottom: 500,
+                        bottom: 300,
                         right: 32
                     )
                 )

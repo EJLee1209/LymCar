@@ -20,7 +20,7 @@ struct LocationSearchActivationView: View {
                 .padding(.vertical, 13)
                 .padding(.trailing, 16)
         }
-        .background(Color.white)
+        .background(Color.theme.backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 16)
         .shadow(radius: 3)
