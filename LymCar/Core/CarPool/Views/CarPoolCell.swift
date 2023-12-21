@@ -48,7 +48,7 @@ struct CarPoolCell: View {
         }
         .padding(14)
         .frame(width: 180)
-        .background(Color.theme.secondaryBackgroundColor)
+        .background(Color.theme.backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .shadow(color: Color.theme.brandColor.opacity(0.3), radius: 3, y: 2)
         .padding(.top, 14)

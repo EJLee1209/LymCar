@@ -51,6 +51,11 @@
 		CFDB3E012B34048F00C88D77 /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E002B34048F00C88D77 /* SearchType.swift */; };
 		CFDB3E042B3438BA00C88D77 /* CarPoolListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E032B3438BA00C88D77 /* CarPoolListView.swift */; };
 		CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E062B3440A900C88D77 /* CarPoolCell.swift */; };
+		CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E082B344B1500C88D77 /* MainTabView.swift */; };
+		CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E0A2B344DB100C88D77 /* View.swift */; };
+		CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E0C2B347A0D00C88D77 /* TabMenuItem.swift */; };
+		CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E102B347F2900C88D77 /* MenuView.swift */; };
+		CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E122B347F3B00C88D77 /* HistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +77,11 @@
 		CFDB3E002B34048F00C88D77 /* SearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
 		CFDB3E032B3438BA00C88D77 /* CarPoolListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolListView.swift; sourceTree = "<group>"; };
 		CFDB3E062B3440A900C88D77 /* CarPoolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolCell.swift; sourceTree = "<group>"; };
+		CFDB3E082B344B1500C88D77 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		CFDB3E0A2B344DB100C88D77 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		CFDB3E0C2B347A0D00C88D77 /* TabMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMenuItem.swift; sourceTree = "<group>"; };
+		CFDB3E102B347F2900C88D77 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		CFDB3E122B347F3B00C88D77 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,9 +164,12 @@
 		CF3F49E32B316E1E009E8A96 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CFDB3E0F2B347F2100C88D77 /* Menu */,
+				CFDB3E0E2B347F1D00C88D77 /* History */,
 				CFDB3E022B3438A000C88D77 /* CarPool */,
 				CFDB3DF72B33FA5700C88D77 /* Map */,
 				CFDB3DF92B33FA6B00C88D77 /* LocationSearch */,
+				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -183,6 +196,7 @@
 			children = (
 				CF1B79D02B32AACC005974B8 /* MapState.swift */,
 				CFDB3E002B34048F00C88D77 /* SearchType.swift */,
+				CFDB3E0C2B347A0D00C88D77 /* TabMenuItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -235,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				CFDB3DFC2B33FC5200C88D77 /* Color.swift */,
+				CFDB3E0A2B344DB100C88D77 /* View.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -254,6 +269,22 @@
 				CFDB3E062B3440A900C88D77 /* CarPoolCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CFDB3E0E2B347F1D00C88D77 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB3E122B347F3B00C88D77 /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		CFDB3E0F2B347F2100C88D77 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,8 +402,13 @@
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* LocationSearchViewModel.swift in Sources */,
 				CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */,
+				CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */,
 				CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */,
+				CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */,
 				CFDB3E012B34048F00C88D77 /* SearchType.swift in Sources */,
+				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
+				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
+				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
