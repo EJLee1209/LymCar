@@ -14,7 +14,7 @@ struct LymCarApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MapView()
+            RootView()
                 .environmentObject(mapViewModel)
         }
     }

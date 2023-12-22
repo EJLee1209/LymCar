@@ -8,38 +8,11 @@
 import SwiftUI
 import MapKit
 
-
-
 struct MapView: View {
-    @EnvironmentObject var viewModel: LocationSearchViewModel
-    @State var mapState: MapState = .none
-    @State var selectedTab: TabMenuItem = .map
+    @Binding var mapState: MapState
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            ZStack(alignment: .top) {
-                showSelectedView()
-            }
-            
-            if mapState != .searchingForLocation {
-                MainTabView(selectedItem: $selectedTab)
-                    .transition(.move(edge: .bottom))
-            }
-            
-            if mapState == .locationSelected {
-                CarPoolListView()
-                    .transition(.move(edge: .bottom))
-            }
-        }
-        .ignoresSafeArea(.all, edges: .bottom)
-    }
-    
-    @ViewBuilder
-    func showSelectedView() -> some View {
-        switch selectedTab {
-        case .history:
-            HistoryView()
-        case .map:
+        ZStack(alignment: .top) {
             MapViewRepresentable(mapState: $mapState)
                 .ignoresSafeArea()
             
@@ -51,20 +24,19 @@ struct MapView: View {
                             mapState = .searchingForLocation
                         }
                     }
-                    .transition(.move(edge: .top))
             } else if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)
             } else if mapState == .locationSelected {
                 MapViewActionButton(mapState: $mapState)
                     .padding()
             }
-        case .menu:
-            MenuView()
         }
     }
+    
+    
 }
 
 #Preview {
-    MapView()
+    MapView(mapState: .constant(.none))
         .environmentObject(LocationSearchViewModel())
 }

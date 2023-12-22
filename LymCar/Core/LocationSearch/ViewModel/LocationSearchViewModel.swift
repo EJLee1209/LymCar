@@ -9,8 +9,6 @@ import Foundation
 import MapKit
 import SwiftUI
 
-
-
 final class LocationSearchViewModel: NSObject, ObservableObject {
     //MARK: - Properties
     var startLocationText: String = "" {

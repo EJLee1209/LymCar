@@ -28,9 +28,11 @@ struct MainTabView: View {
                     })
                 }
             }
-            .frame(width: screenWidth, height: 90)
+            .padding(.bottom, 18)
+            .frame(width: screenWidth, height: 110)
             .background(Color.theme.backgroundColor)
             .cornerRadius(30, corners: [.topLeft, .topRight])
+            
             
             Capsule()
                 .frame(width: menuBarWidth(), height: 4)

@@ -182,7 +182,9 @@ extension MapViewRepresentable {
                     address += name
                 }
                 
-                self.parent.locationViewModel.startLocationText = address
+                if self.parent.locationViewModel.startLocationText != address {
+                    self.parent.locationViewModel.startLocationText = address
+                }
             }
         }
     }
