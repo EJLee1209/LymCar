@@ -39,8 +39,10 @@ struct RootView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
-        .fullScreenCover(isPresented: .constant(!didLogin), content: {
-            LoginView()
+        .fullScreenCover(isPresented: .constant(true), content: {
+            /// didLogin == false -> 로그인 화면을 보여줌
+            /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
+            LoginView(didLogin: $didLogin)
         })
     }
 }
@@ -48,4 +50,5 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(LocationSearchViewModel())
+        .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

@@ -10,18 +10,17 @@ import SwiftUI
 struct LoginView: View {
     @State var emailText: String = ""
     @State var passwordText: String = ""
+    @Binding var didLogin: Bool
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
-                Spacer()
-                
                 Text("로그인")
                     .font(.system(size: 40, weight: .heavy))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 21)
                     .foregroundStyle(.white)
-                    .padding(.top, 150)
+                    .padding(.top, 100)
                 
                 VStack(spacing: 0) {
                     Text("로그인")
@@ -51,7 +50,7 @@ struct LoginView: View {
                     .padding(.top, 10)
                     
                     NavigationLink {
-                        Text("회원가입")
+                        RegisterView()
                     } label: {
                         HStack {
                             Text("아직 회원이 아니신가요?")
@@ -68,6 +67,7 @@ struct LoginView: View {
                     
                     Button(action: {
                         print("DEBUG: 로그인")
+                        didLogin.toggle()
                     }, label: {
                         Text("로그인")
                             .font(.system(size: 15, weight: .bold))
@@ -83,19 +83,19 @@ struct LoginView: View {
                 .background(Color.theme.backgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 40))
                 .padding(.top, 18)
+                .ignoresSafeArea()
             }
             .background {
                 Image("WelcomeBackgroundImage")
                     .resizable()
                     .scaledToFill()
+                    .ignoresSafeArea()
             }
-            .ignoresSafeArea()
         }
-        
-        
     }
 }
 
 #Preview {
-    LoginView()
+    LoginView(didLogin: .constant(false))
+        .environmentObject(AuthViewModel(authManager: AuthManager()))
 }
