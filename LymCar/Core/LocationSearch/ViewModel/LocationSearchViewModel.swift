@@ -24,7 +24,7 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
         }
     }
     var searchType: SearchType = .destination
-
+    
     @Published var searchResults = [MKLocalSearchCompletion]()
     private let searchCompleter = MKLocalSearchCompleter()
     

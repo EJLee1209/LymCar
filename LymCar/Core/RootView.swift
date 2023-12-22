@@ -10,6 +10,7 @@ import SwiftUI
 struct RootView: View {
     @State var mapState: MapState = .none
     @State var selectedTab: TabMenuItem = .map
+    @AppStorage("didLogin") private var didLogin = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -24,7 +25,7 @@ struct RootView: View {
                     MenuView()
                 }
             }
-            
+        
             /// Tab bar view - 탭바
             if mapState != .searchingForLocation {
                 MainTabView(selectedItem: $selectedTab)
@@ -38,6 +39,9 @@ struct RootView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .fullScreenCover(isPresented: .constant(!didLogin), content: {
+            LoginView()
+        })
     }
 }
 
