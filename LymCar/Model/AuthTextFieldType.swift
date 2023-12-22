@@ -8,12 +8,15 @@
 import Foundation
 
 enum AuthTextFieldType: String {
+    case email = "이메일"
     case name = "이름"
     case password = "비밀번호"
     case confirmPassword = "비밀번호 확인"
     
     var placeHolder: String {
         switch self {
+        case .email:
+            return "이메일을 입력해주세요"
         case .name:
             return "이름을 입력해주세요"
         case .password:

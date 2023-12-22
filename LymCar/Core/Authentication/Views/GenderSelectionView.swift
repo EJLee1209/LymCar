@@ -11,34 +11,35 @@ struct GenderSelectionView: View {
     @Binding var selectedGender: Gender
     
     var body: some View {
-        Text("성별")
-            .font(.system(size: 15, weight: .semibold))
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 17)
-        
-        HStack {
-            Spacer()
-            ForEach(Gender.allCases, id: \.self) { gender in
-                Button(action: {
-                    withAnimation {
-                        selectedGender = gender
-                    }
-                }, label: {
-                    Text(gender.rawValue)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(buttonLabelColor(gender))
-                        .frame(width: 92, height: 36)
-                })
-                .background(buttonBackgroundColor(gender))
-                .clipShape(RoundedRectangle(cornerRadius: 46))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 46)
-                        .stroke(Color.theme.brandColor, lineWidth: 1)
-                }
+        VStack(spacing: 0) {
+            Text("성별")
+                .font(.system(size: 15, weight: .semibold))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            HStack(spacing: 0) {
                 Spacer()
+                ForEach(Gender.allCases, id: \.self) { gender in
+                    Button(action: {
+                        withAnimation {
+                            selectedGender = gender
+                        }
+                    }, label: {
+                        Text(gender.rawValue)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(buttonLabelColor(gender))
+                            .frame(width: 92, height: 36)
+                    })
+                    .background(buttonBackgroundColor(gender))
+                    .clipShape(RoundedRectangle(cornerRadius: 46))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 46)
+                            .stroke(Color.theme.brandColor, lineWidth: 1)
+                    }
+                    Spacer()
+                }
             }
+            .padding(.top, 7)
         }
-        .padding(.top, 7)
     }
     
     func buttonBackgroundColor(_ gender: Gender) -> Color {

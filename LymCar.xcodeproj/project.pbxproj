@@ -56,6 +56,8 @@
 		CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */; };
 		CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */; };
 		CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */; };
+		CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */; };
+		CF78A7012B35C67300306F6A /* AuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* AuthResult.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -94,6 +96,8 @@
 		CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextFieldType.swift; sourceTree = "<group>"; };
 		CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthBackButton.swift; sourceTree = "<group>"; };
 		CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrivacyPolicyView.swift; sourceTree = "<group>"; };
+		CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		CF78A7002B35C67300306F6A /* AuthResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResult.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 		CF3F49E32B316E1E009E8A96 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */,
 				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
 				CF78A6E22B35519A00306F6A /* RootView.swift */,
 				CF78A6E42B3556B400306F6A /* Authentication */,
@@ -226,6 +231,7 @@
 				CF78A6EF2B35676B00306F6A /* AuthStep.swift */,
 				CF78A6F12B357D2700306F6A /* Gender.swift */,
 				CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */,
+				CF78A7002B35C67300306F6A /* AuthResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -463,6 +469,7 @@
 				CF3F499D2B316A6F009E8A96 /* MapView.swift in Sources */,
 				CFDB3E042B3438BA00C88D77 /* CarPoolListView.swift in Sources */,
 				CFDB3DFF2B33FF9700C88D77 /* MapViewActionButton.swift in Sources */,
+				CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* LocationSearchViewModel.swift in Sources */,
@@ -478,6 +485,7 @@
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
 				CF78A6F02B35676B00306F6A /* AuthStep.swift in Sources */,
+				CF78A7012B35C67300306F6A /* AuthResult.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,

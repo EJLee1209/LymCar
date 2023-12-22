@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct RootView: View {
-    @State var mapState: MapState = .none
-    @State var selectedTab: TabMenuItem = .map
-    @AppStorage("didLogin") private var didLogin = false
+    @State private var mapState: MapState = .none
+    @State private var selectedTab: TabMenuItem = .map
+//    AppStorage("didLogin") private var didLogin = false
+    @State private var didLogin = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -39,7 +40,7 @@ struct RootView: View {
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
-        .fullScreenCover(isPresented: .constant(true), content: {
+        .fullScreenCover(isPresented: .constant(!didLogin), content: {
             /// didLogin == false -> 로그인 화면을 보여줌
             /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
             LoginView(didLogin: $didLogin)

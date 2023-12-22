@@ -9,39 +9,81 @@ import Foundation
 
 final class AuthViewModel: ObservableObject {
     
-    var emailText: String = ""
-    var name: String = ""
-    var passwordText: String = ""
-    var passwordConfirmText: String = ""
-    
+    //MARK: - Properties
+    @Published var emailText: String = ""
+    @Published var nameText: String = ""
+    @Published var passwordText: String = ""
+    @Published var passwordConfirmText: String = ""
     @Published var isAgreeForPrivacyPolicy: Bool = false
     @Published var gender: Gender = .male
+    @Published var authResult: AuthResult = .none
     
     private let authManager: AuthManagerType
     
+    //MARK: - Lifecycle
     init(authManager: AuthManagerType) {
         self.authManager = authManager
     }
     
+    //MARK: - Helpers
     func signIn(withEmail email: String, password: String) {
+        authResult = .loading
+        
         Task {
-            do {
-                let result = try await authManager.signIn(withEmail: email, password: password)
-                print("DEBUG: 로그인 성공 \(result)")
-            } catch {
-                print("DEBUG: 로그인 실패 \(error)")
+            if let errorMsg = await authManager.signIn(withEmail: email, password: password) {
+                await MainActor.run {
+                    authResult = .failToSignIn(errorMsg: errorMsg)
+                }
+                return
+            }
+            
+            await MainActor.run {
+                authResult = .successToSignIn
             }
         }
     }
     
-    func createUser(withEmail email: String, password: String) {
+    func createUser() {
+        authResult = .loading
+        
         Task {
-            do {
-                let result = try await authManager.createUser(withEmail: email, password: password)
-                print("DEBUG: 회원가입 성공 \(result)")
-            } catch {
-                print("DEBUG: 회원가입 실패 \(error)")
+            if let errorMsg = await authManager.createUser(withEmail: emailText, password: passwordText) {
+                
+                await MainActor.run {
+                    authResult = .failToCreateUser(errorMsg: errorMsg)
+                }
+                return
+            }
+            await MainActor.run {
+                authResult = .successToCreateUser
             }
         }
+    }
+    
+    func buttonIsEnabled(_ authStep: AuthStep) -> Bool {
+        switch authStep {
+        case .email:
+            return emailText != ""
+        case .gender:
+            return true
+        case .name:
+            return nameText != ""
+        case .password:
+            return passwordText.count >= 8
+        case .passwordConfirm:
+            return passwordText == passwordConfirmText
+        case .privacyPolicy:
+            return isAgreeForPrivacyPolicy
+        }
+    }
+    
+    func clearProperties() {
+        emailText = ""
+        nameText = ""
+        passwordText = ""
+        passwordConfirmText = ""
+        isAgreeForPrivacyPolicy = false
+        gender = .male
+        authResult = .none
     }
 }

@@ -10,15 +10,30 @@
 import SwiftUI
 struct AuthTextField: View {
     @Binding var text: String
-    @State var isHidden: Bool = false
+    @State var isHidden: Bool = true
     let inputType: AuthTextFieldType
+    let height: CGFloat
+    let isShowTitle: Bool
+    
+    init(
+        text: Binding<String>,
+        inputType: AuthTextFieldType,
+        height: CGFloat = 36.0,
+        isShowTitle: Bool = true
+    ) {
+        self._text = text
+        self.inputType = inputType
+        self.height = height
+        self.isShowTitle = isShowTitle
+    }
     
     var body: some View {
         VStack(spacing: 6) {
-            Text(inputType.rawValue)
-                .font(.system(size: 15, weight: .semibold))
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
+            if isShowTitle {
+                Text(inputType.rawValue)
+                    .font(.system(size: 15, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             HStack {
                 if !isHidden {
                     TextField(text: $text) {
@@ -26,6 +41,8 @@ struct AuthTextField: View {
                     }
                     .font(.system(size: 16))
                     .foregroundStyle(Color.theme.primaryTextColor)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     
                 } else {
                     SecureField(text: $text) {
@@ -33,6 +50,8 @@ struct AuthTextField: View {
                     }
                     .font(.system(size: 16))
                     .foregroundStyle(Color.theme.primaryTextColor)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                 }
                 
                 if inputType == .password || inputType == .confirmPassword {
@@ -45,9 +64,17 @@ struct AuthTextField: View {
                 }
             }
             .padding(.horizontal, 12)
-            .frame(height: 36)
+            .frame(height: height)
             .background(Color.theme.secondaryBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .onAppear {
+            switch inputType {
+            case .password, .confirmPassword:
+                break
+            default:
+                isHidden = false
+            }
         }
     }
 }
