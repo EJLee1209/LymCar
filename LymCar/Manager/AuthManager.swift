@@ -23,6 +23,13 @@ protocol AuthManagerType {
         withEmail email: String,
         password: String
     ) async -> AuthResult
+    
+    /// 로그인 체크
+    func checkCurrentUser() async -> User?
+    
+    /// 로그아웃
+    @discardableResult
+    func logout() -> Bool
 }
 
 final class AuthManager: AuthManagerType {
@@ -92,5 +99,29 @@ final class AuthManager: AuthManagerType {
             }
         }
     }
+    
+    func checkCurrentUser() async -> User? {
+        guard let uid = auth.currentUser?.uid else {
+            return nil
+        }
+        do {
+            let user = try await db.collection("Users").document(uid).getDocument(as: User.self)
+            return user
+        } catch {
+            print("DEBUG: Fail to check current user with error \(error)")
+            return nil
+        }
+    }
+    
+    @discardableResult
+    func logout() -> Bool {
+        do {
+            try auth.signOut()
+            return true
+        } catch {
+            return false
+        }
+    }
+    
 }
 

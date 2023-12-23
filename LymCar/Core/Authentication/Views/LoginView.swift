@@ -15,7 +15,7 @@ struct LoginView: View {
     
     @AppStorage("email") var emailText: String = ""
     @State var passwordText: String = ""
-    @Binding var didLogin: Bool
+    @Binding var loginViewIsPresented: Bool
     
     var body: some View {
         NavigationView {
@@ -52,7 +52,7 @@ struct LoginView: View {
                         .padding(.top, 10)
                         
                         NavigationLink {
-                            RegisterView(didLogin: $didLogin)
+                            RegisterView(loginViewIsPresented: $loginViewIsPresented)
                                 .environmentObject(viewModel)
                         } label: {
                             HStack {
@@ -108,7 +108,7 @@ struct LoginView: View {
                     switch authResult {
                     case .successToSignIn(let user):
                         rootViewModel.currentUser = user
-                        didLogin.toggle()
+                        loginViewIsPresented.toggle()
                     default:
                         break
                     }
@@ -128,6 +128,6 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(didLogin: .constant(false))
-        .environmentObject(RootViewModel())
+    LoginView(loginViewIsPresented: .constant(false))
+        .environmentObject(RootViewModel(authManager: AuthManager()))
 }

@@ -32,6 +32,7 @@ struct MainTabView: View {
             .frame(width: screenWidth, height: 110)
             .background(Color.theme.backgroundColor)
             .cornerRadius(30, corners: [.topLeft, .topRight])
+            .shadow(radius: 5)
             
             
             Capsule()

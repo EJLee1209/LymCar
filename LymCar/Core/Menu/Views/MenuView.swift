@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-
-
 struct MenuView: View {
     @EnvironmentObject var rootViewModel: RootViewModel
+    @Binding var loginViewIsPresented: Bool
+    @State var alertIsPresented = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -21,6 +21,7 @@ struct MenuView: View {
                 Text("메뉴")
                     .font(.system(size: 20, weight: .bold))
                     .padding(.top, 10)
+                    .foregroundStyle(.white)
                 
                 if let currentUser = rootViewModel.currentUser {
                     ScrollView {
@@ -61,11 +62,20 @@ struct MenuView: View {
                                 .background(Color.theme.secondaryBackgroundColor)
                             
                             ForEach(SecondMenuType.allCases, id: \.self) { menu in
-                                MenuCell(
-                                    imageName: nil,
-                                    title: menu.rawValue,
-                                    rightContentType: .label(text: menu.labelText)
-                                )
+                                Button(action: {
+                                    switch menu {
+                                    case .updateInformation:
+                                        break
+                                    case .privacyPolicy:
+                                        break
+                                    }
+                                }, label: {
+                                    MenuCell(
+                                        imageName: nil,
+                                        title: menu.rawValue,
+                                        rightContentType: .label(text: menu.labelText)
+                                    )
+                                })
                             }
                             
                             Divider()
@@ -73,11 +83,15 @@ struct MenuView: View {
                                 .background(Color.theme.secondaryBackgroundColor)
                             
                             ForEach(ThirdMenuType.allCases, id: \.self) { menu in
-                                MenuCell(
-                                    imageName: nil,
-                                    title: menu.rawValue,
-                                    rightContentType: .rightArrow
-                                )
+                                Button(action: {
+                                    alertIsPresented.toggle()
+                                }, label: {
+                                    MenuCell(
+                                        imageName: nil,
+                                        title: menu.rawValue,
+                                        rightContentType: .rightArrow
+                                    )
+                                })
                             }
                         }
                     }
@@ -101,11 +115,28 @@ struct MenuView: View {
                 }
             }
         }
+        .alert(
+            "정말로 로그아웃 하시겠습니까?",
+            isPresented: $alertIsPresented
+        ) {
+            
+            Button(role: .destructive, action: {
+                    rootViewModel.logout()
+                    loginViewIsPresented.toggle()
+                },label: {
+                    Text("확인")
+                })
+            Button(role: .cancel, action: {}, label: {
+                Text("취소")
+            })
+        }
         
     }
 }
 
 #Preview {
-    MenuView()
-        .environmentObject(RootViewModel())
+    MenuView(
+        loginViewIsPresented: .constant(true)
+    )
+    .environmentObject(RootViewModel(authManager: AuthManager()))
 }

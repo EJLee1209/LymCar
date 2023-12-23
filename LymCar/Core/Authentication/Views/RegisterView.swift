@@ -12,7 +12,7 @@ struct RegisterView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @EnvironmentObject var rootViewModel: RootViewModel
     @State var authStep: AuthStep = .email
-    @Binding var didLogin: Bool
+    @Binding var loginViewIsPresented: Bool
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -90,7 +90,7 @@ struct RegisterView: View {
                     case .successToCreateUser(let user):
                         viewModel.clearProperties()
                         rootViewModel.currentUser = user
-                        didLogin.toggle()
+                        loginViewIsPresented.toggle()
                     default:
                         break
                     }
@@ -160,6 +160,6 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView(didLogin: .constant(false))
+    RegisterView(loginViewIsPresented: .constant(false))
         .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapViewActionButton: View {
     @Binding var mapState: MapState
-    @EnvironmentObject var locationViewModel: MapViewModel
+    @EnvironmentObject var mapViewModel: MapViewModel
     
     var body: some View {
         Button(action: {
@@ -17,7 +17,7 @@ struct MapViewActionButton: View {
                 mapState = .none
             }
             
-            locationViewModel.clearAllPropertiesForLocationSearch()
+            mapViewModel.clearAllPropertiesForLocationSearch()
         }, label: {
             Image(systemName: "chevron.left")
                 .font(.title2)

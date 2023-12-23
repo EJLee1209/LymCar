@@ -9,6 +9,24 @@ import Foundation
 
 final class RootViewModel: ObservableObject {
     @Published var currentUser: User?
-//    @Published var currentUser: User? = .init(email: "dldmswo1209@naver.com", gender: .male, name: "이은재", uid: "1234")
     
+    private let authManager: AuthManagerType
+    
+    init(authManager: AuthManagerType) {
+        self.authManager = authManager
+    }
+    
+    func checkCurrentUser() async -> User? {
+        let currentUser = await authManager.checkCurrentUser()
+        
+        await MainActor.run {
+            self.currentUser = currentUser
+        }
+        
+        return currentUser
+    }
+    
+    func logout() {
+        authManager.logout()
+    }
 }

@@ -26,9 +26,11 @@ struct MapView: View {
                     }
             } else if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)
+                
             } else if mapState == .locationSelected {
                 MapViewActionButton(mapState: $mapState)
                     .padding()
+                    
             }
         }
     }
