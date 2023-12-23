@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Equatable {
     let email: String
     let gender: String
     let name: String
@@ -17,13 +17,6 @@ struct User: Codable {
         self.email = email
         self.name = name
         self.uid = uid
-        switch gender {
-        case .male:
-            self.gender = "male"
-        case .female:
-            self.gender = "female"
-        case .none:
-            self.gender = "none"
-        }
+        self.gender = gender.rawValue
     }
 }

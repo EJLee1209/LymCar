@@ -11,6 +11,7 @@ struct LoginView: View {
     /// AuthViewModel을 LoginView에서 생성해서 AuthViewModel의 생명주기를 LoginView에 종속시킨다.
     /// 로그인 또는 회원가입이 완료되어서 LoginView가 dismiss된다면, AuthViewModel 또한 메모리에서 제거된다.
     @StateObject var viewModel: AuthViewModel = .init(authManager: AuthManager())
+    @EnvironmentObject var rootViewModel: RootViewModel
     
     @AppStorage("email") var emailText: String = ""
     @State var passwordText: String = ""
@@ -51,7 +52,7 @@ struct LoginView: View {
                         .padding(.top, 10)
                         
                         NavigationLink {
-                            RegisterView()
+                            RegisterView(didLogin: $didLogin)
                                 .environmentObject(viewModel)
                         } label: {
                             HStack {
@@ -104,8 +105,12 @@ struct LoginView: View {
                     }
                 }
                 .onReceive(viewModel.$authState) { authResult in
-                    if authResult == .successToSignIn {
+                    switch authResult {
+                    case .successToSignIn(let user):
+                        rootViewModel.currentUser = user
                         didLogin.toggle()
+                    default:
+                        break
                     }
                 }
                 
@@ -124,4 +129,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView(didLogin: .constant(false))
+        .environmentObject(RootViewModel())
 }

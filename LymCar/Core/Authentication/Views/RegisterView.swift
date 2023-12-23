@@ -10,8 +10,9 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var rootViewModel: RootViewModel
     @State var authStep: AuthStep = .email
+    @Binding var didLogin: Bool
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -85,9 +86,13 @@ struct RegisterView: View {
                 isPresented: .constant(viewModel.authState.alertIsPresented)
             ) {
                 Button {
-                    if viewModel.authState == .successToCreateUser {
-                        dismiss()
+                    switch viewModel.authState {
+                    case .successToCreateUser(let user):
                         viewModel.clearProperties()
+                        rootViewModel.currentUser = user
+                        didLogin.toggle()
+                    default:
+                        break
                     }
                     viewModel.authState = .none
                     
@@ -155,6 +160,6 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView()
+    RegisterView(didLogin: .constant(false))
         .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

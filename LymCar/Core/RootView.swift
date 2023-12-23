@@ -51,5 +51,6 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(MapViewModel())
+        .environmentObject(RootViewModel())
         .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

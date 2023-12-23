@@ -10,9 +10,9 @@ import Foundation
 enum AuthState: Equatable {
     case none
     case loading
-    case successToCreateUser
+    case successToCreateUser(user: User)
     case failToCreateUser(errorMsg: String)
-    case successToSignIn
+    case successToSignIn(user: User)
     case failToSignIn(errorMsg: String)
     
     var alertIsPresented: Bool {

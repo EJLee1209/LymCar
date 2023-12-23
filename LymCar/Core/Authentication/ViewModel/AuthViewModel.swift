@@ -34,7 +34,7 @@ final class AuthViewModel: ObservableObject {
             await MainActor.run {
                 switch result {
                 case .success(let user):
-                    authState = .successToSignIn
+                    authState = .successToSignIn(user: user)
                     print("DEBUG: sign in user \(user)")
                 case .failure(let errorMessage):
                     authState = .failToSignIn(errorMsg: errorMessage)
@@ -57,7 +57,7 @@ final class AuthViewModel: ObservableObject {
             await MainActor.run {
                 switch result {
                 case .success(let user):
-                    authState = .successToCreateUser
+                    authState = .successToCreateUser(user: user)
                     print("DEBUG: create user \(user)")
                 case .failure(let errorMessage):
                     authState = .failToCreateUser(errorMsg: errorMessage)

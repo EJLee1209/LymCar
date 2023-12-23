@@ -60,6 +60,9 @@
 		CF78A7012B35C67300306F6A /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* AuthState.swift */; };
 		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
 		CFA32E152B36A0BF00385847 /* AuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* AuthResult.swift */; };
+		CFA32E182B36ABA000385847 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E172B36ABA000385847 /* MenuType.swift */; };
+		CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1C2B36ABD800385847 /* MenuCell.swift */; };
+		CFA32E1F2B36BF3E00385847 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1E2B36BF3E00385847 /* RootViewModel.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -102,6 +105,9 @@
 		CF78A7002B35C67300306F6A /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CFA32E142B36A0BF00385847 /* AuthResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResult.swift; sourceTree = "<group>"; };
+		CFA32E172B36ABA000385847 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
+		CFA32E1C2B36ABD800385847 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		CFA32E1E2B36BF3E00385847 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -230,6 +236,7 @@
 				CF78A7002B35C67300306F6A /* AuthState.swift */,
 				CFA32E122B369C2A00385847 /* User.swift */,
 				CFA32E142B36A0BF00385847 /* AuthResult.swift */,
+				CFA32E172B36ABA000385847 /* MenuType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -269,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				CF78A6ED2B3565A600306F6A /* AuthViewModel.swift */,
+				CFA32E1E2B36BF3E00385847 /* RootViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -279,6 +287,15 @@
 				CF3F49E72B316E87009E8A96 /* MapViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CFA32E192B36ABC700385847 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
+				CFA32E1C2B36ABD800385847 /* MenuCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		CFDB3DF72B33FA5700C88D77 /* Map */ = {
@@ -354,7 +371,7 @@
 		CFDB3E0F2B347F2100C88D77 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
+				CFA32E192B36ABC700385847 /* Views */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -462,9 +479,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFA32E182B36ABA000385847 /* MenuType.swift in Sources */,
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
 				CFA32E152B36A0BF00385847 /* AuthResult.swift in Sources */,
 				CF78A6EB2B35638F00306F6A /* AuthManager.swift in Sources */,
+				CFA32E1F2B36BF3E00385847 /* RootViewModel.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
 				CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */,
 				CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */,
@@ -480,6 +499,7 @@
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */,
+				CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */,
 				CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */,
 				CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */,
 				CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */,
