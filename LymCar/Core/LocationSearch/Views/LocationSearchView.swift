@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationSearchView: View {
-    @EnvironmentObject var viewModel: LocationSearchViewModel
+    @EnvironmentObject var viewModel: MapViewModel
     @Binding var mapState: MapState
     
     var body: some View {
@@ -88,5 +88,5 @@ struct LocationSearchView: View {
 
 #Preview {
     LocationSearchView(mapState: .constant(MapState.searchingForLocation))
-        .environmentObject(LocationSearchViewModel())
+        .environmentObject(MapViewModel())
 }

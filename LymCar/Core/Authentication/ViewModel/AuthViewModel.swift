@@ -16,7 +16,7 @@ final class AuthViewModel: ObservableObject {
     @Published var passwordConfirmText: String = ""
     @Published var isAgreeForPrivacyPolicy: Bool = false
     @Published var gender: Gender = .male
-    @Published var authResult: AuthResult = .none
+    @Published var authState: AuthState = .none
     
     private let authManager: AuthManagerType
     
@@ -27,35 +27,41 @@ final class AuthViewModel: ObservableObject {
     
     //MARK: - Helpers
     func signIn(withEmail email: String, password: String) {
-        authResult = .loading
+        authState = .loading
         
         Task {
-            if let errorMsg = await authManager.signIn(withEmail: email, password: password) {
-                await MainActor.run {
-                    authResult = .failToSignIn(errorMsg: errorMsg)
-                }
-                return
-            }
-            
+            let result = await authManager.signIn(withEmail: email, password: password)
             await MainActor.run {
-                authResult = .successToSignIn
+                switch result {
+                case .success(let user):
+                    authState = .successToSignIn
+                    print("DEBUG: sign in user \(user)")
+                case .failure(let errorMessage):
+                    authState = .failToSignIn(errorMsg: errorMessage)
+                }
+                
             }
         }
     }
     
     func createUser() {
-        authResult = .loading
+        authState = .loading
         
         Task {
-            if let errorMsg = await authManager.createUser(withEmail: emailText, password: passwordText) {
-                
-                await MainActor.run {
-                    authResult = .failToCreateUser(errorMsg: errorMsg)
-                }
-                return
-            }
+            let result = await authManager.createUser(
+                withEmail: emailText,
+                password: passwordText,
+                gender: gender,
+                name: nameText
+            )
             await MainActor.run {
-                authResult = .successToCreateUser
+                switch result {
+                case .success(let user):
+                    authState = .successToCreateUser
+                    print("DEBUG: create user \(user)")
+                case .failure(let errorMessage):
+                    authState = .failToCreateUser(errorMsg: errorMessage)
+                }
             }
         }
     }
@@ -84,6 +90,11 @@ final class AuthViewModel: ObservableObject {
         passwordConfirmText = ""
         isAgreeForPrivacyPolicy = false
         gender = .male
-        authResult = .none
+        authState = .none
+    }
+    
+    deinit {
+        print("DEBUG: AuthViewModel is deinitialize")
+        
     }
 }

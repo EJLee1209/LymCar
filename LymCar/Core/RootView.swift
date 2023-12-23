@@ -50,6 +50,6 @@ struct RootView: View {
 
 #Preview {
     RootView()
-        .environmentObject(LocationSearchViewModel())
+        .environmentObject(MapViewModel())
         .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

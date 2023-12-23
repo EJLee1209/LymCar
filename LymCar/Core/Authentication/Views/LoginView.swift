@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    /// AuthViewModel을 LoginView에서 생성해서 AuthViewModel의 생명주기를 LoginView에 종속시킨다.
+    /// 로그인 또는 회원가입이 완료되어서 LoginView가 dismiss된다면, AuthViewModel 또한 메모리에서 제거된다.
+    @StateObject var viewModel: AuthViewModel = .init(authManager: AuthManager())
+    
     @AppStorage("email") var emailText: String = ""
     @State var passwordText: String = ""
     @Binding var didLogin: Bool
@@ -49,6 +52,7 @@ struct LoginView: View {
                         
                         NavigationLink {
                             RegisterView()
+                                .environmentObject(viewModel)
                         } label: {
                             HStack {
                                 Text("아직 회원이 아니신가요?")
@@ -89,23 +93,23 @@ struct LoginView: View {
                         .ignoresSafeArea()
                 }
                 .alert(
-                    viewModel.authResult.alertMessage,
-                    isPresented: .constant(viewModel.authResult.alertIsPresented)
+                    viewModel.authState.alertMessage,
+                    isPresented: .constant(viewModel.authState.alertIsPresented)
                 ) {
                     Button {
-                        viewModel.authResult = .none
+                        viewModel.authState = .none
                     } label: {
                         Text("확인")
                             .font(.system(size: 15))
                     }
                 }
-                .onReceive(viewModel.$authResult) { authResult in
+                .onReceive(viewModel.$authState) { authResult in
                     if authResult == .successToSignIn {
                         didLogin.toggle()
                     }
                 }
                 
-                if viewModel.authResult == .loading {
+                if viewModel.authState == .loading {
                     VisualEffectView(effect: UIBlurEffect(style: .dark))
                         .ignoresSafeArea()
                         .opacity(0.9)
@@ -120,5 +124,4 @@ struct LoginView: View {
 
 #Preview {
     LoginView(didLogin: .constant(false))
-        .environmentObject(AuthViewModel(authManager: AuthManager()))
 }

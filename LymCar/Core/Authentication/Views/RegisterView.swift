@@ -81,15 +81,15 @@ struct RegisterView: View {
             }
             .navigationBarBackButtonHidden()
             .alert(
-                viewModel.authResult.alertMessage,
-                isPresented: .constant(viewModel.authResult.alertIsPresented)
+                viewModel.authState.alertMessage,
+                isPresented: .constant(viewModel.authState.alertIsPresented)
             ) {
                 Button {
-                    if viewModel.authResult == .successToCreateUser {
+                    if viewModel.authState == .successToCreateUser {
                         dismiss()
                         viewModel.clearProperties()
                     }
-                    viewModel.authResult = .none
+                    viewModel.authState = .none
                     
                 } label: {
                     Text("확인")
@@ -97,7 +97,7 @@ struct RegisterView: View {
                 }
             }
             
-            if viewModel.authResult == .loading {
+            if viewModel.authState == .loading {
                 VisualEffectView(effect: UIBlurEffect(style: .dark))
                     .ignoresSafeArea()
                     .opacity(0.9)

@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 import SwiftUI
 
-final class LocationSearchViewModel: NSObject, ObservableObject {
+final class MapViewModel: NSObject, ObservableObject {
     //MARK: - Properties
     var startLocationText: String = "" {
         didSet {
@@ -87,7 +87,7 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
 
 //MARK: - MKLocalSearchCompleterDelegate
 
-extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
+extension MapViewModel: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         self.searchResults = completer.results
     }

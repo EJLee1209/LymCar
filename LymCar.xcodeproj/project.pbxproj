@@ -41,7 +41,7 @@
 		CF3F49DE2B316BB0009E8A96 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CF3F49DD2B316BB0009E8A96 /* FirebaseStorage */; };
 		CF3F49E02B316BB0009E8A96 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CF3F49DF2B316BB0009E8A96 /* FirebaseStorageCombine-Community */; };
 		CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F49E12B316C11009E8A96 /* AppDelegate.swift */; };
-		CF3F49E82B316E87009E8A96 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F49E72B316E87009E8A96 /* LocationSearchViewModel.swift */; };
+		CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F49E72B316E87009E8A96 /* MapViewModel.swift */; };
 		CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */; };
 		CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F49F12B31AA9E009E8A96 /* LocationManager.swift */; };
 		CF78A6E32B35519A00306F6A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E22B35519A00306F6A /* RootView.swift */; };
@@ -57,7 +57,9 @@
 		CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */; };
 		CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */; };
 		CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */; };
-		CF78A7012B35C67300306F6A /* AuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* AuthResult.swift */; };
+		CF78A7012B35C67300306F6A /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* AuthState.swift */; };
+		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
+		CFA32E152B36A0BF00385847 /* AuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* AuthResult.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -81,7 +83,7 @@
 		CF3F49A12B316A70009E8A96 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CF3F49A82B316AFF009E8A96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF3F49E12B316C11009E8A96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CF3F49E72B316E87009E8A96 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		CF3F49E72B316E87009E8A96 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewRepresentable.swift; sourceTree = "<group>"; };
 		CF3F49F12B31AA9E009E8A96 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CF78A6E22B35519A00306F6A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -97,7 +99,9 @@
 		CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthBackButton.swift; sourceTree = "<group>"; };
 		CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrivacyPolicyView.swift; sourceTree = "<group>"; };
 		CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
-		CF78A7002B35C67300306F6A /* AuthResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResult.swift; sourceTree = "<group>"; };
+		CF78A7002B35C67300306F6A /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CFA32E142B36A0BF00385847 /* AuthResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResult.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -214,14 +218,6 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		CF3F49E52B316E72009E8A96 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				CF3F49E72B316E87009E8A96 /* LocationSearchViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		CF3F49E62B316E76009E8A96 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +227,9 @@
 				CF78A6EF2B35676B00306F6A /* AuthStep.swift */,
 				CF78A6F12B357D2700306F6A /* Gender.swift */,
 				CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */,
-				CF78A7002B35C67300306F6A /* AuthResult.swift */,
+				CF78A7002B35C67300306F6A /* AuthState.swift */,
+				CFA32E122B369C2A00385847 /* User.swift */,
+				CFA32E142B36A0BF00385847 /* AuthResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,9 +273,18 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		CFA32E162B36A81D00385847 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CF3F49E72B316E87009E8A96 /* MapViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		CFDB3DF72B33FA5700C88D77 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				CFA32E162B36A81D00385847 /* ViewModel */,
 				CFDB3DF82B33FA5D00C88D77 /* Views */,
 			);
 			path = Map;
@@ -296,7 +303,6 @@
 		CFDB3DF92B33FA6B00C88D77 /* LocationSearch */ = {
 			isa = PBXGroup;
 			children = (
-				CF3F49E52B316E72009E8A96 /* ViewModel */,
 				CFDB3DFA2B33FA7500C88D77 /* Views */,
 			);
 			path = LocationSearch;
@@ -457,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
+				CFA32E152B36A0BF00385847 /* AuthResult.swift in Sources */,
 				CF78A6EB2B35638F00306F6A /* AuthManager.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
 				CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */,
@@ -472,7 +479,7 @@
 				CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
-				CF3F49E82B316E87009E8A96 /* LocationSearchViewModel.swift in Sources */,
+				CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */,
 				CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */,
 				CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */,
 				CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */,
@@ -480,12 +487,13 @@
 				CF78A6E72B3556C700306F6A /* LoginView.swift in Sources */,
 				CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */,
 				CFDB3E012B34048F00C88D77 /* SearchType.swift in Sources */,
+				CFA32E132B369C2A00385847 /* User.swift in Sources */,
 				CF78A6EE2B3565A600306F6A /* AuthViewModel.swift in Sources */,
 				CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
 				CF78A6F02B35676B00306F6A /* AuthStep.swift in Sources */,
-				CF78A7012B35C67300306F6A /* AuthResult.swift in Sources */,
+				CF78A7012B35C67300306F6A /* AuthState.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,

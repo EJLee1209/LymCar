@@ -38,5 +38,5 @@ struct MapView: View {
 
 #Preview {
     MapView(mapState: .constant(.none))
-        .environmentObject(LocationSearchViewModel())
+        .environmentObject(MapViewModel())
 }

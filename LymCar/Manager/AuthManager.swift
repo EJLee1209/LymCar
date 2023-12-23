@@ -7,52 +7,88 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 protocol AuthManagerType {
-    func createUser(withEmail email: String, password: String) async -> String?
-    func signIn(withEmail email: String, password: String) async -> String?
+    /// 회원가입
+    func createUser(
+        withEmail email: String,
+        password: String,
+        gender: Gender,
+        name: String
+    ) async -> AuthResult
+    
+    /// 로그인
+    func signIn(
+        withEmail email: String,
+        password: String
+    ) async -> AuthResult
 }
 
 final class AuthManager: AuthManagerType {
     private let auth = Auth.auth()
+    private let db = Firestore.firestore()
     
-    func createUser(withEmail email: String, password: String) async -> String?  {
+    func createUser(
+        withEmail email: String,
+        password: String,
+        gender: Gender,
+        name: String
+    ) async -> AuthResult  {
         do {
+            /// 회원가입 요청
             try await auth.createUser(withEmail: email, password: password)
-            return nil
+            guard let uid = auth.currentUser?.uid else { return .failure(errorMessage: "현재 사용자의 식별값을 불러오는데 실패했습니다") }
+            
+            /// User 커스텀 객체 생성 및 FireStore DB에 저장
+            let newUser = User(email: email, gender: gender, name: name, uid: uid)
+            try db.collection("Users").document(uid).setData(from: newUser)
+            
+            return .success(user: newUser)
         } catch {
+            /// 에러 처리
             switch error {
             case AuthErrorCode.emailAlreadyInUse:
-                return "이미 사용중인 이메일입니다"
+                return .failure(errorMessage: "이미 사용중인 이메일입니다")
             case AuthErrorCode.invalidEmail:
-                return "잘못된 이메일 형식입니다"
+                return .failure(errorMessage: "잘못된 이메일 형식입니다")
             case AuthErrorCode.networkError:
-                return "네트워크 연결 상태를 확인해주세요"
+                return .failure(errorMessage: "네트워크 연결 상태를 확인해주세요")
             default:
-                return "알 수 없는 오류가 발생했습니다"
+                print("DEBUG: 회원가입 실패 \(error)")
+                return .failure(errorMessage: "알 수 없는 오류가 발생했습니다")
             }
         }
     }
     
-    func signIn(withEmail email: String, password: String) async -> String? {
+    func signIn(
+        withEmail email: String,
+        password: String
+    ) async -> AuthResult {
         do {
+            /// 로그인 시도
             try await auth.signIn(withEmail: email, password: password)
-            return nil
+            guard let uid = auth.currentUser?.uid else { return .failure(errorMessage: "현재 사용자의 식별값을 불러오는데 실패했습니다")  }
+            
+            /// FireStore 데이터 읽기
+            let user = try await db.collection("Users").document(uid).getDocument(as: User.self)
+            return .success(user: user)
         } catch {
+            /// 에러 처리
             switch error {
             case AuthErrorCode.invalidEmail:
-                return "잘못된 이메일 형식입니다"
+                return .failure(errorMessage: "잘못된 이메일 형식입니다")
             case AuthErrorCode.unverifiedEmail:
-                return "등록되지 않은 이메일입니다"
+                return .failure(errorMessage: "등록되지 않은 이메일입니다")
             case AuthErrorCode.wrongPassword:
-                return "비밀번호가 틀렸습니다"
+                return .failure(errorMessage: "비밀번호가 틀렸습니다")
             case AuthErrorCode.tooManyRequests:
-                return "여러 번의 로그인 실패로 인해 계정 접근이 일시적으로 비활성화 되었습니다. 나중에 다시 시도해주세요"
+                return .failure(errorMessage: "여러 번의 로그인 실패로 인해 계정 접근이 일시적으로 비활성화 되었습니다. 나중에 다시 시도해주세요")
             case AuthErrorCode.networkError:
-                return "네트워크 연결 상태를 확인해주세요"
+                return .failure(errorMessage: "네트워크 연결 상태를 확인해주세요")
             default:
                 print("DEBUG: 로그인 실패 \(error)")
-                return "알 수 없는 오류가 발생했습니다"
+                return .failure(errorMessage: "알 수 없는 오류가 발생했습니다.")
             }
         }
     }
