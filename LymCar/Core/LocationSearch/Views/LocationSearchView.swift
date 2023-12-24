@@ -19,31 +19,11 @@ struct LocationSearchView: View {
                 .padding(.leading, 16)
             
             /// header view
-            HStack(spacing: 12) {
-                VStack(spacing: 9) {
-                    TextField(text: $viewModel.startLocationText) {
-                        Text("현재 위치 또는 위치 검색")
-                            .font(.system(size: 15))
-                    }
-                    .padding(.vertical, 11)
-                    .padding(.horizontal, 14)
-                    .background(Color.theme.secondaryBackgroundColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
-                    TextField(text: $viewModel.destinationText) {
-                        Text("어디로 갈까요?")
-                            .font(.system(size: 15))
-                    }
-                    .padding(.vertical, 11)
-                    .padding(.horizontal, 14)
-                    .background(Color.theme.secondaryBackgroundColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                }
-                .padding(.leading, 9)
-                .padding(.vertical, 9)
-                
-                Image("search")
-            }
+            LocationSearchInputView(
+                startLocationText: $viewModel.startLocationText,
+                destinationText: $viewModel.destinationText,
+                rightContentType: .search
+            )
             .padding(.horizontal, 16)
             
             Divider()

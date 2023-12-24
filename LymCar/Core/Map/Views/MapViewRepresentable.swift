@@ -43,8 +43,6 @@ struct MapViewRepresentable: UIViewRepresentable {
             context.coordinator.getAddress(from: userLocation)
         case .searchingForLocation:
             break
-        case .showCarPoolList:
-            break
         case .locationSelected:
             guard let startLocationCoordinate = locationViewModel.startingPointCoordinate,
                   let destinationCoordinate = locationViewModel.destinationCoordinate else { return }
@@ -53,6 +51,8 @@ struct MapViewRepresentable: UIViewRepresentable {
             context.coordinator.addAnnotation(withCoordinate: startLocationCoordinate)
             context.coordinator.addAnnotation(withCoordinate: destinationCoordinate)
             context.coordinator.configurePolyline(from: startLocationCoordinate, to: destinationCoordinate)
+        case .generateCarPool:
+            break
         }
     }
     

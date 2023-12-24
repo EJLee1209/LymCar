@@ -41,8 +41,13 @@ struct RootView: View {
                     
                     /// bottom sheet - 카풀 목록
                     if mapState == .locationSelected {
-                        CarPoolListView()
+                        CarPoolListView(mapState: $mapState)
                             .transition(.move(edge: .bottom))
+                    }
+                    
+                    /// CarPoolGenerateView - 카풀 만들기
+                    if mapState == .generateCarPool {
+                        CarPoolGenerateView(mapState: $mapState)
                     }
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
@@ -51,6 +56,7 @@ struct RootView: View {
                     /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
                     LoginView(loginViewIsPresented: $loginViewIsPresented)
                 })
+                
             }
         }
         .task {

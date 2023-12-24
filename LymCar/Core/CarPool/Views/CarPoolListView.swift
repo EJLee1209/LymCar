@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CarPoolListView: View {
+    @Binding var mapState: MapState
+    
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225, maximum: 300))
     ]
@@ -35,7 +37,9 @@ struct CarPoolListView: View {
                         .font(.system(size: 20, weight: .bold))
                     Spacer()
                     Button(action: {
-                        print("DEBUG: 카풀 만들기")
+                        withAnimation {
+                            mapState = .generateCarPool
+                        }
                     }, label: {
                         Image(systemName: "plus")
                             .frame(width: 24, height: 24)
@@ -64,5 +68,7 @@ struct CarPoolListView: View {
 }
 
 #Preview {
-    CarPoolListView()
+    CarPoolListView(
+        mapState: .constant(.none)
+    )
 }

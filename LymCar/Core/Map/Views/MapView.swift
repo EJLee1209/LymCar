@@ -30,7 +30,6 @@ struct MapView: View {
             } else if mapState == .locationSelected {
                 MapViewActionButton(mapState: $mapState)
                     .padding()
-                    
             }
         }
     }
