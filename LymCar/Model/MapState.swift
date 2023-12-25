@@ -11,5 +11,4 @@ enum MapState {
     case none
     case searchingForLocation // 장소 검색 중
     case locationSelected // 장소 선택 됨
-    case generateCarPool // 카풀 방 만들기
 }

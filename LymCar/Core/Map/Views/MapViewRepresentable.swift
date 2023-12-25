@@ -44,15 +44,13 @@ struct MapViewRepresentable: UIViewRepresentable {
         case .searchingForLocation:
             break
         case .locationSelected:
-            guard let startLocationCoordinate = locationViewModel.startingPointCoordinate,
+            guard let departurePlaceCoordinate = locationViewModel.departurePlaceCoordinate,
                   let destinationCoordinate = locationViewModel.destinationCoordinate else { return }
             
             mapView.removeAnnotations(mapView.annotations)
-            context.coordinator.addAnnotation(withCoordinate: startLocationCoordinate)
+            context.coordinator.addAnnotation(withCoordinate: departurePlaceCoordinate)
             context.coordinator.addAnnotation(withCoordinate: destinationCoordinate)
-            context.coordinator.configurePolyline(from: startLocationCoordinate, to: destinationCoordinate)
-        case .generateCarPool:
-            break
+            context.coordinator.configurePolyline(from: departurePlaceCoordinate, to: destinationCoordinate)
         }
     }
     
@@ -70,8 +68,6 @@ extension MapViewRepresentable {
         //MARK: - Properties
         let parent: MapViewRepresentable
         private var currentRegion: MKCoordinateRegion?
-        private var startLocationAnno: MKPointAnnotation?
-        private var destinationAnno: MKPointAnnotation?
         
         
         //MARK: - LifeCycle
@@ -91,7 +87,7 @@ extension MapViewRepresentable {
             parent.mapView.setRegion(region, animated: true)
             currentRegion = region
             parent.locationViewModel.userLocationCoordinate = coordinate
-            parent.locationViewModel.startingPointCoordinate = coordinate
+            parent.locationViewModel.departurePlaceCoordinate = coordinate
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -112,12 +108,12 @@ extension MapViewRepresentable {
         
         /// 내부적으로 getDestinationRoute 메서드를 호출하여 경로를 가져오고, mapView에 overlay를 등록하는 메서드
         func configurePolyline(
-            from startLocationCoordinate: CLLocationCoordinate2D,
+            from departurePlaceCoordinate: CLLocationCoordinate2D,
             to destinationCoordinate: CLLocationCoordinate2D
         ) {
             self.parent.mapView.removeOverlays(self.parent.mapView.overlays)
             
-            getDestinationRoute(from: startLocationCoordinate, to: destinationCoordinate) { route in
+            getDestinationRoute(from: departurePlaceCoordinate, to: destinationCoordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline)
                 let rect = self.parent.mapView.mapRectThatFits(
                     route.polyline.boundingMapRect,
@@ -134,14 +130,14 @@ extension MapViewRepresentable {
         
         /// 출발지와 목적지의 경로를 가져오는 메서드
         func getDestinationRoute(
-            from startingPoint: CLLocationCoordinate2D,
+            from departurePlace: CLLocationCoordinate2D,
             to destination: CLLocationCoordinate2D,
             completion: @escaping(MKRoute) -> Void
         ) {
-            let startPlaceMark = MKPlacemark(coordinate: startingPoint)
+            let departPlaceMark = MKPlacemark(coordinate: departurePlace)
             let destPlaceMark = MKPlacemark(coordinate: destination)
             let request = MKDirections.Request()
-            request.source = MKMapItem(placemark: startPlaceMark)
+            request.source = MKMapItem(placemark: departPlaceMark)
             request.destination = MKMapItem(placemark: destPlaceMark)
             let directions = MKDirections(request: request)
             
@@ -182,8 +178,8 @@ extension MapViewRepresentable {
                     address += name
                 }
                 
-                if self.parent.locationViewModel.startLocationText != address {
-                    self.parent.locationViewModel.startLocationText = address
+                if self.parent.locationViewModel.departurePlaceText != address {
+                    self.parent.locationViewModel.departurePlaceText = address
                 }
             }
         }

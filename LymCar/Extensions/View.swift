@@ -11,6 +11,10 @@ extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
+    
+    func loadingProgress<T: Decodable & Equatable>(viewState: Binding<ViewState<T>>) -> some View {
+        modifier(LoadingViewModifier(viewState: viewState))
+    }
 }
 
 struct RoundedCorner: Shape {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthResult {
-    case success(user: User)
+enum FirebaseNetworkResult<T: Decodable> {
+    case success(response: T)
     case failure(errorMessage: String)
 }

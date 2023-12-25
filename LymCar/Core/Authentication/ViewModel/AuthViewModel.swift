@@ -16,7 +16,10 @@ final class AuthViewModel: ObservableObject {
     @Published var passwordConfirmText: String = ""
     @Published var isAgreeForPrivacyPolicy: Bool = false
     @Published var gender: Gender = .male
-    @Published var authState: AuthState = .none
+    @Published var viewState: ViewState<User> = .none
+    
+    var alertMessage: String = ""
+    @Published var alertIsPresented: Bool = false
     
     private let authManager: AuthManagerType
     
@@ -27,16 +30,18 @@ final class AuthViewModel: ObservableObject {
     
     //MARK: - Helpers
     func signIn(withEmail email: String, password: String) {
-        authState = .loading
+        viewState = .loading
         
         Task {
             let result = await authManager.signIn(withEmail: email, password: password)
             await MainActor.run {
                 switch result {
                 case .success(let user):
-                    authState = .successToSignIn(user: user)
+                    viewState = .successToNetworkRequest(response: user)
                 case .failure(let errorMessage):
-                    authState = .failToSignIn(errorMsg: errorMessage)
+                    viewState = .failToNetworkRequest
+                    alertMessage = errorMessage
+                    alertIsPresented = true
                 }
                 
             }
@@ -44,7 +49,7 @@ final class AuthViewModel: ObservableObject {
     }
     
     func createUser() {
-        authState = .loading
+        viewState = .loading
         
         Task {
             let result = await authManager.createUser(
@@ -54,11 +59,15 @@ final class AuthViewModel: ObservableObject {
                 name: nameText
             )
             await MainActor.run {
+                alertIsPresented = true
+                
                 switch result {
                 case .success(let user):
-                    authState = .successToCreateUser(user: user)
+                    viewState = .successToNetworkRequest(response: user)
+                    alertMessage = "회원가입이 완료되었습니다!"
                 case .failure(let errorMessage):
-                    authState = .failToCreateUser(errorMsg: errorMessage)
+                    viewState = .failToNetworkRequest
+                    alertMessage = errorMessage
                 }
             }
         }
@@ -88,7 +97,7 @@ final class AuthViewModel: ObservableObject {
         passwordConfirmText = ""
         isAgreeForPrivacyPolicy = false
         gender = .male
-        authState = .none
+        viewState = .none
     }
     
     deinit {

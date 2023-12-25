@@ -16,13 +16,13 @@ protocol AuthManagerType {
         password: String,
         gender: Gender,
         name: String
-    ) async -> AuthResult
+    ) async -> FirebaseNetworkResult<User>
     
     /// 로그인
     func signIn(
         withEmail email: String,
         password: String
-    ) async -> AuthResult
+    ) async -> FirebaseNetworkResult<User>
     
     /// 로그인 체크
     func checkCurrentUser() async -> User?
@@ -41,7 +41,7 @@ final class AuthManager: AuthManagerType {
         password: String,
         gender: Gender,
         name: String
-    ) async -> AuthResult  {
+    ) async -> FirebaseNetworkResult<User>  {
         do {
             /// 회원가입 요청
             try await auth.createUser(withEmail: email, password: password)
@@ -51,7 +51,7 @@ final class AuthManager: AuthManagerType {
             let newUser = User(email: email, gender: gender, name: name, uid: uid)
             try db.collection("Users").document(uid).setData(from: newUser)
             
-            return .success(user: newUser)
+            return .success(response: newUser)
         } catch {
             /// 에러 처리
             switch error {
@@ -71,7 +71,7 @@ final class AuthManager: AuthManagerType {
     func signIn(
         withEmail email: String,
         password: String
-    ) async -> AuthResult {
+    ) async -> FirebaseNetworkResult<User> {
         do {
             /// 로그인 시도
             try await auth.signIn(withEmail: email, password: password)
@@ -79,7 +79,7 @@ final class AuthManager: AuthManagerType {
             
             /// FireStore 데이터 읽기
             let user = try await db.collection("Users").document(uid).getDocument(as: User.self)
-            return .success(user: user)
+            return .success(response: user)
         } catch {
             /// 에러 처리
             switch error {

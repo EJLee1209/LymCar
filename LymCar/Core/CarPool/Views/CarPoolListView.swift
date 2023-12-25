@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CarPoolListView: View {
-    @Binding var mapState: MapState
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var mapViewModel: MapViewModel
     
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225, maximum: 300))
@@ -36,15 +37,14 @@ struct CarPoolListView: View {
                     Text("카풀 목록")
                         .font(.system(size: 20, weight: .bold))
                     Spacer()
-                    Button(action: {
-                        withAnimation {
-                            mapState = .generateCarPool
-                        }
-                    }, label: {
+
+                    NavigationLink {
+                        carpoolGenderateViewNavigationLink
+                    } label: {
                         Image(systemName: "plus")
                             .frame(width: 24, height: 24)
                             .foregroundStyle(.gray)
-                    })
+                    }
                 }
                 .padding(.horizontal, 22)
                 .padding(.top, 18)
@@ -65,10 +65,29 @@ struct CarPoolListView: View {
             
         }
     }
+    
+    @ViewBuilder
+    var carpoolGenderateViewNavigationLink: some View {
+        if let currentUser = userViewModel.currentUser,
+           let departurePlaceCoordinate = mapViewModel.departurePlaceCoordinate,
+           let destinationCoordinate = mapViewModel.destinationCoordinate {
+            let carPoolGenerateViewModel = CarPoolGenerateViewModel(
+                currentUser: currentUser,
+                departurePlaceText: mapViewModel.departurePlaceText,
+                destinationText: mapViewModel.destinationText,
+                departurePlaceCoordinate: departurePlaceCoordinate,
+                destinationCoordinate: destinationCoordinate
+            )
+            CarPoolGenerateView(
+                viewModel: carPoolGenerateViewModel
+            )
+        }
+    }
+    
 }
 
 #Preview {
-    CarPoolListView(
-        mapState: .constant(.none)
-    )
+    CarPoolListView()
+        .environmentObject(UserViewModel(authManager: AuthManager()))
+        .environmentObject(MapViewModel())
 }

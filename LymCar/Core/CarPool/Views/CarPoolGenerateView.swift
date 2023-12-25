@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct CarPoolGenerateView: View {
-    @Binding var mapState: MapState
+    @StateObject var viewModel: CarPoolGenerateViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
+    @Environment(\.dismiss) var dismiss
     
-    @State private var startLocationText = ""
-    @State private var destinationText = ""
-    @State private var personCount = 2
-    @State private var departureDate = Date()
-    @State private var genderOptionIsActivate = false
+    init(viewModel: CarPoolGenerateViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -24,36 +24,16 @@ struct CarPoolGenerateView: View {
             Color.theme.backgroundColor
                 .clipShape(RoundedCorner(radius: 30, corners: [.topLeft, .topRight]))
                 .ignoresSafeArea(.all, edges: .bottom)
-                .padding(.top, 60)
+                .padding(.top, 30)
             
             VStack(spacing: 0) {
                 
-                ZStack(alignment: .leading) {
-                    Button(action: {
-                        withAnimation {
-                            mapState = .locationSelected
-                        }
-                    }, label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                            .padding(10)
-                    })
-                    .padding(.leading, 10)
-                    
-                    Text("방 만들기")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                }
-                .padding(.top, 10)
-                
-                
                 /// 위치 검색 뷰
                 LocationSearchInputView(
-                    startLocationText: $startLocationText,
-                    destinationText: $destinationText,
-                    rightContentType: .swap
+                    departurePlaceText: $viewModel.departurePlaceText,
+                    destinationText: $viewModel.destinationText,
+                    rightContentType: .swap,
+                    rightContentTapEvent: viewModel.swapLocation
                 )
                 .padding(.trailing, 16)
                 .background(Color.theme.backgroundColor)
@@ -66,22 +46,21 @@ struct CarPoolGenerateView: View {
                 VStack(spacing: 25) {
                     CountView(
                         title: "최대 인원수",
-                        count: $personCount
+                        count: $viewModel.personCount
                     )
                     
-                    
-                    TimePickerView(title: "출발시간", date: $departureDate)
+                    TimePickerView(title: "출발시간", date: $viewModel.departureDate)
                     
                     OptionView(
                         title: "탑승 옵션",
-                        isActivate: $genderOptionIsActivate
+                        isActivate: $viewModel.genderOptionIsActivate
                     )
                     
                     Spacer()
-                    /// 방 만들기 버튼
                     
+                    /// 방 만들기 버튼
                     Button(action: {
-                        
+                        viewModel.createCarPool()
                     }, label: {
                         Text("방 만들기")
                             .font(.system(size: 15, weight: .bold))
@@ -99,11 +78,28 @@ struct CarPoolGenerateView: View {
                 
             }
         }
+        .navigationTitle("방 만들기")
+        .loadingProgress(viewState: $viewModel.viewState)
+        .onReceive(viewModel.$viewState, perform: { viewState in
+            switch viewState {
+            case .successToNetworkRequest(let carPool):
+                userViewModel.carPool = carPool
+                dismiss()
+            default:
+                break
+            }
+        })
     }
 }
 
 #Preview {
     CarPoolGenerateView(
-        mapState: .constant(.none)
+        viewModel: .init(
+            currentUser: .init(email: "", gender: .male, name: "", uid: ""),
+            departurePlaceText: "강남역",
+            destinationText: "강남역 스타벅스",
+            departurePlaceCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
+            destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234)
+        )
     )
 }

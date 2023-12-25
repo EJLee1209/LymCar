@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct LocationSearchInputView: View {
-    @Binding var startLocationText: String
+    @Binding var departurePlaceText: String
     @Binding var destinationText: String
     let rightContentType: RightContentType
+    let rightContentTapEvent: (() -> Void)?
+    
+    init(
+        departurePlaceText: Binding<String>,
+        destinationText: Binding<String>,
+        rightContentType: RightContentType,
+        rightContentTapEvent: (() -> Void)? = nil
+    ) {
+        self._departurePlaceText = departurePlaceText
+        self._destinationText = destinationText
+        self.rightContentType = rightContentType
+        self.rightContentTapEvent = rightContentTapEvent
+    }
     
     var body: some View {
         HStack(spacing: 12) {
             VStack(spacing: 9) {
-                TextField(text: $startLocationText) {
+                TextField(text: $departurePlaceText) {
                     Text("현재 위치 또는 위치 검색")
                         .font(.system(size: 15))
                 }
@@ -36,14 +49,18 @@ struct LocationSearchInputView: View {
             .padding(.leading, 9)
             .padding(.vertical, 9)
             
-            Image(rightContentType.rawValue)
+            Button(action: {
+                rightContentTapEvent?()
+            }, label: {
+                Image(rightContentType.rawValue)
+            })
         }
     }
 }
 
 #Preview {
     LocationSearchInputView(
-        startLocationText: .constant(""),
+        departurePlaceText: .constant(""),
         destinationText: .constant(""),
         rightContentType: .swap
     )

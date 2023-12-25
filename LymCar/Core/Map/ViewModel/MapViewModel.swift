@@ -11,10 +11,10 @@ import SwiftUI
 
 final class MapViewModel: NSObject, ObservableObject {
     //MARK: - Properties
-    var startLocationText: String = "" {
+    var departurePlaceText: String = "" {
         didSet {
-            searchCompleter.queryFragment = startLocationText
-            searchType = .startingPoint
+            searchCompleter.queryFragment = departurePlaceText
+            searchType = .departurePlace
         }
     }
     var destinationText: String = "" {
@@ -28,7 +28,7 @@ final class MapViewModel: NSObject, ObservableObject {
     @Published var searchResults = [MKLocalSearchCompletion]()
     private let searchCompleter = MKLocalSearchCompleter()
     
-    @Published var startingPointCoordinate: CLLocationCoordinate2D?
+    @Published var departurePlaceCoordinate: CLLocationCoordinate2D?
     @Published var destinationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     
@@ -51,9 +51,9 @@ final class MapViewModel: NSObject, ObservableObject {
             
             guard let self = self else { return }
             switch searchType {
-            case .startingPoint:
-                startLocationText = location.title
-                startingPointCoordinate = coordinate
+            case .departurePlace:
+                departurePlaceText = location.title
+                departurePlaceCoordinate = coordinate
             case .destination:
                 destinationText = location.title
                 destinationCoordinate = coordinate
@@ -77,9 +77,9 @@ final class MapViewModel: NSObject, ObservableObject {
     
     /// 모든 프로퍼티 초기화(MapViewActionButton 클릭시)
     func clearAllPropertiesForLocationSearch() {
-        startingPointCoordinate = userLocationCoordinate
+        departurePlaceCoordinate = userLocationCoordinate
         destinationCoordinate = nil
-        startLocationText = ""
+        departurePlaceText = ""
         destinationText = ""
         searchResults.removeAll()
     }

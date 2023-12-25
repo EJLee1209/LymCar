@@ -8,6 +8,6 @@
 import Foundation
 
 enum SearchType {
-    case startingPoint
+    case departurePlace
     case destination
 }

@@ -10,106 +10,96 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @EnvironmentObject var rootViewModel: RootViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     @State var authStep: AuthStep = .email
     @Binding var loginViewIsPresented: Bool
     
     var body: some View {
-        ZStack(alignment: .center) {
-            ZStack(alignment: .topLeading) {
-                /// 뒤로가기 버튼
-                AuthBackButton(authStep: $authStep)
-                    .padding(.top, 10)
-                    .padding(.leading, 21)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("회원가입")
-                        .font(.system(size: 40, weight: .heavy))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 21)
-                        .foregroundStyle(.white)
-                        .padding(.top, 100)
-                    
-                    VStack(spacing: 0) {
-                        Text(authStep.title)
-                            .font(.system(size: 24, weight: .heavy))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 27)
-                            .foregroundStyle(Color.theme.primaryTextColor)
-                        
-                        Text(authStep.description)
-                            .font(.system(size: 15, weight: .medium))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 5)
-                            .foregroundStyle(Color.theme.primaryTextColor)
-                        
-                        Divider()
-                            .padding(.top, 17)
-                        
-                        currentStepBody
-                            .padding(.top, 17)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation {
-                                buttonAction()
-                            }
-                        }, label: {
-                            Text(authStep == .privacyPolicy ? "회원가입" : "다음")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundStyle(buttonLabelColor())
-                                .padding(.vertical, 16)
-                                .frame(maxWidth: .infinity)
-                        })
-                        .background(buttonBackgroundColor())
-                        .clipShape(RoundedRectangle(cornerRadius: 100))
-                        .padding(.bottom, 47)
-                        .disabled(!viewModel.buttonIsEnabled(authStep))
-                    }
-                    .padding(.horizontal, 21)
-                    .background(Color.theme.backgroundColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 40))
-                    .padding(.top, 18)
-                    .ignoresSafeArea(.all, edges: .bottom)
-                }
-            }
-            .background {
-                Image("WelcomeBackgroundImage")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-            }
-            .navigationBarBackButtonHidden()
-            .alert(
-                viewModel.authState.alertMessage,
-                isPresented: .constant(viewModel.authState.alertIsPresented)
-            ) {
-                Button {
-                    switch viewModel.authState {
-                    case .successToCreateUser(let user):
-                        viewModel.clearProperties()
-                        rootViewModel.currentUser = user
-                        loginViewIsPresented.toggle()
-                    default:
-                        break
-                    }
-                    viewModel.authState = .none
-                    
-                } label: {
-                    Text("확인")
-                        .font(.system(size: 15))
-                }
-            }
+        ZStack(alignment: .topLeading) {
+            /// 뒤로가기 버튼
+            AuthBackButton(authStep: $authStep)
+                .padding(.top, 10)
+                .padding(.leading, 21)
             
-            if viewModel.authState == .loading {
-                VisualEffectView(effect: UIBlurEffect(style: .dark))
-                    .ignoresSafeArea()
-                    .opacity(0.9)
+            VStack(alignment: .leading, spacing: 0) {
+                Text("회원가입")
+                    .font(.system(size: 40, weight: .heavy))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 21)
+                    .foregroundStyle(.white)
+                    .padding(.top, 100)
                 
-                ProgressView()
+                VStack(spacing: 0) {
+                    Text(authStep.title)
+                        .font(.system(size: 24, weight: .heavy))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 27)
+                        .foregroundStyle(Color.theme.primaryTextColor)
+                    
+                    Text(authStep.description)
+                        .font(.system(size: 15, weight: .medium))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 5)
+                        .foregroundStyle(Color.theme.primaryTextColor)
+                    
+                    Divider()
+                        .padding(.top, 17)
+                    
+                    currentStepBody
+                        .padding(.top, 17)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        withAnimation {
+                            buttonAction()
+                        }
+                    }, label: {
+                        Text(authStep == .privacyPolicy ? "회원가입" : "다음")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundStyle(buttonLabelColor())
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity)
+                    })
+                    .background(buttonBackgroundColor())
+                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                    .padding(.bottom, 47)
+                    .disabled(!viewModel.buttonIsEnabled(authStep))
+                }
+                .padding(.horizontal, 21)
+                .background(Color.theme.backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 40))
+                .padding(.top, 18)
+                .ignoresSafeArea(.all, edges: .bottom)
             }
         }
+        .background {
+            Image("WelcomeBackgroundImage")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+        }
+        .navigationBarBackButtonHidden()
+        .alert(
+            viewModel.alertMessage,
+            isPresented: $viewModel.alertIsPresented
+        ) {
+            Button {
+                switch viewModel.viewState {
+                case .successToNetworkRequest(let user):
+                    viewModel.clearProperties()
+                    userViewModel.currentUser = user
+                    loginViewIsPresented.toggle()
+                default:
+                    break
+                }
+                viewModel.viewState = .none
+            } label: {
+                Text("확인")
+                    .font(.system(size: 15))
+            }
+        }
+        .loadingProgress(viewState: $viewModel.viewState)
     }
     
     private func buttonBackgroundColor() -> Color {

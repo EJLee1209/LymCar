@@ -20,7 +20,7 @@ struct LocationSearchView: View {
             
             /// header view
             LocationSearchInputView(
-                startLocationText: $viewModel.startLocationText,
+                departurePlaceText: $viewModel.departurePlaceText,
                 destinationText: $viewModel.destinationText,
                 rightContentType: .search
             )
@@ -35,7 +35,7 @@ struct LocationSearchView: View {
                         viewModel.didSelectLocation(searchCompletion) {
                             withAnimation(.spring) {
                                 if viewModel.destinationCoordinate != nil &&
-                                    viewModel.startingPointCoordinate != nil {
+                                    viewModel.departurePlaceCoordinate != nil {
                                     mapState = .locationSelected
                                 }
                             }

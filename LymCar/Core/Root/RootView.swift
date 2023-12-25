@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @EnvironmentObject private var viewModel: RootViewModel
+    @EnvironmentObject private var viewModel: UserViewModel
     @State private var mapState: MapState = .none
     @State private var selectedTab: TabMenuItem = .map
     @State private var loginViewIsPresented = false
@@ -20,42 +20,43 @@ struct RootView: View {
             if showSplashView {
                 SplashView()
             } else {
-                ZStack(alignment: .bottom) {
-                    /// Tab item views - 탭바의 뷰들
-                    ZStack(alignment: .top) {
-                        switch selectedTab {
-                        case .history:
-                            HistoryView()
-                        case .map:
-                            MapView(mapState: $mapState)
-                        case .menu:
-                            MenuView(loginViewIsPresented: $loginViewIsPresented)
+                NavigationView {
+                    
+                    ZStack(alignment: .bottom) {
+                        /// Tab item views - 탭바의 뷰들
+                        ZStack(alignment: .top) {
+                            switch selectedTab {
+                            case .history:
+                                HistoryView()
+                            case .map:
+                                MapView(mapState: $mapState)
+                            case .menu:
+                                MenuView(loginViewIsPresented: $loginViewIsPresented)
+                            }
                         }
+                        
+                        /// Tab bar view - 탭바
+                        if mapState != .searchingForLocation {
+                            MainTabView(selectedItem: $selectedTab)
+                                .transition(.move(edge: .bottom))
+                        }
+                        
+                        /// bottom sheet - 카풀 목록
+                        if mapState == .locationSelected {
+                            CarPoolListView()
+                                .transition(.move(edge: .bottom))
+                        }
+                        
                     }
-                    
-                    /// Tab bar view - 탭바
-                    if mapState != .searchingForLocation {
-                        MainTabView(selectedItem: $selectedTab)
-                            .transition(.move(edge: .bottom))
-                    }
-                    
-                    /// bottom sheet - 카풀 목록
-                    if mapState == .locationSelected {
-                        CarPoolListView(mapState: $mapState)
-                            .transition(.move(edge: .bottom))
-                    }
-                    
-                    /// CarPoolGenerateView - 카풀 만들기
-                    if mapState == .generateCarPool {
-                        CarPoolGenerateView(mapState: $mapState)
-                    }
+                    .ignoresSafeArea(.all, edges: .bottom)
+                    .fullScreenCover(isPresented: $loginViewIsPresented, content: {
+                        /// didLogin == false -> 로그인 화면을 보여줌
+                        /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
+                        LoginView(loginViewIsPresented: $loginViewIsPresented)
+                    })
                 }
-                .ignoresSafeArea(.all, edges: .bottom)
-                .fullScreenCover(isPresented: $loginViewIsPresented, content: {
-                    /// didLogin == false -> 로그인 화면을 보여줌
-                    /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
-                    LoginView(loginViewIsPresented: $loginViewIsPresented)
-                })
+                .tint(.white)
+                
                 
             }
         }
@@ -81,6 +82,6 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(MapViewModel())
-        .environmentObject(RootViewModel(authManager: AuthManager()))
+        .environmentObject(UserViewModel(authManager: AuthManager()))
         .environmentObject(AuthViewModel(authManager: AuthManager()))
 }
