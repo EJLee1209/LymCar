@@ -68,13 +68,14 @@
 		CFA32E182B36ABA000385847 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E172B36ABA000385847 /* MenuType.swift */; };
 		CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1C2B36ABD800385847 /* MenuCell.swift */; };
 		CFA32E1F2B36BF3E00385847 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1E2B36BF3E00385847 /* UserViewModel.swift */; };
-		CFA32E212B36CC7400385847 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E202B36CC7400385847 /* MenuViewModel.swift */; };
 		CFA32E232B36D83500385847 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E222B36D83500385847 /* SplashView.swift */; };
 		CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */; };
 		CFB635032B398B230029BE3F /* CarPoolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635022B398B230029BE3F /* CarPoolManager.swift */; };
 		CFB635052B399A310029BE3F /* CarPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635042B399A310029BE3F /* CarPool.swift */; };
 		CFB635072B399A470029BE3F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635062B399A470029BE3F /* Location.swift */; };
 		CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */; };
+		CFC092012B3AC5B500260E78 /* CarPoolShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */; };
+		CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -125,13 +126,14 @@
 		CFA32E172B36ABA000385847 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
 		CFA32E1C2B36ABD800385847 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		CFA32E1E2B36BF3E00385847 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		CFA32E202B36CC7400385847 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		CFA32E222B36D83500385847 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolGenerateViewModel.swift; sourceTree = "<group>"; };
 		CFB635022B398B230029BE3F /* CarPoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolManager.swift; sourceTree = "<group>"; };
 		CFB635042B399A310029BE3F /* CarPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPool.swift; sourceTree = "<group>"; };
 		CFB635062B399A470029BE3F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModifier.swift; sourceTree = "<group>"; };
+		CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortcutView.swift; sourceTree = "<group>"; };
+		CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolListViewModel.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -282,7 +284,6 @@
 		CF4953102B38138A009FD93A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CFA32E202B36CC7400385847 /* MenuViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -347,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */,
+				CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,6 +368,7 @@
 				CF3F499C2B316A6F009E8A96 /* MapView.swift */,
 				CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */,
 				CFDB3DFE2B33FF9700C88D77 /* MapViewActionButton.swift */,
+				CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */,
 				CF49530B2B3805DF009FD93A /* CountView.swift in Sources */,
 				CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */,
+				CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */,
 				CF78A6E32B35519A00306F6A /* RootView.swift in Sources */,
 				CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */,
 				CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */,
@@ -563,6 +567,7 @@
 				CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */,
 				CFA32E232B36D83500385847 /* SplashView.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
+				CFC092012B3AC5B500260E78 /* CarPoolShortcutView.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */,
 				CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */,
@@ -584,7 +589,6 @@
 				CF78A7012B35C67300306F6A /* ViewState.swift in Sources */,
 				CF4953072B3800B0009FD93A /* CarPoolGenerateView.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,
-				CFA32E212B36CC7400385847 /* MenuViewModel.swift in Sources */,
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
 				CF49530F2B381080009FD93A /* OptionView.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,

@@ -9,27 +9,39 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    @EnvironmentObject var userViewModel: UserViewModel
     @Binding var mapState: MapState
     
     var body: some View {
-        ZStack(alignment: .top) {
-            MapViewRepresentable(mapState: $mapState)
-                .ignoresSafeArea()
-            
-            if mapState == .none {
-                LocationSearchActivationView()
-                    .padding(.top, 40)
-                    .onTapGesture {
-                        withAnimation(.spring) {
-                            mapState = .searchingForLocation
+        ZStack(alignment: .bottom) {
+            ZStack(alignment: .top) {
+                MapViewRepresentable(mapState: $mapState)
+                    .ignoresSafeArea()
+                if mapState == .none {
+                    LocationSearchActivationView()
+                        .padding(.top, 40)
+                        .onTapGesture {
+                            withAnimation(.spring) {
+                                mapState = .searchingForLocation
+                            }
                         }
-                    }
-            } else if mapState == .searchingForLocation {
+                }
+                
+                if mapState == .locationSelected {
+                    MapViewActionButton(mapState: $mapState)
+                        .padding()
+                }
+                
+            }
+            if let _ = userViewModel.carPool {
+                CarPoolShortcutView()
+                    .padding(.bottom, 122)
+                    .padding(.horizontal, 16)
+            }
+            
+            if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)
                 
-            } else if mapState == .locationSelected {
-                MapViewActionButton(mapState: $mapState)
-                    .padding()
             }
         }
     }
@@ -40,4 +52,5 @@ struct MapView: View {
 #Preview {
     MapView(mapState: .constant(.none))
         .environmentObject(MapViewModel())
+        .environmentObject(UserViewModel())
 }

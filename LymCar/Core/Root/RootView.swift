@@ -15,7 +15,6 @@ struct RootView: View {
     @State private var showSplashView = true
     
     var body: some View {
-        
         ZStack {
             if showSplashView {
                 SplashView()
@@ -34,7 +33,6 @@ struct RootView: View {
                                 MenuView(loginViewIsPresented: $loginViewIsPresented)
                             }
                         }
-                        
                         /// Tab bar view - 탭바
                         if mapState != .searchingForLocation {
                             MainTabView(selectedItem: $selectedTab)
@@ -61,19 +59,23 @@ struct RootView: View {
             }
         }
         .task {
-            let user = await viewModel.checkCurrentUser()
+            if let _ = await viewModel.checkUserAndFetchUserCarPool() { }
+            else { loginViewIsPresented.toggle() }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
                     showSplashView.toggle()
                 }
             }
-            
-            guard let _ = user else {
-                loginViewIsPresented.toggle()
-                return
-            }
         }
+        .onAppear {
+            /// 네비게이션바 타이틀 속성 변경
+            UINavigationBar.appearance().titleTextAttributes = [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.systemFont(ofSize: 20, weight: .bold)
+            ]
+        }
+        
     }
 }
 
@@ -82,6 +84,6 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(MapViewModel())
-        .environmentObject(UserViewModel(authManager: AuthManager()))
-        .environmentObject(AuthViewModel(authManager: AuthManager()))
+        .environmentObject(UserViewModel())
+        .environmentObject(AuthViewModel())
 }

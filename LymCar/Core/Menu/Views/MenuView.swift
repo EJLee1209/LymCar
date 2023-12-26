@@ -138,5 +138,5 @@ struct MenuView: View {
     MenuView(
         loginViewIsPresented: .constant(true)
     )
-    .environmentObject(UserViewModel(authManager: AuthManager()))
+    .environmentObject(UserViewModel())
 }

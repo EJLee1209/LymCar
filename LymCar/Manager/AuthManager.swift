@@ -9,30 +9,8 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-protocol AuthManagerType {
-    /// 회원가입
-    func createUser(
-        withEmail email: String,
-        password: String,
-        gender: Gender,
-        name: String
-    ) async -> FirebaseNetworkResult<User>
-    
-    /// 로그인
-    func signIn(
-        withEmail email: String,
-        password: String
-    ) async -> FirebaseNetworkResult<User>
-    
-    /// 로그인 체크
-    func checkCurrentUser() async -> User?
-    
-    /// 로그아웃
-    @discardableResult
-    func logout() -> Bool
-}
-
-final class AuthManager: AuthManagerType {
+struct AuthManager {
+    static let shared = AuthManager()
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
     

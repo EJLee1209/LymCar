@@ -9,21 +9,43 @@ import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
 
-protocol CarPoolManagerType {
-    func createCarPool(
-        departurePlaceName: String,
-        destinationPlaceName: String,
-        departurePlaceCoordinate: CLLocationCoordinate2D,
-        destinationCoordinate: CLLocationCoordinate2D,
-        departureDate: Date,
-        genderOption: Gender,
-        maxPersonCount: Int
-    ) async -> FirebaseNetworkResult<CarPool>
-}
-
-final class CarPoolManager: CarPoolManagerType {
+struct CarPoolManager {
+    static let shared = CarPoolManager()
+    
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
+    
+    func fetchMyCarPool() async -> CarPool? {
+        guard let uid = auth.currentUser?.uid else { return nil }
+        
+        do {
+            let querySnapshot = try await db.collection("Rooms")
+                .whereField("participants", arrayContains: uid)
+                .getDocuments()
+            
+            guard let document = querySnapshot.documents.first else {
+                return nil
+            }
+            
+            let carPool = try document.data(as: CarPool.self)
+            print("DEBUG: 참여중인 카풀 \(carPool)")
+            return carPool
+        } catch {
+            print("DEBUG: Failed to fetchMyCarPool with error \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    func fetchCarPool() async -> [CarPool] {
+        do {
+            let querySnapshot = try await db.collection("Rooms").getDocuments()
+            let carPoolList = try querySnapshot.documents.map { try $0.data(as: CarPool.self) }
+            return carPoolList
+        } catch {
+            print("DEBUG: Failed to fetchCarPool with error \(error.localizedDescription)")
+            return []
+        }
+    }
     
     func createCarPool(
         departurePlaceName: String,

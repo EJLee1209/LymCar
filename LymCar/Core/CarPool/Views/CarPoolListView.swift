@@ -10,6 +10,7 @@ import SwiftUI
 struct CarPoolListView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var mapViewModel: MapViewModel
+    @StateObject var viewModel: CarPoolListViewModel = .init()
     
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225, maximum: 300))
@@ -18,7 +19,7 @@ struct CarPoolListView: View {
     var body: some View {
         VStack(spacing: 0) {
             Button(action: {
-                print("DEBUG: 새로고침")
+                viewModel.fetchCarPoolList()
             }, label: {
                 Image(systemName: "arrow.clockwise")
                     .frame(width: 24, height: 24)
@@ -51,8 +52,8 @@ struct CarPoolListView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHGrid(rows: rows, spacing: 9, content: {
-                        ForEach((1...10), id: \.self) { _ in
-                            CarPoolCell()
+                        ForEach(viewModel.carPoolList, id: \.id) { carPool in
+                            CarPoolCell(carPool: carPool)
                         }
                     })
                     .padding(.horizontal, 21)
@@ -88,6 +89,8 @@ struct CarPoolListView: View {
 
 #Preview {
     CarPoolListView()
-        .environmentObject(UserViewModel(authManager: AuthManager()))
+        .environmentObject(
+            UserViewModel()
+        )
         .environmentObject(MapViewModel())
 }

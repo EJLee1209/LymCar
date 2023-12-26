@@ -79,7 +79,6 @@ struct CarPoolGenerateView: View {
             }
         }
         .navigationTitle("방 만들기")
-        .loadingProgress(viewState: $viewModel.viewState)
         .onReceive(viewModel.$viewState, perform: { viewState in
             switch viewState {
             case .successToNetworkRequest(let carPool):
@@ -89,6 +88,9 @@ struct CarPoolGenerateView: View {
                 break
             }
         })
+        
+        .loadingProgress(viewState: $viewModel.viewState)
+        
     }
 }
 

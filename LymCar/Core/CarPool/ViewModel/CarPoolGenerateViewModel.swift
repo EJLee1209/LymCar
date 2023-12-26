@@ -14,21 +14,15 @@ final class CarPoolGenerateViewModel: ObservableObject {
     @Published var departureDate = Date()
     @Published var personCount = 2
     @Published var genderOptionIsActivate = false
-    
-    private let currentUser: User
-    
     @Published var departurePlaceText = ""
     @Published var destinationText = ""
-    
-    private var departurePlaceCoordinate: CLLocationCoordinate2D
-    private var destinationCoordinate: CLLocationCoordinate2D
-    
-    private let carPoolManager: CarPoolManagerType = CarPoolManager()
-    
     @Published var viewState: ViewState<CarPool> = .none
+    @Published var alertIsPresented: Bool = false
     
     var alertMessage: String = ""
-    @Published var alertIsPresented: Bool = false
+    private let currentUser: User
+    private var departurePlaceCoordinate: CLLocationCoordinate2D
+    private var destinationCoordinate: CLLocationCoordinate2D
     
     //MARK: - LifeCycle
     init(
@@ -55,7 +49,7 @@ final class CarPoolGenerateViewModel: ObservableObject {
         viewState = .loading
         
         Task {
-            let result = await carPoolManager.createCarPool(
+            let result = await CarPoolManager.shared.createCarPool(
                 departurePlaceName: departurePlaceText,
                 destinationPlaceName: destinationText,
                 departurePlaceCoordinate: departurePlaceCoordinate,

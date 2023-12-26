@@ -18,4 +18,15 @@ struct CarPool: Codable, Equatable {
     let participants: [String] // 참여자 uid
     let maxPersonCount: Int // 최대 참여자 수
     var personCount: Int = 1 // 참여자 수
+    
+    
+    var personCountPerMaxPersonCount: String { return "\(personCount)/\(maxPersonCount)" }
+    
+    var prettyFormattedDepartureDate: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "a h시 mm분"
+        return formatter.string(from: self.departureDate)
+    }
+    
 }
