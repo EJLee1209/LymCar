@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @EnvironmentObject private var viewModel: UserViewModel
+    @EnvironmentObject private var appData: AppData
     @State private var mapState: MapState = .none
     @State private var selectedTab: TabMenuItem = .map
     @State private var loginViewIsPresented = false
@@ -20,7 +20,6 @@ struct RootView: View {
                 SplashView()
             } else {
                 NavigationView {
-                    
                     ZStack(alignment: .bottom) {
                         /// Tab item views - 탭바의 뷰들
                         ZStack(alignment: .top) {
@@ -28,7 +27,10 @@ struct RootView: View {
                             case .history:
                                 HistoryView()
                             case .map:
-                                MapView(mapState: $mapState)
+                                MapView(
+                                    viewModel: appData.makeMapVM(),
+                                    mapState: $mapState
+                                )
                             case .menu:
                                 MenuView(loginViewIsPresented: $loginViewIsPresented)
                             }
@@ -41,7 +43,7 @@ struct RootView: View {
                         
                         /// bottom sheet - 카풀 목록
                         if mapState == .locationSelected {
-                            CarPoolListView()
+                            CarPoolListView(viewModel: appData.makeCarPoolListVM())
                                 .transition(.move(edge: .bottom))
                         }
                         
@@ -50,7 +52,10 @@ struct RootView: View {
                     .fullScreenCover(isPresented: $loginViewIsPresented, content: {
                         /// didLogin == false -> 로그인 화면을 보여줌
                         /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
-                        LoginView(loginViewIsPresented: $loginViewIsPresented)
+                        LoginView(
+                            viewModel: appData.makeAuthVM(),
+                            loginViewIsPresented: $loginViewIsPresented
+                        )
                     })
                 }
                 .tint(.white)
@@ -59,7 +64,7 @@ struct RootView: View {
             }
         }
         .task {
-            if let _ = await viewModel.checkUserAndFetchUserCarPool() { }
+            if let _ = await appData.checkUserAndFetchUserCarPool() { }
             else { loginViewIsPresented.toggle() }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -75,15 +80,12 @@ struct RootView: View {
                 .font: UIFont.systemFont(ofSize: 20, weight: .bold)
             ]
         }
-        
     }
 }
 
-
-
 #Preview {
     RootView()
-        .environmentObject(MapViewModel())
-        .environmentObject(UserViewModel())
-        .environmentObject(AuthViewModel())
+        .environmentObject(AppData(
+            authManager: AuthManager(), carPoolManager: CarPoolManager()
+        ))
 }

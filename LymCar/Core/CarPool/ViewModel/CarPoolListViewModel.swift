@@ -10,13 +10,16 @@ import Foundation
 final class CarPoolListViewModel: ObservableObject {
     @Published var carPoolList: [CarPool] = []
     
-    init() { 
+    private let carPoolManager: CarPoolManagerType
+    
+    init(carPoolManager: CarPoolManagerType) {
+        self.carPoolManager = carPoolManager
         fetchCarPoolList()
     }
     
     func fetchCarPoolList() {
         Task {
-            let list = await CarPoolManager.shared.fetchCarPool()
+            let list = await carPoolManager.fetchCarPool()
             await MainActor.run {
                 carPoolList = list
             }

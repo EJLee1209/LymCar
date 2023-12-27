@@ -13,18 +13,6 @@ struct LocationSearchInputView: View {
     let rightContentType: RightContentType
     let rightContentTapEvent: (() -> Void)?
     
-    init(
-        departurePlaceText: Binding<String>,
-        destinationText: Binding<String>,
-        rightContentType: RightContentType,
-        rightContentTapEvent: (() -> Void)? = nil
-    ) {
-        self._departurePlaceText = departurePlaceText
-        self._destinationText = destinationText
-        self.rightContentType = rightContentType
-        self.rightContentTapEvent = rightContentTapEvent
-    }
-    
     var body: some View {
         HStack(spacing: 12) {
             VStack(spacing: 9) {
@@ -62,7 +50,8 @@ struct LocationSearchInputView: View {
     LocationSearchInputView(
         departurePlaceText: .constant(""),
         destinationText: .constant(""),
-        rightContentType: .swap
+        rightContentType: .swap,
+        rightContentTapEvent: nil
     )
 }
 

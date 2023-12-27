@@ -10,14 +10,12 @@ import SwiftUI
 @main
 struct LymCarApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @ObservedObject var mapViewModel: MapViewModel = .init()
-    @ObservedObject var userViewModel: UserViewModel = .init()
+    @StateObject var appData: AppData = .init(authManager: AuthManager(), carPoolManager: CarPoolManager())
     
     var body: some Scene {
         WindowGroup {
             RootView()
-                .environmentObject(mapViewModel)
-                .environmentObject(userViewModel)
+                .environmentObject(appData)
         }
     }
 }

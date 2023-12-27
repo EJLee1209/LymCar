@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    /// AuthViewModel을 LoginView에서 생성해서 AuthViewModel의 생명주기를 LoginView에 종속시킨다.
-    /// 로그인 또는 회원가입이 완료되어서 LoginView가 dismiss된다면, AuthViewModel 또한 메모리에서 제거된다.
-    @StateObject var viewModel: AuthViewModel = .init()
-    @EnvironmentObject var userViewModel: UserViewModel
+    @StateObject var viewModel: AuthViewModel
+    @EnvironmentObject var appData: AppData
     
     @AppStorage("email") var emailText: String = ""
     @State var passwordText: String = ""
@@ -106,8 +104,8 @@ struct LoginView: View {
             .onReceive(viewModel.$viewState) { authResult in
                 switch authResult {
                 case .successToNetworkRequest(let user):
-                    userViewModel.currentUser = user
-                    userViewModel.fetchUserCarPool()
+                    appData.currentUser = user
+                    appData.fetchUserCarPool()
                     loginViewIsPresented.toggle()
                 default:
                     break
@@ -119,8 +117,13 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(loginViewIsPresented: .constant(false))
-        .environmentObject(UserViewModel())
+    LoginView(
+        viewModel: AuthViewModel(authManager: AuthManager()),
+        loginViewIsPresented: .constant(false)
+    )
+    .environmentObject(AppData(
+        authManager: AuthManager(), carPoolManager: CarPoolManager()
+    ))
 }
 
 

@@ -33,4 +33,5 @@ struct MapViewActionButton: View {
 
 #Preview {
     MapViewActionButton(mapState: .constant(.none))
+        .environmentObject(MapViewModel())
 }

@@ -17,12 +17,15 @@ final class CarPoolGenerateViewModel: ObservableObject {
     @Published var departurePlaceText = ""
     @Published var destinationText = ""
     @Published var viewState: ViewState<CarPool> = .none
-    @Published var alertIsPresented: Bool = false
     
+    @Published var alertIsPresented: Bool = false
     var alertMessage: String = ""
+    
     private let currentUser: User
     private var departurePlaceCoordinate: CLLocationCoordinate2D
     private var destinationCoordinate: CLLocationCoordinate2D
+    
+    private let carPoolManager: CarPoolManagerType
     
     //MARK: - LifeCycle
     init(
@@ -30,13 +33,15 @@ final class CarPoolGenerateViewModel: ObservableObject {
         departurePlaceText: String,
         destinationText: String,
         departurePlaceCoordinate: CLLocationCoordinate2D,
-        destinationCoordinate: CLLocationCoordinate2D
+        destinationCoordinate: CLLocationCoordinate2D,
+        carPoolManager: CarPoolManagerType
     ) {
         self.currentUser = currentUser
         self.departurePlaceText = departurePlaceText
         self.destinationText = destinationText
         self.departurePlaceCoordinate = departurePlaceCoordinate
         self.destinationCoordinate = destinationCoordinate
+        self.carPoolManager = carPoolManager
     }
     
     //MARK: - Helpers
@@ -49,7 +54,7 @@ final class CarPoolGenerateViewModel: ObservableObject {
         viewState = .loading
         
         Task {
-            let result = await CarPoolManager.shared.createCarPool(
+            let result = await carPoolManager.createCarPool(
                 departurePlaceName: departurePlaceText,
                 destinationPlaceName: destinationText,
                 departurePlaceCoordinate: departurePlaceCoordinate,

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MenuView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var appData: AppData
     @Binding var loginViewIsPresented: Bool
     @State var alertIsPresented = false
     
@@ -23,7 +23,7 @@ struct MenuView: View {
                     .padding(.top, 10)
                     .foregroundStyle(.white)
                 
-                if let currentUser = userViewModel.currentUser {
+                if let currentUser = appData.currentUser {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 0) {
                             
@@ -121,7 +121,7 @@ struct MenuView: View {
         ) {
             
             Button(role: .destructive, action: {
-                    userViewModel.logout()
+                    appData.logout()
                     loginViewIsPresented.toggle()
                 },label: {
                     Text("확인")
@@ -138,5 +138,7 @@ struct MenuView: View {
     MenuView(
         loginViewIsPresented: .constant(true)
     )
-    .environmentObject(UserViewModel())
+    .environmentObject(AppData(
+        authManager: AuthManager(), carPoolManager: CarPoolManager()
+    ))
 }

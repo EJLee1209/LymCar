@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CarPoolListView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var mapViewModel: MapViewModel
-    @StateObject var viewModel: CarPoolListViewModel = .init()
+    @EnvironmentObject var appData: AppData
+    @StateObject var viewModel: CarPoolListViewModel
     
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225, maximum: 300))
@@ -69,28 +68,16 @@ struct CarPoolListView: View {
     
     @ViewBuilder
     var carpoolGenderateViewNavigationLink: some View {
-        if let currentUser = userViewModel.currentUser,
-           let departurePlaceCoordinate = mapViewModel.departurePlaceCoordinate,
-           let destinationCoordinate = mapViewModel.destinationCoordinate {
-            let carPoolGenerateViewModel = CarPoolGenerateViewModel(
-                currentUser: currentUser,
-                departurePlaceText: mapViewModel.departurePlaceText,
-                destinationText: mapViewModel.destinationText,
-                departurePlaceCoordinate: departurePlaceCoordinate,
-                destinationCoordinate: destinationCoordinate
-            )
-            CarPoolGenerateView(
-                viewModel: carPoolGenerateViewModel
-            )
+        if let vm = appData.makeCarPoolGenerateVM() {
+            CarPoolGenerateView(viewModel: vm)
         }
     }
     
 }
 
 #Preview {
-    CarPoolListView()
-        .environmentObject(
-            UserViewModel()
-        )
-        .environmentObject(MapViewModel())
+    CarPoolListView(
+        viewModel: .init(carPoolManager: CarPoolManager())
+    )
+    .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
 }

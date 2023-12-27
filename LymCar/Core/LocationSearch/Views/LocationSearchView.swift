@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationSearchView: View {
     @EnvironmentObject var viewModel: MapViewModel
+    @EnvironmentObject var AppData: AppData
     @Binding var mapState: MapState
     
     var body: some View {
@@ -22,7 +23,8 @@ struct LocationSearchView: View {
             LocationSearchInputView(
                 departurePlaceText: $viewModel.departurePlaceText,
                 destinationText: $viewModel.destinationText,
-                rightContentType: .search
+                rightContentType: .search,
+                rightContentTapEvent: nil
             )
             .padding(.horizontal, 16)
             
@@ -39,6 +41,13 @@ struct LocationSearchView: View {
                                     mapState = .locationSelected
                                 }
                             }
+                            
+                            AppData.didSelectLocation(
+                                departurePlaceName: viewModel.departurePlaceText,
+                                destinationName: viewModel.destinationText,
+                                departureLocationCoordinate: viewModel.departurePlaceCoordinate,
+                                destinationCoordinate: viewModel.destinationCoordinate
+                            )
                         }
                         
                     }, label: {
@@ -69,4 +78,7 @@ struct LocationSearchView: View {
 #Preview {
     LocationSearchView(mapState: .constant(MapState.searchingForLocation))
         .environmentObject(MapViewModel())
+        .environmentObject(AppData(
+            authManager: AuthManager(), carPoolManager: CarPoolManager()
+        ))
 }

@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct CarPoolGenerateView: View {
-    @StateObject var viewModel: CarPoolGenerateViewModel
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var AppData: AppData
     @Environment(\.dismiss) var dismiss
     
-    init(viewModel: CarPoolGenerateViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @StateObject var viewModel: CarPoolGenerateViewModel
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -82,7 +79,7 @@ struct CarPoolGenerateView: View {
         .onReceive(viewModel.$viewState, perform: { viewState in
             switch viewState {
             case .successToNetworkRequest(let carPool):
-                userViewModel.carPool = carPool
+                AppData.carPool = carPool
                 dismiss()
             default:
                 break
@@ -101,7 +98,9 @@ struct CarPoolGenerateView: View {
             departurePlaceText: "강남역",
             destinationText: "강남역 스타벅스",
             departurePlaceCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
-            destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234)
+            destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
+            carPoolManager: CarPoolManager()
         )
     )
+    .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
 }

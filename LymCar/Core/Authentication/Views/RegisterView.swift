@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var appData: AppData
     @State var authStep: AuthStep = .email
     @Binding var loginViewIsPresented: Bool
     
@@ -88,7 +88,7 @@ struct RegisterView: View {
                 switch viewModel.viewState {
                 case .successToNetworkRequest(let user):
                     viewModel.clearProperties()
-                    userViewModel.currentUser = user
+                    appData.currentUser = user
                     loginViewIsPresented.toggle()
                 default:
                     break
@@ -151,5 +151,6 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView(loginViewIsPresented: .constant(false))
-        .environmentObject(AuthViewModel())
+        .environmentObject(AuthViewModel(authManager: AuthManager()))
+        .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
 }

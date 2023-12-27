@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CarPoolShortcutView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
-        if let carPool = userViewModel.carPool {
+        if let carPool = appData.carPool {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(carPool.departurePlace.placeName)
@@ -51,5 +51,7 @@ struct CarPoolShortcutView: View {
 
 #Preview {
     CarPoolShortcutView()
-        .environmentObject(UserViewModel())
+        .environmentObject(AppData(
+            authManager: AuthManager(), carPoolManager: CarPoolManager()
+        ))
 }

@@ -67,7 +67,7 @@
 		CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */; };
 		CFA32E182B36ABA000385847 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E172B36ABA000385847 /* MenuType.swift */; };
 		CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1C2B36ABD800385847 /* MenuCell.swift */; };
-		CFA32E1F2B36BF3E00385847 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1E2B36BF3E00385847 /* UserViewModel.swift */; };
+		CFA32E1F2B36BF3E00385847 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1E2B36BF3E00385847 /* AppData.swift */; };
 		CFA32E232B36D83500385847 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E222B36D83500385847 /* SplashView.swift */; };
 		CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */; };
 		CFB635032B398B230029BE3F /* CarPoolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635022B398B230029BE3F /* CarPoolManager.swift */; };
@@ -125,7 +125,7 @@
 		CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkResult.swift; sourceTree = "<group>"; };
 		CFA32E172B36ABA000385847 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
 		CFA32E1C2B36ABD800385847 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
-		CFA32E1E2B36BF3E00385847 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		CFA32E1E2B36BF3E00385847 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		CFA32E222B36D83500385847 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolGenerateViewModel.swift; sourceTree = "<group>"; };
 		CFB635022B398B230029BE3F /* CarPoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolManager.swift; sourceTree = "<group>"; };
@@ -228,8 +228,6 @@
 		CF3F49E32B316E1E009E8A96 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */,
-				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
 				CF4953112B38139A009FD93A /* Root */,
 				CF78A6E42B3556B400306F6A /* Authentication */,
 				CFDB3E0F2B347F2100C88D77 /* Menu */,
@@ -237,6 +235,8 @@
 				CFDB3E022B3438A000C88D77 /* CarPool */,
 				CFDB3DF72B33FA5700C88D77 /* Map */,
 				CFDB3DF92B33FA6B00C88D77 /* LocationSearch */,
+				CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */,
+				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
 				CFA32E222B36D83500385847 /* SplashView.swift */,
 				CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */,
 			);
@@ -246,6 +246,7 @@
 		CF3F49E42B316E24009E8A96 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				CFA32E1E2B36BF3E00385847 /* AppData.swift */,
 				CF3F49E12B316C11009E8A96 /* AppDelegate.swift */,
 				CF3F499A2B316A6F009E8A96 /* LymCarApp.swift */,
 			);
@@ -292,7 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				CF78A6E22B35519A00306F6A /* RootView.swift */,
-				CFA32E1E2B36BF3E00385847 /* UserViewModel.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -547,7 +547,7 @@
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
 				CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */,
 				CF78A6EB2B35638F00306F6A /* AuthManager.swift in Sources */,
-				CFA32E1F2B36BF3E00385847 /* UserViewModel.swift in Sources */,
+				CFA32E1F2B36BF3E00385847 /* AppData.swift in Sources */,
 				CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
 				CFB635052B399A310029BE3F /* CarPool.swift in Sources */,

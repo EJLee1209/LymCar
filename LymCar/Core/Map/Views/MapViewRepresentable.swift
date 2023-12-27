@@ -19,7 +19,7 @@ struct MapViewRepresentable: UIViewRepresentable {
     let mapView = MKMapView()
     let locationManager = LocationManager()
     @Binding var mapState: MapState
-    @EnvironmentObject var locationViewModel: MapViewModel
+    @EnvironmentObject var mapViewModel: MapViewModel
     
     /// UIView를 생성하고 초기화
     func makeUIView(context: Context) -> some UIView {
@@ -32,10 +32,11 @@ struct MapViewRepresentable: UIViewRepresentable {
     
     /// UIView 업데이트가 필요할 때 호출
     func updateUIView(_ uiView: UIViewType, context: Context) {
+        print("DEBUG: MapViewRepresentable is updated \(mapState)")
         switch mapState {
         case .none:
             context.coordinator.clearMapViewAndRecenterOnUserLocation()
-            guard let userLocationCoordinate = locationViewModel.userLocationCoordinate else { return }
+            guard let userLocationCoordinate = mapViewModel.userLocationCoordinate else { return }
             let userLocation = CLLocation(
                 latitude: userLocationCoordinate.latitude,
                 longitude: userLocationCoordinate.longitude
@@ -44,8 +45,8 @@ struct MapViewRepresentable: UIViewRepresentable {
         case .searchingForLocation:
             break
         case .locationSelected:
-            guard let departurePlaceCoordinate = locationViewModel.departurePlaceCoordinate,
-                  let destinationCoordinate = locationViewModel.destinationCoordinate else { return }
+            guard let departurePlaceCoordinate = mapViewModel.departurePlaceCoordinate,
+                  let destinationCoordinate = mapViewModel.destinationCoordinate else { return }
             
             mapView.removeAnnotations(mapView.annotations)
             context.coordinator.addAnnotation(withCoordinate: departurePlaceCoordinate)
@@ -86,8 +87,8 @@ extension MapViewRepresentable {
             
             parent.mapView.setRegion(region, animated: true)
             currentRegion = region
-            parent.locationViewModel.userLocationCoordinate = coordinate
-            parent.locationViewModel.departurePlaceCoordinate = coordinate
+            parent.mapViewModel.userLocationCoordinate = coordinate
+            parent.mapViewModel.departurePlaceCoordinate = coordinate
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -178,8 +179,11 @@ extension MapViewRepresentable {
                     address += name
                 }
                 
-                if self.parent.locationViewModel.departurePlaceText != address {
-                    self.parent.locationViewModel.departurePlaceText = address
+                
+                DispatchQueue.main.async { [weak self] in
+                    if self?.parent.mapViewModel.departurePlaceText != address {
+                        self?.parent.mapViewModel.departurePlaceText = address
+                    }
                 }
             }
         }

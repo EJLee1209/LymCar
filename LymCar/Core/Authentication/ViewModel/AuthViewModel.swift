@@ -21,12 +21,18 @@ final class AuthViewModel: ObservableObject {
     var alertMessage: String = ""
     @Published var alertIsPresented: Bool = false
     
+    private let authManager: AuthManagerType
+    
+    init(authManager: AuthManagerType) {
+        self.authManager = authManager
+    }
+    
     //MARK: - Helpers
     func signIn(withEmail email: String, password: String) {
         viewState = .loading
         
         Task {
-            let result = await AuthManager.shared.signIn(withEmail: email, password: password)
+            let result = await authManager.signIn(withEmail: email, password: password)
             await MainActor.run {
                 switch result {
                 case .success(let user):
@@ -45,7 +51,7 @@ final class AuthViewModel: ObservableObject {
         viewState = .loading
         
         Task {
-            let result = await AuthManager.shared.createUser(
+            let result = await authManager.createUser(
                 withEmail: emailText,
                 password: passwordText,
                 gender: gender,

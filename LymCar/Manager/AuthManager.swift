@@ -9,8 +9,26 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-struct AuthManager {
-    static let shared = AuthManager()
+protocol AuthManagerType {
+    func createUser(
+        withEmail email: String,
+        password: String,
+        gender: Gender,
+        name: String
+    ) async -> FirebaseNetworkResult<User>
+    
+    func signIn(
+        withEmail email: String,
+        password: String
+    ) async -> FirebaseNetworkResult<User>
+    
+    func checkCurrentUser() async -> User?
+    
+    @discardableResult
+    func logout() -> Bool
+}
+
+final class AuthManager: AuthManagerType {
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
     

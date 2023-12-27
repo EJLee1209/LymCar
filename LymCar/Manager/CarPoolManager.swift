@@ -9,9 +9,23 @@ import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
 
-struct CarPoolManager {
-    static let shared = CarPoolManager()
+protocol CarPoolManagerType {
+    func fetchMyCarPool() async -> CarPool?
     
+    func fetchCarPool() async -> [CarPool]
+    
+    func createCarPool(
+        departurePlaceName: String,
+        destinationPlaceName: String,
+        departurePlaceCoordinate: CLLocationCoordinate2D,
+        destinationCoordinate: CLLocationCoordinate2D,
+        departureDate: Date,
+        genderOption: Gender,
+        maxPersonCount: Int
+    ) async -> FirebaseNetworkResult<CarPool>
+}
+
+final class CarPoolManager: CarPoolManagerType {    
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     

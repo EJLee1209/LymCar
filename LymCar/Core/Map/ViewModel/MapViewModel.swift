@@ -48,17 +48,18 @@ final class MapViewModel: NSObject, ObservableObject {
         locationSearch(forLocalSearchCompletion: location) { [weak self] response, error in
             guard let item = response?.mapItems.first else { return }
             let coordinate = item.placemark.coordinate
-            
-            guard let self = self else { return }
-            switch searchType {
-            case .departurePlace:
-                departurePlaceText = location.title
-                departurePlaceCoordinate = coordinate
-            case .destination:
-                destinationText = location.title
-                destinationCoordinate = coordinate
+
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                switch searchType {
+                case .departurePlace:
+                    departurePlaceText = location.title
+                    departurePlaceCoordinate = coordinate
+                case .destination:
+                    destinationText = location.title
+                    destinationCoordinate = coordinate
+                }
             }
-            
             completion()
         }
     }

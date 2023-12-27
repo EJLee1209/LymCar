@@ -9,13 +9,15 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var appData: AppData
+    @StateObject var viewModel: MapViewModel
     @Binding var mapState: MapState
     
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .top) {
                 MapViewRepresentable(mapState: $mapState)
+                    .environmentObject(viewModel)
                     .ignoresSafeArea()
                 if mapState == .none {
                     LocationSearchActivationView()
@@ -30,10 +32,11 @@ struct MapView: View {
                 if mapState == .locationSelected {
                     MapViewActionButton(mapState: $mapState)
                         .padding()
+                        .environmentObject(viewModel)
                 }
                 
             }
-            if let _ = userViewModel.carPool {
+            if let _ = appData.carPool {
                 CarPoolShortcutView()
                     .padding(.bottom, 122)
                     .padding(.horizontal, 16)
@@ -41,6 +44,7 @@ struct MapView: View {
             
             if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)
+                    .environmentObject(viewModel)
                 
             }
         }
@@ -50,7 +54,11 @@ struct MapView: View {
 }
 
 #Preview {
-    MapView(mapState: .constant(.none))
-        .environmentObject(MapViewModel())
-        .environmentObject(UserViewModel())
+    MapView(
+        viewModel: MapViewModel(),
+        mapState: .constant(.none)
+    )
+    .environmentObject(AppData(
+        authManager: AuthManager(), carPoolManager: CarPoolManager()
+    ))
 }
