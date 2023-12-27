@@ -24,6 +24,7 @@ struct LocationSearchInputView: View {
                 .padding(.horizontal, 14)
                 .background(Color.theme.secondaryBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
+                .tint(Color.theme.brandColor)
                 
                 TextField(text: $destinationText) {
                     Text("어디로 갈까요?")
@@ -33,6 +34,7 @@ struct LocationSearchInputView: View {
                 .padding(.horizontal, 14)
                 .background(Color.theme.secondaryBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
+                .tint(Color.theme.brandColor)
             }
             .padding(.leading, 9)
             .padding(.vertical, 9)

@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject var viewModel: AuthViewModel
-    @EnvironmentObject var appData: AppData
+    enum Field: Hashable {
+        case email, password
+    }
     
-    @AppStorage("email") var emailText: String = ""
-    @State var passwordText: String = ""
+    @EnvironmentObject private var appData: AppData
+    
+    @StateObject var viewModel: AuthViewModel
     @Binding var loginViewIsPresented: Bool
+    
+    @AppStorage("email") private var emailText: String = ""
+    @State private var passwordText: String = ""
+    @FocusState private var focusField: Field?
     
     var body: some View {
         NavigationView {
@@ -23,7 +29,6 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 21)
                     .foregroundStyle(.white)
-                    .padding(.top, 100)
                 
                 VStack(spacing: 0) {
                     Text("로그인")
@@ -39,6 +44,11 @@ struct LoginView: View {
                         isShowTitle: false
                     )
                     .padding(.top, 17)
+                    .focused($focusField, equals: .email)
+                    .submitLabel(.next)
+                    .onSubmit {
+                        focusField = .password
+                    }
                     
                     AuthTextField(
                         text: $passwordText,
@@ -47,6 +57,11 @@ struct LoginView: View {
                         isShowTitle: false
                     )
                     .padding(.top, 10)
+                    .focused($focusField, equals: .password)
+                    .submitLabel(.join)
+                    .onSubmit {
+                        viewModel.signIn(withEmail: emailText, password: passwordText)
+                    }
                     
                     NavigationLink {
                         RegisterView(loginViewIsPresented: $loginViewIsPresented)
@@ -84,6 +99,7 @@ struct LoginView: View {
                 .padding(.top, 18)
                 .ignoresSafeArea()
             }
+            .padding(.top, 100)
             .background {
                 Image("WelcomeBackgroundImage")
                     .resizable()

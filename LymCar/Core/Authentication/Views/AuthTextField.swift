@@ -43,6 +43,7 @@ struct AuthTextField: View {
                     .foregroundStyle(Color.theme.primaryTextColor)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
+                    .tint(Color.theme.brandColor)
                     
                 } else {
                     SecureField(text: $text) {
@@ -52,6 +53,7 @@ struct AuthTextField: View {
                     .foregroundStyle(Color.theme.primaryTextColor)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
+                    .tint(Color.theme.brandColor)
                 }
                 
                 if inputType == .password || inputType == .confirmPassword {

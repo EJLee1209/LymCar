@@ -28,7 +28,11 @@ final class MapViewModel: NSObject, ObservableObject {
     @Published var searchResults = [MKLocalSearchCompletion]()
     private let searchCompleter = MKLocalSearchCompleter()
     
-    @Published var departurePlaceCoordinate: CLLocationCoordinate2D?
+    @Published var departurePlaceCoordinate: CLLocationCoordinate2D? {
+        willSet {
+            print("DEBUG: 출발지 위도/경도 \(newValue)")
+        }
+    }
     @Published var destinationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     
@@ -59,8 +63,9 @@ final class MapViewModel: NSObject, ObservableObject {
                     destinationText = location.title
                     destinationCoordinate = coordinate
                 }
+                
+                completion()
             }
-            completion()
         }
     }
     

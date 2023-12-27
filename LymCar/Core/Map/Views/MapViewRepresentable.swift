@@ -32,7 +32,6 @@ struct MapViewRepresentable: UIViewRepresentable {
     
     /// UIView 업데이트가 필요할 때 호출
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        print("DEBUG: MapViewRepresentable is updated \(mapState)")
         switch mapState {
         case .none:
             context.coordinator.clearMapViewAndRecenterOnUserLocation()

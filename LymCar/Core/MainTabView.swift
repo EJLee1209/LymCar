@@ -17,9 +17,7 @@ struct MainTabView: View {
             HStack {
                 ForEach(tabMenuItems, id: \.self) { menu in
                     Button(action: {
-                        withAnimation {
-                            selectedItem = menu
-                        }
+                        selectedItem = menu
                     }, label: {
                         Image(menu.tabImageString)
                             .renderingMode(.template)
@@ -39,6 +37,7 @@ struct MainTabView: View {
                 .frame(width: menuBarWidth(), height: 4)
                 .foregroundStyle(Color.theme.brandColor)
                 .offset(x: menuBarOffsetX(), y: 5)
+                
         }
         
     }
