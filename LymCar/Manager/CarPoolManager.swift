@@ -9,6 +9,11 @@ import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
 
+enum RoomDocumentField {
+    case createdAt
+    
+}
+
 protocol CarPoolManagerType {
     func fetchMyCarPool() async -> CarPool?
     
@@ -50,12 +55,15 @@ final class CarPoolManager: CarPoolManagerType {
     }
     
     func fetchCarPool(gender: String) async -> [CarPool] {
+        guard let uid = auth.currentUser?.uid else { return [] }
+        
         do {
             let querySnapshot = try await db.collection("Rooms")
                 .order(by: "departureDate")
                 .whereField("departureDate", isGreaterThanOrEqualTo: Date())
                 .whereField("genderOption", in: [gender, Gender.none.rawValue])
                 .whereField("isActivate", isEqualTo: true)
+//                .whereFilter(.whereField("participants", arrayContains: uid))
                 .order(by: "createdAt")
                 .getDocuments()
             

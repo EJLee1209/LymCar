@@ -23,10 +23,19 @@ struct CarPool: Codable, Equatable {
     var personCountPerMaxPersonCount: String { return "\(personCount)/\(maxPersonCount)" }
     
     var prettyFormattedDepartureDate: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "a h시 mm분"
-        return formatter.string(from: self.departureDate)
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+
+        if calendar.isDateInToday(departureDate) {
+            dateFormatter.dateFormat = "오늘 a h시 m분"
+        } else if calendar.isDateInTomorrow(departureDate) {
+            dateFormatter.dateFormat = "내일 a h시 m분"
+        } else {
+            dateFormatter.dateFormat = "M월 d일 a h시 m분"
+        }
+
+        return dateFormatter.string(from: departureDate)
     }
     
 }

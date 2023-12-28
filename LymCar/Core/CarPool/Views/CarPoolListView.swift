@@ -56,7 +56,8 @@ struct CarPoolListView: View {
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(Color.theme.primaryTextColor)
                         .multilineTextAlignment(.center)
-                    Spacer()
+                        .padding(.bottom, 65)
+                        .padding(.top, 16)
                 } else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: rows, spacing: 9, content: {
@@ -67,9 +68,9 @@ struct CarPoolListView: View {
                         .padding(.horizontal, 21)
                         .padding(.bottom, 50)
                     }
+                    .padding(.top, 14)
                 }
             }
-            .frame(height: 307)
             .background(Color.theme.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 30))
             .shadow(radius: 2)
