@@ -21,7 +21,7 @@ struct CarPoolGenerateView: View {
             Color.theme.backgroundColor
                 .clipShape(RoundedCorner(radius: 30, corners: [.topLeft, .topRight]))
                 .ignoresSafeArea(.all, edges: .bottom)
-                .padding(.top, 30)
+                .padding(.top, 24)
             
             VStack(spacing: 0) {
                 
@@ -85,7 +85,6 @@ struct CarPoolGenerateView: View {
                 break
             }
         })
-        
         .loadingProgress(viewState: $viewModel.viewState)
         
     }
