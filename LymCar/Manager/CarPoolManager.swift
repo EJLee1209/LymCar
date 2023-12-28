@@ -12,7 +12,7 @@ import CoreLocation
 protocol CarPoolManagerType {
     func fetchMyCarPool() async -> CarPool?
     
-    func fetchCarPool() async -> [CarPool]
+    func fetchCarPool(gender: String) async -> [CarPool]
     
     func createCarPool(
         departurePlaceName: String,
@@ -42,7 +42,6 @@ final class CarPoolManager: CarPoolManagerType {
             }
             
             let carPool = try document.data(as: CarPool.self)
-            print("DEBUG: 참여중인 카풀 \(carPool)")
             return carPool
         } catch {
             print("DEBUG: Failed to fetchMyCarPool with error \(error.localizedDescription)")
@@ -50,9 +49,16 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
     
-    func fetchCarPool() async -> [CarPool] {
+    func fetchCarPool(gender: String) async -> [CarPool] {
         do {
-            let querySnapshot = try await db.collection("Rooms").getDocuments()
+            let querySnapshot = try await db.collection("Rooms")
+                .order(by: "departureDate")
+                .whereField("departureDate", isGreaterThanOrEqualTo: Date())
+                .whereField("genderOption", in: [gender, Gender.none.rawValue])
+                .whereField("isActivate", isEqualTo: true)
+                .order(by: "createdAt")
+                .getDocuments()
+            
             let carPoolList = try querySnapshot.documents.map { try $0.data(as: CarPool.self) }
             return carPoolList
         } catch {

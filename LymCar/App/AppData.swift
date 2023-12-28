@@ -90,8 +90,13 @@ final class AppData: ObservableObject {
         return MapViewModel()
     }
     
-    func makeCarPoolListVM() -> CarPoolListViewModel {
-        return CarPoolListViewModel(carPoolManager: self.carPoolManager)
+    func makeCarPoolListVM() -> CarPoolListViewModel? {
+        guard let user = currentUser else { return nil }
+        
+        return CarPoolListViewModel(
+            user: user,
+            carPoolManager: self.carPoolManager
+        )
     }
     
     func makeCarPoolGenerateVM() -> CarPoolGenerateViewModel? {

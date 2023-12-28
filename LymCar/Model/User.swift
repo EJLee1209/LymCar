@@ -19,4 +19,6 @@ struct User: Codable, Equatable {
         self.uid = uid
         self.gender = gender.rawValue
     }
+    
+    static let mock = User(email: "dldmswo1209@naver.com", gender: .female, name: "이은재", uid: "1234")
 }

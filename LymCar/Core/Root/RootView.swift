@@ -43,8 +43,10 @@ struct RootView: View {
                         
                         /// bottom sheet - 카풀 목록
                         if mapState == .locationSelected {
-                            CarPoolListView(viewModel: appData.makeCarPoolListVM())
-                                .transition(.move(edge: .bottom))
+                            if let vm = appData.makeCarPoolListVM() {
+                                CarPoolListView(viewModel: vm)
+                                    .transition(.move(edge: .bottom))
+                            }
                         }
                         
                     }

@@ -18,7 +18,7 @@ struct CarPool: Codable, Equatable {
     let participants: [String] // 참여자 uid
     let maxPersonCount: Int // 최대 참여자 수
     var personCount: Int = 1 // 참여자 수
-    
+    var isActivate: Bool = true // 방 활성화 여부
     
     var personCountPerMaxPersonCount: String { return "\(personCount)/\(maxPersonCount)" }
     
