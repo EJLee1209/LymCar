@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapViewActionButton: View {
     @Binding var mapState: MapState
-    @EnvironmentObject var mapViewModel: MapViewModel
+    @EnvironmentObject var mapViewModel: MapView.ViewModel
     
     var body: some View {
         Button(action: {
@@ -33,5 +33,5 @@ struct MapViewActionButton: View {
 
 #Preview {
     MapViewActionButton(mapState: .constant(.none))
-        .environmentObject(MapViewModel())
+        .environmentObject(MapView.ViewModel())
 }

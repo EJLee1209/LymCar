@@ -11,7 +11,7 @@ struct CarPoolGenerateView: View {
     @EnvironmentObject var AppData: AppData
     @Environment(\.dismiss) var dismiss
     
-    @StateObject var viewModel: CarPoolGenerateViewModel
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
         ZStack(alignment: .topLeading) {

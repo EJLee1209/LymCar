@@ -19,7 +19,7 @@ struct MapViewRepresentable: UIViewRepresentable {
     let mapView = MKMapView()
     let locationManager = LocationManager()
     @Binding var mapState: MapState
-    @EnvironmentObject var mapViewModel: MapViewModel
+    @EnvironmentObject var mapViewModel: MapView.ViewModel
     
     /// UIView를 생성하고 초기화
     func makeUIView(context: Context) -> some UIView {

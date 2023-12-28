@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CarPoolListView: View {
     @EnvironmentObject var appData: AppData
-    @StateObject var viewModel: CarPoolListViewModel
+    @StateObject var viewModel: ViewModel
     
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225))

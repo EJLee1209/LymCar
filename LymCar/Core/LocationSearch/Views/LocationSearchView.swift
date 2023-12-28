@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationSearchView: View {
-    @EnvironmentObject var viewModel: MapViewModel
+    @EnvironmentObject var viewModel: MapView.ViewModel
     @EnvironmentObject var AppData: AppData
     @Binding var mapState: MapState
     
@@ -77,7 +77,7 @@ struct LocationSearchView: View {
 
 #Preview {
     LocationSearchView(mapState: .constant(MapState.searchingForLocation))
-        .environmentObject(MapViewModel())
+        .environmentObject(MapView.ViewModel())
         .environmentObject(AppData(
             authManager: AuthManager(), carPoolManager: CarPoolManager()
         ))

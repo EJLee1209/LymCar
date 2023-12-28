@@ -101,6 +101,5 @@ final class AuthViewModel: ObservableObject {
     
     deinit {
         print("DEBUG: AuthViewModel is deinitialize")
-        
     }
 }

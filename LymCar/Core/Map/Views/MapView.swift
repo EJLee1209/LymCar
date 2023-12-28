@@ -10,7 +10,7 @@ import MapKit
 
 struct MapView: View {
     @EnvironmentObject var appData: AppData
-    @StateObject var viewModel: MapViewModel
+    @StateObject var viewModel: ViewModel
     @Binding var mapState: MapState
     
     var body: some View {
@@ -53,7 +53,7 @@ struct MapView: View {
 
 #Preview {
     MapView(
-        viewModel: MapViewModel(),
+        viewModel: MapView.ViewModel(),
         mapState: .constant(.none)
     )
     .environmentObject(AppData(

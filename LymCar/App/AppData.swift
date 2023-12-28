@@ -86,25 +86,25 @@ final class AppData: ObservableObject {
         return AuthViewModel(authManager: self.authManager)
     }
     
-    func makeMapVM() -> MapViewModel {
-        return MapViewModel()
+    func makeMapVM() -> MapView.ViewModel {
+        return .init()
     }
     
-    func makeCarPoolListVM() -> CarPoolListViewModel? {
+    func makeCarPoolListVM() -> CarPoolListView.ViewModel? {
         guard let user = currentUser else { return nil }
         
-        return CarPoolListViewModel(
+        return .init(
             user: user,
             carPoolManager: self.carPoolManager
         )
     }
     
-    func makeCarPoolGenerateVM() -> CarPoolGenerateViewModel? {
+    func makeCarPoolGenerateVM() -> CarPoolGenerateView.ViewModel? {
         guard let user = currentUser else { return nil }
         guard let departureLocation = departureLocation else { return nil }
         guard let destination = destination else { return nil }
         
-        return CarPoolGenerateViewModel(
+        return .init(
             currentUser: user,
             departurePlaceText: departureLocation.placeName,
             destinationText: destination.placeName,
