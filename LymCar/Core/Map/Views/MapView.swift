@@ -37,8 +37,14 @@ struct MapView: View {
                 
             }
             
-            CarPoolShortcutListView()
-                .padding(.bottom, 122)
+            VStack(spacing: 9) {
+                ShowCarPoolButton(mapState: $mapState)
+                if !appData.userCarPoolList.isEmpty {
+                    CarPoolShortcutListView()
+                }
+            }
+            .padding(.bottom, 122)
+            
             
             if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)

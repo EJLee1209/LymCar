@@ -96,6 +96,7 @@
 		CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A39D2B3D8394007432A0 /* Message.swift */; };
 		CFE7A3A02B3D97BE007432A0 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A39F2B3D97BE007432A0 /* Date.swift */; };
 		CFE7A3A22B3D9B22007432A0 /* WrappedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */; };
+		CFE7A3A62B3DA6A2007432A0 /* ShowCarPoolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +163,7 @@
 		CFE7A39D2B3D8394007432A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		CFE7A39F2B3D97BE007432A0 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedMessage.swift; sourceTree = "<group>"; };
+		CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCarPoolButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +389,7 @@
 				CF3F499C2B316A6F009E8A96 /* MapView.swift */,
 				CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */,
 				CFDB3DFE2B33FF9700C88D77 /* MapViewActionButton.swift */,
+				CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
 				CFB635052B399A310029BE3F /* CarPool.swift in Sources */,
+				CFE7A3A62B3DA6A2007432A0 /* ShowCarPoolButton.swift in Sources */,
 				CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */,
 				CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */,
 				CF49530B2B3805DF009FD93A /* CountView.swift in Sources */,
