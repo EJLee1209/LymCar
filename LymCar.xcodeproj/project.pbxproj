@@ -74,7 +74,7 @@
 		CFB635052B399A310029BE3F /* CarPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635042B399A310029BE3F /* CarPool.swift */; };
 		CFB635072B399A470029BE3F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635062B399A470029BE3F /* Location.swift */; };
 		CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */; };
-		CFC092012B3AC5B500260E78 /* CarPoolShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */; };
+		CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092002B3AC5B500260E78 /* CarPoolShortcutListView.swift */; };
 		CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
@@ -88,6 +88,7 @@
 		CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E0C2B347A0D00C88D77 /* TabMenuItem.swift */; };
 		CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E102B347F2900C88D77 /* MenuView.swift */; };
 		CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E122B347F3B00C88D77 /* HistoryView.swift */; };
+		CFE7A3942B3D4C01007432A0 /* CarPoolShortCutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,7 +133,7 @@
 		CFB635042B399A310029BE3F /* CarPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPool.swift; sourceTree = "<group>"; };
 		CFB635062B399A470029BE3F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModifier.swift; sourceTree = "<group>"; };
-		CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortcutView.swift; sourceTree = "<group>"; };
+		CFC092002B3AC5B500260E78 /* CarPoolShortcutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortcutListView.swift; sourceTree = "<group>"; };
 		CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolListViewModel.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		CFDB3E0C2B347A0D00C88D77 /* TabMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMenuItem.swift; sourceTree = "<group>"; };
 		CFDB3E102B347F2900C88D77 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		CFDB3E122B347F3B00C88D77 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortCutCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,7 +370,6 @@
 				CF3F499C2B316A6F009E8A96 /* MapView.swift */,
 				CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */,
 				CFDB3DFE2B33FF9700C88D77 /* MapViewActionButton.swift */,
-				CFC092002B3AC5B500260E78 /* CarPoolShortcutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -415,9 +416,11 @@
 				CFDB3E032B3438BA00C88D77 /* CarPoolListView.swift */,
 				CFDB3E062B3440A900C88D77 /* CarPoolCell.swift */,
 				CF4953062B3800B0009FD93A /* CarPoolGenerateView.swift */,
+				CFC092002B3AC5B500260E78 /* CarPoolShortcutListView.swift */,
 				CF49530A2B3805DF009FD93A /* CountView.swift */,
 				CF49530C2B380816009FD93A /* TimePickerView.swift */,
 				CF49530E2B381080009FD93A /* OptionView.swift */,
+				CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -567,7 +570,7 @@
 				CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */,
 				CFA32E232B36D83500385847 /* SplashView.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
-				CFC092012B3AC5B500260E78 /* CarPoolShortcutView.swift in Sources */,
+				CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */,
 				CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */,
@@ -586,6 +589,7 @@
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
 				CF78A6F02B35676B00306F6A /* AuthStep.swift in Sources */,
+				CFE7A3942B3D4C01007432A0 /* CarPoolShortCutCell.swift in Sources */,
 				CF78A7012B35C67300306F6A /* ViewState.swift in Sources */,
 				CF4953072B3800B0009FD93A /* CarPoolGenerateView.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,

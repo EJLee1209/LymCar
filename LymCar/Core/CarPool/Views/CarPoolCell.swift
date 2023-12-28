@@ -54,7 +54,6 @@ struct CarPoolCell: View {
                     .font(.system(size: 36, weight: .heavy))
                     .foregroundStyle(secondTextColor())
             }
-//            .padding(.top, 40)
         }
         .padding(14)
         .frame(width: 180, height: 225)

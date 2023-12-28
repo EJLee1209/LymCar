@@ -36,11 +36,9 @@ struct MapView: View {
                 }
                 
             }
-            if let _ = appData.carPool {
-                CarPoolShortcutView()
-                    .padding(.bottom, 122)
-                    .padding(.horizontal, 16)
-            }
+            
+            CarPoolShortcutListView()
+                .padding(.bottom, 122)
             
             if mapState == .searchingForLocation {
                 LocationSearchView(mapState: $mapState)

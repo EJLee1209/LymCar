@@ -14,7 +14,7 @@ final class AppData: ObservableObject {
     //MARK: - Properties
     
     @Published var currentUser: User?
-    @Published var carPool: CarPool?
+    @Published var userCarPoolList: [CarPool] = []
     var departureLocation: Location?
     var destination: Location?
     
@@ -58,7 +58,7 @@ final class AppData: ObservableObject {
         
         await MainActor.run {
             self.currentUser = currentUser
-            self.carPool = carPool
+            self.userCarPoolList = userCarPoolList
         }
         
         return currentUser
@@ -69,7 +69,7 @@ final class AppData: ObservableObject {
             let carPool = await carPoolManager.fetchMyCarPool()
             
             await MainActor.run {
-                self.carPool = carPool
+                self.userCarPoolList = carPool
             }
         }
     }
@@ -77,7 +77,7 @@ final class AppData: ObservableObject {
     func logout() {
         authManager.logout()
         currentUser = nil
-        carPool = nil
+        userCarPoolList = []
     }
     
     //MARK: - Make ViewModel

@@ -79,7 +79,7 @@ struct CarPoolGenerateView: View {
         .onReceive(viewModel.$viewState, perform: { viewState in
             switch viewState {
             case .successToNetworkRequest(let carPool):
-                AppData.carPool = carPool
+                AppData.userCarPoolList.append(carPool)
                 dismiss()
             default:
                 break

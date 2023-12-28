@@ -15,7 +15,7 @@ enum RoomDocumentField {
 }
 
 protocol CarPoolManagerType {
-    func fetchMyCarPool() async -> CarPool?
+    func fetchMyCarPool() async -> [CarPool]
     
     func fetchCarPool(gender: String) async -> [CarPool]
     
@@ -34,23 +34,19 @@ final class CarPoolManager: CarPoolManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
-    func fetchMyCarPool() async -> CarPool? {
-        guard let uid = auth.currentUser?.uid else { return nil }
+    func fetchMyCarPool() async -> [CarPool] {
+        guard let uid = auth.currentUser?.uid else { return [] }
         
         do {
             let querySnapshot = try await db.collection("Rooms")
                 .whereField("participants", arrayContains: uid)
                 .getDocuments()
             
-            guard let document = querySnapshot.documents.first else {
-                return nil
-            }
-            
-            let carPool = try document.data(as: CarPool.self)
-            return carPool
+            let carPoolList = try querySnapshot.documents.map { try $0.data(as: CarPool.self) }
+            return carPoolList
         } catch {
             print("DEBUG: Failed to fetchMyCarPool with error \(error.localizedDescription)")
-            return nil
+            return []
         }
     }
     
@@ -63,12 +59,11 @@ final class CarPoolManager: CarPoolManagerType {
                 .whereField("departureDate", isGreaterThanOrEqualTo: Date())
                 .whereField("genderOption", in: [gender, Gender.none.rawValue])
                 .whereField("isActivate", isEqualTo: true)
-//                .whereFilter(.whereField("participants", arrayContains: uid))
                 .order(by: "createdAt")
                 .getDocuments()
             
-            let carPoolList = try querySnapshot.documents.map { try $0.data(as: CarPool.self) }
-            return carPoolList
+            return try querySnapshot.documents
+                .map { try $0.data(as: CarPool.self) }
         } catch {
             print("DEBUG: Failed to fetchCarPool with error \(error.localizedDescription)")
             return []

@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct CarPool: Codable, Equatable {
+struct CarPool: Codable, Equatable, Identifiable {
     let id: String // 식별값
     var createdAt: Timestamp = Timestamp()
     let departurePlace: Location // 출발지
@@ -28,14 +28,16 @@ struct CarPool: Codable, Equatable {
         dateFormatter.locale = Locale(identifier: "ko_KR")
 
         if calendar.isDateInToday(departureDate) {
-            dateFormatter.dateFormat = "오늘 a h시 m분"
+            dateFormatter.dateFormat = "오늘 a h:m"
         } else if calendar.isDateInTomorrow(departureDate) {
-            dateFormatter.dateFormat = "내일 a h시 m분"
+            dateFormatter.dateFormat = "내일 a h:m"
         } else {
-            dateFormatter.dateFormat = "M월 d일 a h시 m분"
+            dateFormatter.dateFormat = "M월 d일 a h:m"
         }
 
         return dateFormatter.string(from: departureDate)
     }
     
+    
+    static let mock: Self = .init(id: "", departurePlace: .init(placeName: "춘천역", latitude: 0, longitude: 0), destination: .init(placeName: "한림대학교 대학본부", latitude: 0, longitude: 0), departureDate: Date(), genderOption: "남성", participants: [], maxPersonCount: 4)
 }

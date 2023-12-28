@@ -19,6 +19,7 @@ final class CarPoolListViewModel: ObservableObject {
     ) {
         self.user = user
         self.carPoolManager = carPoolManager
+        
         fetchCarPoolList()
     }
     

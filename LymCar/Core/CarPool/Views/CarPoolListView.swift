@@ -12,7 +12,7 @@ struct CarPoolListView: View {
     @StateObject var viewModel: CarPoolListViewModel
     
     let rows: [GridItem] = [
-        GridItem(.flexible(minimum: 225, maximum: 300))
+        GridItem(.flexible(minimum: 225))
     ]
     
     var body: some View {
@@ -61,7 +61,7 @@ struct CarPoolListView: View {
                 } else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: rows, spacing: 9, content: {
-                            ForEach(viewModel.carPoolList, id: \.id) { carPool in
+                            ForEach(viewModel.carPoolList) { carPool in
                                 CarPoolCell(carPool: carPool)
                             }
                         })
