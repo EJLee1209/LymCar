@@ -9,6 +9,11 @@ import Foundation
 import Firebase
 import CoreLocation
 
+enum AlertRole {
+    case withAction(() -> Void)
+    case cancel
+}
+
 final class AppData: ObservableObject {
     
     //MARK: - Properties
@@ -23,6 +28,10 @@ final class AppData: ObservableObject {
     private let carPoolManager: CarPoolManagerType
     private let locationSearchManager: LocationSearchManagerType
     
+    @Published var alertIsPresented: Bool = false
+    var alertMessage: String = ""
+    var alertRole: AlertRole = .cancel
+    
     init(
         authManager: AuthManagerType,
         carPoolManager: CarPoolManagerType,
@@ -34,6 +43,16 @@ final class AppData: ObservableObject {
     }
     
     //MARK: - Helpers
+    
+    func alert(
+        message: String,
+        isPresented: Bool,
+        role: AlertRole
+    ) {
+        alertMessage = message
+        alertIsPresented = isPresented
+        alertRole = role
+    }
     
     func didSelectLocation(
         departurePlaceName: String,

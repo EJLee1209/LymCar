@@ -82,6 +82,27 @@ struct RootView: View {
                 .font: UIFont.systemFont(ofSize: 20, weight: .bold)
             ]
         }
+        .alert(
+            appData.alertMessage,
+            isPresented: $appData.alertIsPresented
+        ) {
+            switch appData.alertRole {
+            case .withAction(let action):
+                Button(role: .destructive, action: {
+                    action()
+                }, label: {
+                    Text("확인")
+                })
+                
+                Button(role: .cancel, action: {}, label: {
+                    Text("취소")
+                })
+            case .cancel:
+                Button(action: {}, label: {
+                    Text("확인")
+                })
+            }
+        }
     }
 }
 

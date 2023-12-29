@@ -62,7 +62,17 @@ struct CarPoolListView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: rows, spacing: 9, content: {
                             ForEach(viewModel.carPoolList) { carPool in
-                                CarPoolCell(carPool: carPool)
+                                Button(action: {
+                                    appData.alert(
+                                        message: "카풀방에 참여하시겠습니까?",
+                                        isPresented: true,
+                                        role: .withAction({
+                                            viewModel.joinCarPool(with: carPool)
+                                        })
+                                    )
+                                }, label: {
+                                    CarPoolCell(carPool: carPool)
+                                })
                             }
                         })
                         .padding(.horizontal, 21)
@@ -70,11 +80,29 @@ struct CarPoolListView: View {
                     }
                     .padding(.top, 14)
                 }
+                
+                if let joinedCarPool = viewModel.joinedCarPool,
+                   let vm = appData.makeChatRoomVM(with: joinedCarPool)
+                {
+                    NavigationLink(
+                        "",
+                        isActive: $viewModel.navigateToChatRoomView,
+                        destination: {
+                            ChatRoomView(viewModel: vm)
+                        }
+                    )
+                }
             }
             .background(Color.theme.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 30))
             .shadow(radius: 2)
-            
+            .onReceive(viewModel.$alertIsPresented, perform: { isPresented in
+                appData.alert(
+                    message: viewModel.alertMessage,
+                    isPresented: isPresented,
+                    role: .cancel
+                )
+            })
         }
     }
     

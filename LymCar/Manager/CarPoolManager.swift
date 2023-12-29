@@ -25,9 +25,9 @@ protocol CarPoolManagerType {
     ) -> FirebaseNetworkResult<CarPool>
     
     func joinCarPool(
-        roomId: String,
-        completion: @escaping(FirebaseNetworkResult<CarPool>) -> Void
-    )
+        user: User,
+        carPool: CarPool
+    ) async -> FirebaseNetworkResult<CarPool>
     
     @discardableResult
     func sendMessage(
@@ -84,10 +84,73 @@ final class CarPoolManager: CarPoolManagerType {
     }
     
     func joinCarPool(
-        roomId: String,
-        completion: @escaping (FirebaseNetworkResult<CarPool>
-        ) -> Void
-    ) {
+        user: User,
+        carPool: CarPool
+    ) async -> FirebaseNetworkResult<CarPool> {
+        
+        if carPool.participants.contains(user.uid) { // 이미 참여중인 방
+            return .success(response: carPool)
+        }
+        
+        let roomRef = db.collection("Rooms").document(carPool.id)
+        
+        do {
+            let _ = try await db.runTransaction { transaction, errorPointer in
+                let roomDocument: DocumentSnapshot
+                do {
+                    try roomDocument = transaction.getDocument(roomRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                
+                let room: CarPool
+                do {
+                    room = try roomDocument.data(as: CarPool.self)
+                } catch let decodingError as NSError {
+                    errorPointer?.pointee = decodingError
+                    return nil
+                }
+                
+                if room.personCount >= room.maxPersonCount {
+                    let error = NSError(
+                      domain: "AppErrorDomain",
+                      code: -1,
+                      userInfo: [
+                        NSLocalizedDescriptionKey: "채팅방 인원이 초과됐습니다"
+                      ]
+                    )
+                    errorPointer?.pointee = error
+                    
+                    return nil
+                }
+                
+                let updateDict: [String: Any] = [
+                    "personCount" : room.personCount + 1,
+                    "participants": room.participants + [user.uid]
+                ]
+                
+                transaction.updateData(
+                    updateDict,
+                    forDocument: roomRef
+                )
+                
+                return nil
+            }
+            
+            do {
+                let carPool = try await roomRef.getDocument(as: CarPool.self)
+                sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
+                
+                return .success(response: carPool)
+            } catch {
+                return .failure(errorMessage: "카풀 정보를 가져오지 못했습니다")
+            }
+            
+        } catch {
+            print("DEBUG: Transaction failed with error \(error)")
+            return .failure(errorMessage: error.localizedDescription)
+        }
         
     }
     
@@ -132,6 +195,7 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
     
+    @discardableResult
     func sendMessage(
         sender: User,
         roomId: String,
