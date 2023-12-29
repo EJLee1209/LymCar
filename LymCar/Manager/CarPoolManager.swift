@@ -9,11 +9,6 @@ import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
 
-enum RoomDocumentField {
-    case createdAt
-    
-}
-
 protocol CarPoolManagerType {
     func fetchMyCarPool() async -> [CarPool]
     

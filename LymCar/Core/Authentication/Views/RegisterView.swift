@@ -152,5 +152,11 @@ struct RegisterView: View {
 #Preview {
     RegisterView(loginViewIsPresented: .constant(false))
         .environmentObject(AuthViewModel(authManager: AuthManager()))
-        .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
+        .environmentObject(
+            AppData(
+                authManager: AuthManager(),
+                carPoolManager: CarPoolManager(),
+                locationSearchManager: LocationSearchManager()
+            )
+        )
 }

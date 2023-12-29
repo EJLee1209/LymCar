@@ -63,6 +63,9 @@
 		CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */; };
 		CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */; };
 		CF78A7012B35C67300306F6A /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* ViewState.swift */; };
+		CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */; };
+		CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */; };
+		CF7F73532B3E9316009041ED /* LocationSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */; };
 		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
 		CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */; };
 		CFA32E182B36ABA000385847 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E172B36ABA000385847 /* MenuType.swift */; };
@@ -130,6 +133,9 @@
 		CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrivacyPolicyView.swift; sourceTree = "<group>"; };
 		CF78A6FE2B35A36600306F6A /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		CF78A7002B35C67300306F6A /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchManager.swift; sourceTree = "<group>"; };
+		CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResult.swift; sourceTree = "<group>"; };
+		CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultView.swift; sourceTree = "<group>"; };
 		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkResult.swift; sourceTree = "<group>"; };
 		CFA32E172B36ABA000385847 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
@@ -288,6 +294,7 @@
 				CFB635062B399A470029BE3F /* Location.swift */,
 				CFE7A39D2B3D8394007432A0 /* Message.swift */,
 				CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */,
+				CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +305,7 @@
 				CF3F49F12B31AA9E009E8A96 /* LocationManager.swift */,
 				CF78A6EA2B35638F00306F6A /* AuthManager.swift */,
 				CFB635022B398B230029BE3F /* CarPoolManager.swift */,
+				CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -405,8 +413,8 @@
 		CFDB3DFA2B33FA7500C88D77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */,
 				CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */,
+				CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */,
 				CF4953082B380123009FD93A /* LocationSearchInputView.swift */,
 			);
 			path = Views;
@@ -445,6 +453,7 @@
 				CFE7A3952B3D73C6007432A0 /* ChatRoomView.swift */,
 				CFE7A3992B3D784A007432A0 /* MessageInputView.swift */,
 				CFE7A39B2B3D7BAF007432A0 /* MessageCell.swift */,
+				CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -570,6 +579,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF4953092B380123009FD93A /* LocationSearchInputView.swift in Sources */,
+				CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */,
 				CFE7A3982B3D75DC007432A0 /* ChatRoomViewModel.swift in Sources */,
 				CFA32E182B36ABA000385847 /* MenuType.swift in Sources */,
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
@@ -591,12 +601,14 @@
 				CFE7A3962B3D73C6007432A0 /* ChatRoomView.swift in Sources */,
 				CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */,
 				CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */,
+				CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */,
 				CF78A6F22B357D2700306F6A /* Gender.swift in Sources */,
 				CF78A6F72B3582AF00306F6A /* AuthTextField.swift in Sources */,
 				CF3F499D2B316A6F009E8A96 /* MapView.swift in Sources */,
 				CFDB3E042B3438BA00C88D77 /* CarPoolListView.swift in Sources */,
 				CFDB3DFF2B33FF9700C88D77 /* MapViewActionButton.swift in Sources */,
 				CF78A6FF2B35A36600306F6A /* VisualEffectView.swift in Sources */,
+				CF7F73532B3E9316009041ED /* LocationSearchResultView.swift in Sources */,
 				CFA32E232B36D83500385847 /* SplashView.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */,

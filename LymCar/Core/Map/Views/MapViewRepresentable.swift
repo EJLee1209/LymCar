@@ -20,6 +20,7 @@ struct MapViewRepresentable: UIViewRepresentable {
     let locationManager = LocationManager()
     @Binding var mapState: MapState
     @EnvironmentObject var mapViewModel: MapView.ViewModel
+    @EnvironmentObject var appData: AppData
     
     /// UIView를 생성하고 초기화
     func makeUIView(context: Context) -> some UIView {
@@ -182,6 +183,15 @@ extension MapViewRepresentable {
                 DispatchQueue.main.async { [weak self] in
                     if self?.parent.mapViewModel.departurePlaceText != address {
                         self?.parent.mapViewModel.departurePlaceText = address
+                        
+                        guard let userCoordinate = self?.parent.mapViewModel.userLocationCoordinate else { return }
+                        let userLocation = Location(
+                            placeName: address,
+                            latitude: userCoordinate.latitude,
+                            longitude: userCoordinate.longitude
+                        )
+                        self?.parent.appData.userLocation = userLocation
+                        self?.parent.appData.departureLocation = userLocation
                     }
                 }
             }

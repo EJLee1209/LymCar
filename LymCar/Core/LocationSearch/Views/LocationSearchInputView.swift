@@ -12,6 +12,8 @@ struct LocationSearchInputView: View {
     @Binding var destinationText: String
     let rightContentType: RightContentType
     let rightContentTapEvent: (() -> Void)?
+    let departureTextFieldOnSubmit: (() -> Void)?
+    let destinationTextFieldOnSubmit: (() -> Void)?
     
     var body: some View {
         HStack(spacing: 12) {
@@ -25,6 +27,10 @@ struct LocationSearchInputView: View {
                 .background(Color.theme.secondaryBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .tint(Color.theme.brandColor)
+                .submitLabel(.search)
+                .onSubmit {
+                    departureTextFieldOnSubmit?()
+                }
                 
                 TextField(text: $destinationText) {
                     Text("어디로 갈까요?")
@@ -35,6 +41,10 @@ struct LocationSearchInputView: View {
                 .background(Color.theme.secondaryBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .tint(Color.theme.brandColor)
+                .submitLabel(.search)
+                .onSubmit {
+                    destinationTextFieldOnSubmit?()
+                }
             }
             .padding(.leading, 9)
             .padding(.vertical, 9)
@@ -53,7 +63,9 @@ struct LocationSearchInputView: View {
         departurePlaceText: .constant(""),
         destinationText: .constant(""),
         rightContentType: .swap,
-        rightContentTapEvent: nil
+        rightContentTapEvent: nil,
+        departureTextFieldOnSubmit: nil,
+        destinationTextFieldOnSubmit: nil
     )
 }
 

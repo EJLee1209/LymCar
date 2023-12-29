@@ -84,5 +84,11 @@ struct CarPoolCell: View {
     CarPoolCell(
         carPool: .init(id: "", departurePlace: .init(placeName: "춘천역 경춘선", latitude: 0, longitude: 0), destination: .init(placeName: "한림대학교 대학본부", latitude: 0, longitude: 0), departureDate: Date(), genderOption: "남성", participants: [], maxPersonCount: 4)
     )
-    .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
+    .environmentObject(
+        AppData(
+            authManager: AuthManager(),
+            carPoolManager: CarPoolManager(),
+            locationSearchManager: LocationSearchManager()
+        )
+    )
 }

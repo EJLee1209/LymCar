@@ -30,18 +30,20 @@ extension MapView {
         @Published var searchResults = [MKLocalSearchCompletion]()
         private let searchCompleter = MKLocalSearchCompleter()
         
-        @Published var departurePlaceCoordinate: CLLocationCoordinate2D? {
-            willSet {
-                print("DEBUG: 출발지 위도/경도 \(newValue)")
-            }
-        }
+        @Published var departurePlaceCoordinate: CLLocationCoordinate2D?
         @Published var destinationCoordinate: CLLocationCoordinate2D?
         var userLocationCoordinate: CLLocationCoordinate2D?
         
+        @Published var alertIsPresented: Bool = false
+        var alertMessage: String = ""
+        
+        private let locationSearchManager: LocationSearchManagerType
+        
         //MARK: - Lifecycle
-        override init() {
-            super.init()
+        init(locationSearchManager: LocationSearchManagerType) {
+            self.locationSearchManager = locationSearchManager
             
+            super.init()
             searchCompleter.delegate = self
         }
         
@@ -51,36 +53,28 @@ extension MapView {
             _ location: MKLocalSearchCompletion,
             _ completion: @escaping () -> Void
         ) {
-            locationSearch(forLocalSearchCompletion: location) { [weak self] response, error in
-                guard let item = response?.mapItems.first else { return }
-                let coordinate = item.placemark.coordinate
-
+            locationSearchManager.locationSearch(location) { result in
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    switch searchType {
-                    case .departurePlace:
-                        departurePlaceText = location.title
-                        departurePlaceCoordinate = coordinate
-                    case .destination:
-                        destinationText = location.title
-                        destinationCoordinate = coordinate
+                    
+                    switch result {
+                    case .success(let coordinate):
+                        switch searchType {
+                        case .departurePlace:
+                            departurePlaceText = location.title
+                            departurePlaceCoordinate = coordinate
+                        case .destination:
+                            destinationText = location.title
+                            destinationCoordinate = coordinate
+                        }
+                    case .failure(let errorMessage):
+                        alertMessage = errorMessage
+                        alertIsPresented = true
                     }
                     
                     completion()
                 }
             }
-        }
-        
-        /// MKLocalSearchCompletion을 통해 실제 위치 정보(위도/경도)를 가져옴
-        func locationSearch(
-            forLocalSearchCompletion localSearch: MKLocalSearchCompletion,
-            completion: @escaping(MKLocalSearch.CompletionHandler)
-        ) {
-            let searchRequest = MKLocalSearch.Request()
-            searchRequest.naturalLanguageQuery = localSearch.title.appending(localSearch.subtitle)
-            let search = MKLocalSearch(request: searchRequest)
-            
-            search.start(completionHandler: completion)
         }
         
         /// 모든 프로퍼티 초기화(MapViewActionButton 클릭시)

@@ -96,5 +96,11 @@ struct ChatRoomView: View {
             carPoolManager: CarPoolManager()
         )
     )
-        .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager()))
+        .environmentObject(
+            AppData(
+                authManager: AuthManager(),
+                carPoolManager: CarPoolManager(),
+                locationSearchManager: LocationSearchManager()
+            )
+        )
 }

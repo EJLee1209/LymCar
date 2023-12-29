@@ -24,7 +24,9 @@ struct LocationSearchView: View {
                 departurePlaceText: $viewModel.departurePlaceText,
                 destinationText: $viewModel.destinationText,
                 rightContentType: .search,
-                rightContentTapEvent: nil
+                rightContentTapEvent: nil,
+                departureTextFieldOnSubmit: nil,
+                destinationTextFieldOnSubmit: nil
             )
             .padding(.horizontal, 16)
             
@@ -77,8 +79,12 @@ struct LocationSearchView: View {
 
 #Preview {
     LocationSearchView(mapState: .constant(MapState.searchingForLocation))
-        .environmentObject(MapView.ViewModel())
-        .environmentObject(AppData(
-            authManager: AuthManager(), carPoolManager: CarPoolManager()
-        ))
+        .environmentObject(MapView.ViewModel(locationSearchManager: LocationSearchManager()))
+        .environmentObject(
+            AppData(
+                authManager: AuthManager(),
+                carPoolManager: CarPoolManager(),
+                locationSearchManager: LocationSearchManager()
+            )
+        )
 }

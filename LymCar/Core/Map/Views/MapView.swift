@@ -52,6 +52,12 @@ struct MapView: View {
                 
             }
         }
+        .alert(
+            viewModel.alertMessage,
+            isPresented: $viewModel.alertIsPresented
+        ) {
+            Button(action: {}, label: { Text("확인") })
+        }
     }
     
     
@@ -59,10 +65,16 @@ struct MapView: View {
 
 #Preview {
     MapView(
-        viewModel: MapView.ViewModel(),
+        viewModel: MapView.ViewModel(locationSearchManager: LocationSearchManager()),
         mapState: .constant(.none)
     )
-    .environmentObject(AppData(
-        authManager: AuthManager(), carPoolManager: CarPoolManager()
-    ))
+    .environmentObject(
+        AppData(
+            authManager: AuthManager(),
+            carPoolManager: CarPoolManager(),
+            locationSearchManager: LocationSearchManager()
+        )
+    )
+        
+    
 }

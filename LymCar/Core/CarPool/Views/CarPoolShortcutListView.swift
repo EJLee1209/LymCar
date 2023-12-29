@@ -33,7 +33,11 @@ struct CarPoolShortcutListView: View {
 
 #Preview {
     CarPoolShortcutListView()
-        .environmentObject(AppData(
-            authManager: AuthManager(), carPoolManager: CarPoolManager()
-        ))
+        .environmentObject(
+            AppData(
+                authManager: AuthManager(),
+                carPoolManager: CarPoolManager(),
+                locationSearchManager: LocationSearchManager()
+            )
+        )
 }

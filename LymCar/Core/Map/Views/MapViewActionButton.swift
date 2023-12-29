@@ -10,6 +10,7 @@ import SwiftUI
 struct MapViewActionButton: View {
     @Binding var mapState: MapState
     @EnvironmentObject var mapViewModel: MapView.ViewModel
+    @EnvironmentObject var appData: AppData
     
     var body: some View {
         Button(action: {
@@ -18,6 +19,7 @@ struct MapViewActionButton: View {
             }
             
             mapViewModel.clearAllPropertiesForLocationSearch()
+            appData.clearLocation()
         }, label: {
             Image(systemName: "chevron.left")
                 .font(.title2)
@@ -33,5 +35,11 @@ struct MapViewActionButton: View {
 
 #Preview {
     MapViewActionButton(mapState: .constant(.none))
-        .environmentObject(MapView.ViewModel())
+        .environmentObject(MapView.ViewModel(locationSearchManager: LocationSearchManager()))
+        .environmentObject(
+            AppData(
+                authManager: AuthManager(),
+                carPoolManager: CarPoolManager(),
+                locationSearchManager: LocationSearchManager()
+            ))
 }

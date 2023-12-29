@@ -10,7 +10,11 @@ import SwiftUI
 @main
 struct LymCarApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var appData: AppData = .init(authManager: AuthManager(), carPoolManager: CarPoolManager())
+    @StateObject var appData: AppData = .init(
+        authManager: AuthManager(),
+        carPoolManager: CarPoolManager(),
+        locationSearchManager: LocationSearchManager()
+    )
     
     var body: some Scene {
         WindowGroup {

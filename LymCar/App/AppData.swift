@@ -17,13 +17,20 @@ final class AppData: ObservableObject {
     @Published var userCarPoolList: [CarPool] = []
     var departureLocation: Location?
     var destination: Location?
+    var userLocation: Location?
     
     private let authManager: AuthManagerType
     private let carPoolManager: CarPoolManagerType
+    private let locationSearchManager: LocationSearchManagerType
     
-    init(authManager: AuthManagerType, carPoolManager: CarPoolManagerType) {
+    init(
+        authManager: AuthManagerType,
+        carPoolManager: CarPoolManagerType,
+        locationSearchManager: LocationSearchManagerType
+    ) {
         self.authManager = authManager
         self.carPoolManager = carPoolManager
+        self.locationSearchManager = locationSearchManager
     }
     
     //MARK: - Helpers
@@ -80,6 +87,11 @@ final class AppData: ObservableObject {
         userCarPoolList = []
     }
     
+    func clearLocation() {
+        departureLocation = userLocation
+        destination = nil
+    }
+    
     //MARK: - Make ViewModel
     
     func makeAuthVM() -> AuthViewModel {
@@ -87,7 +99,7 @@ final class AppData: ObservableObject {
     }
     
     func makeMapVM() -> MapView.ViewModel {
-        return .init()
+        return .init(locationSearchManager: locationSearchManager)
     }
     
     func makeCarPoolListVM() -> CarPoolListView.ViewModel? {
@@ -101,16 +113,32 @@ final class AppData: ObservableObject {
     
     func makeCarPoolGenerateVM() -> CarPoolGenerateView.ViewModel? {
         guard let user = currentUser else { return nil }
-        guard let departureLocation = departureLocation else { return nil }
-        guard let destination = destination else { return nil }
+        
+        var departurePlaceCoordinate: CLLocationCoordinate2D?
+        var destinationCoordinate: CLLocationCoordinate2D?
+        
+        if let departureLocation = departureLocation {
+            departurePlaceCoordinate = CLLocationCoordinate2D(
+                latitude: departureLocation.latitude,
+                longitude: departureLocation.longitude
+            )
+        }
+        
+        if let destination = destination {
+            destinationCoordinate = CLLocationCoordinate2D(
+                latitude: destination.latitude,
+                longitude: destination.longitude
+            )
+        }
         
         return .init(
             currentUser: user,
-            departurePlaceText: departureLocation.placeName,
-            destinationText: destination.placeName,
-            departurePlaceCoordinate: CLLocationCoordinate2D(latitude: departureLocation.latitude, longitude: departureLocation.longitude),
-            destinationCoordinate: CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude),
-            carPoolManager: self.carPoolManager
+            departurePlaceText: departureLocation?.placeName ?? "",
+            destinationText: destination?.placeName ?? "",
+            departurePlaceCoordinate: departurePlaceCoordinate,
+            destinationCoordinate: destinationCoordinate,
+            carPoolManager: self.carPoolManager,
+            locationSearchManager: self.locationSearchManager
         )
     }
     
