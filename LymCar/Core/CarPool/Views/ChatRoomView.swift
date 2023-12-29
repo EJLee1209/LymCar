@@ -30,7 +30,7 @@ struct ChatRoomView: View {
                 
                 /// 채팅뷰
                 List {
-                    ForEach(WrappedMessage.mockMessages, id: \.self) { wrappedMessage in
+                    ForEach(viewModel.messages, id: \.self) { wrappedMessage in
                         MessageCell(wrappedMessage: wrappedMessage)
                             .padding(.top, 24)
                     }
@@ -42,8 +42,8 @@ struct ChatRoomView: View {
                 
                 
                 MessageInputView(
-                    messageText: $viewModel.messageText,
-                    buttonAction: viewModel.sendMessage
+                    text: $viewModel.messageText,
+                    sendButtonAction: viewModel.sendMessage
                 )
             }
             .padding(.top, 43)

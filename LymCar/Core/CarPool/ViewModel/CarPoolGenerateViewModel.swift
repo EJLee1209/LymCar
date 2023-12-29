@@ -75,27 +75,23 @@ extension CarPoolGenerateView {
             
             viewState = .loading
             
-            Task {
-                let result = await carPoolManager.createCarPool(
-                    departurePlaceName: departurePlaceText,
-                    destinationPlaceName: destinationText,
-                    departurePlaceCoordinate: departurePlaceCoordinate,
-                    destinationCoordinate: destinationCoordinate,
-                    departureDate: departureDate,
-                    genderOption: genderOptionIsActivate ? Gender(rawValue: currentUser.gender)! : .none,
-                    maxPersonCount: personCount
-                )
-                
-                await MainActor.run {
-                    switch result {
-                    case .success(let carPool):
-                        viewState = .successToNetworkRequest(response: carPool)
-                    case .failure(let errorMessage):
-                        viewState = .failToNetworkRequest
-                        alertIsPresented = true
-                        alertMessage = errorMessage
-                    }
-                }
+            let result = carPoolManager.createCarPool(
+                departurePlaceName: departurePlaceText,
+                destinationPlaceName: destinationText,
+                departurePlaceCoordinate: departurePlaceCoordinate,
+                destinationCoordinate: destinationCoordinate,
+                departureDate: departureDate,
+                genderOption: genderOptionIsActivate ? Gender(rawValue: currentUser.gender)! : .none,
+                maxPersonCount: personCount
+            )
+            
+            switch result {
+            case .success(let carPool):
+                viewState = .successToNetworkRequest(response: carPool)
+            case .failure(let errorMessage):
+                viewState = .failToNetworkRequest
+                alertIsPresented = true
+                alertMessage = errorMessage
             }
         }
         

@@ -33,7 +33,15 @@ struct CarPool: Codable, Equatable, Identifiable {
             return departureDate.dateToString(dateFormat: "M월 d일 a h:m")
         }
     }
-    static let mock: Self = .init(id: "", departurePlace: .init(placeName: "춘천역", latitude: 0, longitude: 0), destination: .init(placeName: "한림대학교 대학본부", latitude: 0, longitude: 0), departureDate: Date(), genderOption: "남성", participants: [], maxPersonCount: 4)
+    static let mock: Self = .init(
+        id: "31EEzdEpRlr1Wudz85rF",
+        departurePlace: .init(placeName: "춘천역", latitude: 0, longitude: 0),
+        destination: .init(placeName: "한림대학교 대학본부", latitude: 0, longitude: 0),
+        departureDate: Date(),
+        genderOption: "남성",
+        participants: [],
+        maxPersonCount: 4
+    )
 }
 
 

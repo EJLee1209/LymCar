@@ -12,6 +12,7 @@ extension ChatRoomView {
         //MARK: - Properties
         @Published var title: String = ""
         @Published var messageText: String = ""
+        @Published var messages: [WrappedMessage] = []
         
         let carPool: CarPool
         let currentUser: User
@@ -28,12 +29,29 @@ extension ChatRoomView {
             self.carPoolManager = carPoolManager
             
             title = "\(carPool.departurePlace.placeName) - \(carPool.destination.placeName)"
+            
+            fetchMessageListener()
         }
         
         //MARK: - Helpers
         
         func sendMessage() {
+            carPoolManager.sendMessage(
+                sender: currentUser,
+                roomId: carPool.id,
+                text: messageText,
+                isSystemMsg: false
+            )
             
+            messageText.removeAll()
+        }
+        
+        private func fetchMessageListener() {
+            carPoolManager.fetchMessageListener(roomId: carPool.id) { [weak self] messages in
+                DispatchQueue.main.async {
+                    self?.messages = messages
+                }
+            }
         }
     }
 }
