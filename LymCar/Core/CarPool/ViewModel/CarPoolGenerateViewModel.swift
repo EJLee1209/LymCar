@@ -75,7 +75,7 @@ extension CarPoolGenerateView {
             
             viewState = .loading
             
-            let result = carPoolManager.createCarPool(
+            let result = carPoolManager.create(
                 departurePlaceName: departurePlaceText,
                 destinationPlaceName: destinationText,
                 departurePlaceCoordinate: departurePlaceCoordinate,

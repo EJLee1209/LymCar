@@ -10,11 +10,14 @@ import FirebaseAuth
 import CoreLocation
 
 protocol CarPoolManagerType {
-    func fetchMyCarPool() async -> [CarPool]
+    /// 유저가 참여중인 카풀 리스트 가져오기
+    func fetchUserCarPool() async -> [CarPool]
     
+    /// 카풀 리스트 가져오기
     func fetchCarPool(gender: String) async -> [CarPool]
     
-    func createCarPool(
+    /// 카풀 생성
+    func create(
         departurePlaceName: String,
         destinationPlaceName: String,
         departurePlaceCoordinate: CLLocationCoordinate2D,
@@ -24,11 +27,19 @@ protocol CarPoolManagerType {
         maxPersonCount: Int
     ) -> FirebaseNetworkResult<CarPool>
     
-    func joinCarPool(
+    /// 카풀 참여
+    func join(
         user: User,
         carPool: CarPool
     ) async -> FirebaseNetworkResult<CarPool>
     
+    /// 카풀 퇴장
+    func exit(
+        user: User,
+        roomId: String
+    ) async -> FirebaseNetworkResult<String>
+    
+    /// 메세지 전송
     @discardableResult
     func sendMessage(
         sender: User,
@@ -37,17 +48,22 @@ protocol CarPoolManagerType {
         isSystemMsg: Bool
     ) -> FirebaseNetworkResult<Message>
     
+    /// 메세지 리스너 등록
     func fetchMessageListener(
         roomId: String,
         completion: @escaping([WrappedMessage]) -> Void
     )
+    
+    /// 카풀 마감
+    func deactivate(roomId: String) async -> FirebaseNetworkResult<String>
+    
 }
 
 final class CarPoolManager: CarPoolManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
-    func fetchMyCarPool() async -> [CarPool] {
+    func fetchUserCarPool() async -> [CarPool] {
         guard let uid = auth.currentUser?.uid else { return [] }
         
         do {
@@ -64,8 +80,6 @@ final class CarPoolManager: CarPoolManagerType {
     }
     
     func fetchCarPool(gender: String) async -> [CarPool] {
-        guard let uid = auth.currentUser?.uid else { return [] }
-        
         do {
             let querySnapshot = try await db.collection("Rooms")
                 .order(by: "departureDate")
@@ -83,7 +97,7 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
     
-    func joinCarPool(
+    func join(
         user: User,
         carPool: CarPool
     ) async -> FirebaseNetworkResult<CarPool> {
@@ -112,13 +126,26 @@ final class CarPoolManager: CarPoolManagerType {
                     return nil
                 }
                 
+                if !room.isActivate {
+                    let error = NSError(
+                        domain: "AppErrorDomain",
+                        code: -1,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: "마감된 채팅방입니다"
+                        ]
+                    )
+                    errorPointer?.pointee = error
+                    
+                    return nil
+                }
+                
                 if room.personCount >= room.maxPersonCount {
                     let error = NSError(
-                      domain: "AppErrorDomain",
-                      code: -1,
-                      userInfo: [
-                        NSLocalizedDescriptionKey: "채팅방 인원이 초과됐습니다"
-                      ]
+                        domain: "AppErrorDomain",
+                        code: -1,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: "채팅방 인원이 초과됐습니다"
+                        ]
                     )
                     errorPointer?.pointee = error
                     
@@ -154,7 +181,7 @@ final class CarPoolManager: CarPoolManagerType {
         
     }
     
-    func createCarPool(
+    func create(
         departurePlaceName: String,
         destinationPlaceName: String,
         departurePlaceCoordinate: CLLocationCoordinate2D,
@@ -192,6 +219,68 @@ final class CarPoolManager: CarPoolManagerType {
             return .success(response: carPool)
         } catch {
             return .failure(errorMessage: "카풀방을 생성하는데 실패했습니다. 잠시 후 다시 시도해주세요")
+        }
+    }
+    
+    func exit(
+        user: User,
+        roomId: String
+    ) async -> FirebaseNetworkResult<String> {
+        
+        let roomRef = db.collection("Rooms").document(roomId)
+        
+        do {
+            let _ = try await db.runTransaction { transaction, errorPointer in
+                
+                let roomDocument: DocumentSnapshot
+                do {
+                    try roomDocument = transaction.getDocument(roomRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                let room: CarPool
+                do {
+                    room = try roomDocument.data(as: CarPool.self)
+                } catch let decodingError as NSError {
+                    errorPointer?.pointee = decodingError
+                    return nil
+                }
+                
+                if room.personCount == 1 {
+                    // 방 삭제
+                    transaction.deleteDocument(roomRef)
+                    
+                    return nil
+                }
+                
+                let updateDict: [String: Any] = [
+                    "personCount": room.personCount - 1,
+                    "participants": room.participants.filter { $0 != user.uid }
+                ]
+                transaction.updateData(updateDict, forDocument: roomRef)
+                
+                return nil
+            }
+            
+            sendMessage(sender: user, roomId: roomId, text: "- \(user.name)님이 나갔습니다 -", isSystemMsg: true)
+            return .success(response: "")
+        } catch {
+            return .failure(errorMessage: error.localizedDescription)
+        }
+        
+    }
+    
+    
+    func deactivate(roomId: String) async -> FirebaseNetworkResult<String> {
+        do {
+            try await db.collection("Rooms")
+                .document(roomId)
+                .updateData(["isActivate": false])
+            
+            return .success(response: "- 카풀이 마감되었습니다 -")
+        } catch {
+            return .failure(errorMessage: "카풀을 마감하던 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요")
         }
     }
     

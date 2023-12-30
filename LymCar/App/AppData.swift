@@ -92,7 +92,7 @@ final class AppData: ObservableObject {
     
     func fetchUserCarPool() {
         Task {
-            let carPool = await carPoolManager.fetchMyCarPool()
+            let carPool = await carPoolManager.fetchUserCarPool()
             
             await MainActor.run {
                 self.userCarPoolList = carPool

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChatRoomView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appData: AppData
     @StateObject var viewModel: ViewModel
     
@@ -54,17 +55,15 @@ struct ChatRoomView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
-                    Button(action: {
-                        print("DEBUG: 채팅방 나가기")
-                    }, label: {
+                    Button(action: viewModel.exitCarPoolButtonAction) {
                         Text("채팅방 나가기")
-                    })
+                    }
                     
-                    Button(action: {
-                        print("DEBUG: 카풀 마감하기")
-                    }, label: {
-                        Text("카풀 마감하기")
-                    })
+                    if viewModel.showDeactivateCarPoolButton {
+                        Button(action: viewModel.deactivateCarPoolButtonAction) {
+                            Text("카풀 마감하기")
+                        }
+                    }
                 } label: {
                     VStack(spacing: 3) {
                         Circle()
@@ -83,6 +82,21 @@ struct ChatRoomView: View {
 
             }
         }
+        .alert(
+            viewModel.alertMessage,
+            isPresented: $viewModel.alertIsPresented
+        ) {
+            if let alertPositiveAction = viewModel.alertPositiveAction {
+                Button("확인", role: .destructive, action: alertPositiveAction)
+            }
+            
+            Button("취소", role: .cancel, action: {})
+        }
+        .onReceive(viewModel.$isExit, perform: { isExit in
+            if isExit {
+                dismiss()
+            }
+        })
         
         
     }

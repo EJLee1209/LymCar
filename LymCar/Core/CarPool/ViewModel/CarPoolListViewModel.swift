@@ -40,7 +40,7 @@ extension CarPoolListView {
         
         func joinCarPool(with carPool: CarPool) {
             Task {
-                let result = await carPoolManager.joinCarPool(user: user, carPool: carPool)
+                let result = await carPoolManager.join(user: user, carPool: carPool)
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
