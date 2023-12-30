@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @EnvironmentObject var appData: AppData
-    @State var authStep: AuthStep = .email
+    @EnvironmentObject private var appData: AppData
+    @ObservedObject var viewModel: AuthViewModel
     @Binding var loginViewIsPresented: Bool
+    @State private var authStep: AuthStep = .email
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -150,8 +150,10 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView(loginViewIsPresented: .constant(false))
-        .environmentObject(AuthViewModel(authManager: AuthManager()))
+    RegisterView(
+        viewModel: AuthViewModel(authManager: AuthManager()),
+        loginViewIsPresented: .constant(false)
+    )
         .environmentObject(
             AppData(
                 authManager: AuthManager(),

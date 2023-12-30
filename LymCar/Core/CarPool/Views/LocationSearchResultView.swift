@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationSearchResultView: View {
-    @EnvironmentObject var viewModel: CarPoolGenerateView.ViewModel
+    @ObservedObject var viewModel: CarPoolGenerateView.ViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -56,14 +56,13 @@ struct LocationSearchResultView: View {
 }
 
 #Preview {
-    LocationSearchResultView()
-        .environmentObject(CarPoolGenerateView.ViewModel(
-            currentUser: .mock,
-            departurePlaceText: "",
-            destinationText: "",
-            departurePlaceCoordinate: nil,
-            destinationCoordinate: nil,
-            carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager())
-        )
+    LocationSearchResultView(viewModel: .init(
+        currentUser: .mock,
+        departurePlaceText: "",
+        destinationText: "",
+        departurePlaceCoordinate: nil,
+        destinationCoordinate: nil,
+        carPoolManager: CarPoolManager(),
+        locationSearchManager: LocationSearchManager())
+    )
 }

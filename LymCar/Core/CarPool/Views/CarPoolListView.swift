@@ -116,7 +116,6 @@ struct CarPoolListView: View {
             CarPoolGenerateView(viewModel: vm)
         }
     }
-    
 }
 
 #Preview {

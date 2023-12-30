@@ -100,8 +100,7 @@ struct CarPoolGenerateView: View {
             }
         }
         .sheet(isPresented: $locationSearchResultViewIsPresented) {
-            LocationSearchResultView()
-                .environmentObject(viewModel)
+            LocationSearchResultView(viewModel: viewModel)
         }
         .onReceive(viewModel.$viewState, perform: { viewState in
             switch viewState {
@@ -113,7 +112,6 @@ struct CarPoolGenerateView: View {
             }
         })
         .loadingProgress(viewState: $viewModel.viewState)
-        
     }
 }
 

@@ -13,7 +13,6 @@ struct LoginView: View {
     }
     
     @EnvironmentObject private var appData: AppData
-    
     @StateObject var viewModel: AuthViewModel
     @Binding var loginViewIsPresented: Bool
     
@@ -64,8 +63,10 @@ struct LoginView: View {
                     }
                     
                     NavigationLink {
-                        RegisterView(loginViewIsPresented: $loginViewIsPresented)
-                            .environmentObject(viewModel)
+                        RegisterView(
+                            viewModel: viewModel,
+                            loginViewIsPresented: $loginViewIsPresented
+                        )
                     } label: {
                         HStack {
                             Text("아직 회원이 아니신가요?")

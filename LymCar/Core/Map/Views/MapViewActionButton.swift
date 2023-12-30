@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MapViewActionButton: View {
-    @Binding var mapState: MapState
-    @EnvironmentObject var mapViewModel: MapView.ViewModel
     @EnvironmentObject var appData: AppData
+    @ObservedObject var mapViewModel: MapView.ViewModel
+    @Binding var mapState: MapState
     
     var body: some View {
         Button(action: {
@@ -34,8 +34,10 @@ struct MapViewActionButton: View {
 }
 
 #Preview {
-    MapViewActionButton(mapState: .constant(.none))
-        .environmentObject(MapView.ViewModel(locationSearchManager: LocationSearchManager()))
+    MapViewActionButton(
+        mapViewModel: MapView.ViewModel(locationSearchManager: LocationSearchManager()),
+        mapState: .constant(.none)
+    )
         .environmentObject(
             AppData(
                 authManager: AuthManager(),

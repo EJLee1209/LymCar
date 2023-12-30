@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct LocationSearchView: View {
-    @EnvironmentObject var viewModel: MapView.ViewModel
     @EnvironmentObject var AppData: AppData
+    @ObservedObject var viewModel: MapView.ViewModel
     @Binding var mapState: MapState
     
     var body: some View {
         VStack {
             /// action button
-            MapViewActionButton(mapState: $mapState)
+            MapViewActionButton(
+                mapViewModel: viewModel,
+                mapState: $mapState
+            )
                 .padding(.bottom, 12)
                 .padding(.leading, 16)
             
@@ -78,8 +81,10 @@ struct LocationSearchView: View {
 }
 
 #Preview {
-    LocationSearchView(mapState: .constant(MapState.searchingForLocation))
-        .environmentObject(MapView.ViewModel(locationSearchManager: LocationSearchManager()))
+    LocationSearchView(
+        viewModel: MapView.ViewModel(locationSearchManager: LocationSearchManager()),
+        mapState: .constant(MapState.searchingForLocation)
+    )
         .environmentObject(
             AppData(
                 authManager: AuthManager(),

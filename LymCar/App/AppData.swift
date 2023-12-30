@@ -91,11 +91,9 @@ final class AppData: ObservableObject {
     }
     
     func fetchUserCarPool() {
-        Task {
-            let carPool = await carPoolManager.fetchUserCarPool()
-            
-            await MainActor.run {
-                self.userCarPoolList = carPool
+        carPoolManager.fetchUserCarPoolListener { list in
+            DispatchQueue.main.async { [weak self] in
+                self?.userCarPoolList = list
             }
         }
     }

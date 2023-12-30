@@ -16,11 +16,12 @@ import MapKit
 struct MapViewRepresentable: UIViewRepresentable {
     
     //MARK: - Properties
+    @EnvironmentObject var appData: AppData
+    @ObservedObject var mapViewModel: MapView.ViewModel
+    @Binding var mapState: MapState
+    
     let mapView = MKMapView()
     let locationManager = LocationManager()
-    @Binding var mapState: MapState
-    @EnvironmentObject var mapViewModel: MapView.ViewModel
-    @EnvironmentObject var appData: AppData
     
     /// UIView를 생성하고 초기화
     func makeUIView(context: Context) -> some UIView {

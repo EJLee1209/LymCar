@@ -10,8 +10,8 @@ import FirebaseAuth
 import CoreLocation
 
 protocol CarPoolManagerType {
-    /// 유저가 참여중인 카풀 리스트 가져오기
-    func fetchUserCarPool() async -> [CarPool]
+    /// 유저가 참여중인 카풀 리스트 리스너 등록
+    func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void)
     
     /// 카풀 리스트 가져오기
     func fetchCarPool(gender: String) async -> [CarPool]
@@ -63,20 +63,33 @@ final class CarPoolManager: CarPoolManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
-    func fetchUserCarPool() async -> [CarPool] {
-        guard let uid = auth.currentUser?.uid else { return [] }
-        
-        do {
-            let querySnapshot = try await db.collection("Rooms")
-                .whereField("participants", arrayContains: uid)
-                .getDocuments()
-            
-            let carPoolList = try querySnapshot.documents.map { try $0.data(as: CarPool.self) }
-            return carPoolList
-        } catch {
-            print("DEBUG: Failed to fetchMyCarPool with error \(error.localizedDescription)")
-            return []
+    func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void) {
+        guard let uid = auth.currentUser?.uid else {
+            completion([])
+            return
         }
+        
+        db.collection("Rooms")
+            .whereField("participants", arrayContains: uid)
+            .order(by: "departureDate")
+            .addSnapshotListener { snapshot, error in
+                if let error = error {
+                    completion([])
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    completion([])
+                    return
+                }
+                
+                do {
+                    let carPoolList = try documents.map { try $0.data(as: CarPool.self) }
+                    completion(carPoolList)
+                } catch {
+                    completion([])
+                }
+            }
     }
     
     func fetchCarPool(gender: String) async -> [CarPool] {

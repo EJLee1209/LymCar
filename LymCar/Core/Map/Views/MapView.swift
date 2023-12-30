@@ -16,9 +16,11 @@ struct MapView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack(alignment: .top) {
-                MapViewRepresentable(mapState: $mapState)
-                    .environmentObject(viewModel)
-                    .ignoresSafeArea()
+                MapViewRepresentable(
+                    mapViewModel: viewModel,
+                    mapState: $mapState
+                )
+                .ignoresSafeArea()
                 if mapState == .none {
                     LocationSearchActivationView()
                         .padding(.top, 40)
@@ -30,9 +32,11 @@ struct MapView: View {
                 }
                 
                 if mapState == .locationSelected {
-                    MapViewActionButton(mapState: $mapState)
-                        .padding()
-                        .environmentObject(viewModel)
+                    MapViewActionButton(
+                        mapViewModel: viewModel,
+                        mapState: $mapState
+                    )
+                    .padding()
                 }
                 
             }
@@ -47,9 +51,10 @@ struct MapView: View {
             
             
             if mapState == .searchingForLocation {
-                LocationSearchView(mapState: $mapState)
-                    .environmentObject(viewModel)
-                
+                LocationSearchView(
+                    viewModel: viewModel,
+                    mapState: $mapState
+                )
             }
         }
         .alert(
