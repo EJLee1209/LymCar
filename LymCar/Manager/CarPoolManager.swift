@@ -54,6 +54,9 @@ protocol CarPoolManagerType {
         completion: @escaping([WrappedMessage]) -> Void
     )
     
+    // 메세지 리스너 제거
+    func removeMessageListener()
+    
     /// 카풀 마감
     func deactivate(roomId: String) async -> FirebaseNetworkResult<String>
     
@@ -62,6 +65,8 @@ protocol CarPoolManagerType {
 final class CarPoolManager: CarPoolManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
+    
+    private var messageListenerRegistration: ListenerRegistration?
     
     func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void) {
         guard let uid = auth.currentUser?.uid else {
@@ -73,7 +78,7 @@ final class CarPoolManager: CarPoolManagerType {
             .whereField("participants", arrayContains: uid)
             .order(by: "departureDate")
             .addSnapshotListener { snapshot, error in
-                if let error = error {
+                if let _ = error {
                     completion([])
                     return
                 }
@@ -331,7 +336,7 @@ final class CarPoolManager: CarPoolManagerType {
     ) {
         guard let uid = auth.currentUser?.uid else { return }
         
-        db.collection("Rooms")
+        messageListenerRegistration = db.collection("Rooms")
             .document(roomId)
             .collection("Messages")
             .order(by: "timestamp")
@@ -358,10 +363,18 @@ final class CarPoolManager: CarPoolManagerType {
                             
                             return .otherUser(message: message)
                         }
+                    print("DEBUG: fetch message List")
                     completion(messageList)
                 } catch {
                     print("DEBUG: fetchMessage 디코딩 에러")
                 }
             }
+        
     }
+    
+    func removeMessageListener() {
+        messageListenerRegistration?.remove()
+    }
+    
+    
 }

@@ -38,8 +38,6 @@ extension ChatRoomView {
             self.carPoolManager = carPoolManager
             
             title = "\(carPool.departurePlace.placeName) - \(carPool.destination.placeName)"
-            
-            fetchMessageListener()
         }
         
         //MARK: - Helpers
@@ -55,12 +53,16 @@ extension ChatRoomView {
             messageText.removeAll()
         }
         
-        private func fetchMessageListener() {
+        func fetchMessageListener() {
             carPoolManager.fetchMessageListener(roomId: carPool.id) { [weak self] messages in
                 DispatchQueue.main.async {
                     self?.messages = messages
                 }
             }
+        }
+        
+        func removeMessageListener() {
+            carPoolManager.removeMessageListener()
         }
         
         func deactivateCarPoolButtonAction() {
@@ -118,5 +120,6 @@ extension ChatRoomView {
                 }
             }
         }
+        
     }
 }
