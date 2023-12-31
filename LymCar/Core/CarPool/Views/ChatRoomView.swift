@@ -29,27 +29,35 @@ struct ChatRoomView: View {
                     .font(.system(size: 15, weight: .medium))
                     .frame(maxWidth: .infinity)
                 
-                /// 채팅뷰
-                List {
-                    ForEach(viewModel.messages, id: \.self) { wrappedMessage in
-                        MessageCell(wrappedMessage: wrappedMessage)
-                            .padding(.top, 24)
+                ScrollViewReader { proxy in
+                    /// 채팅뷰
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(viewModel.messages, id: \.self) { wrappedMessage in
+                                MessageCell(wrappedMessage: wrappedMessage)
+                                    .id(wrappedMessage)
+                                    .padding(.top, 24)
+                            }
+                        }
+                        .onAppear {
+                            proxy.scrollTo(viewModel.messages.last, anchor: .bottom)
+                        }
+                        .onReceive(viewModel.$newMessages) { _ in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01, execute: {
+                                proxy.scrollTo(viewModel.messages.last, anchor: .bottom)
+                            })
+                        }
                     }
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                    .refreshable {
+                        viewModel.fetchMessages()
+                    }
                 }
-                .listStyle(.plain)
-                
-                
                 MessageInputView(
                     text: $viewModel.messageText,
                     sendButtonAction: viewModel.sendMessage
                 )
             }
             .padding(.top, 43)
-            
-            
         }
         .navigationTitle(viewModel.title)
         .toolbar {
@@ -75,11 +83,11 @@ struct ChatRoomView: View {
                         Circle()
                             .fill(.white)
                             .frame(width: 4, height: 4)
-                            
+                        
                     }
                     .frame(width: 24, height: 24)
                 }
-
+                
             }
         }
         .alert(
@@ -98,10 +106,10 @@ struct ChatRoomView: View {
             }
         })
         .onAppear {
-            viewModel.fetchMessageListener()
+            viewModel.fetchMessages()
         }
         .onDisappear {
-            viewModel.removeMessageListener()
+            viewModel.onDisappear()
         }
     }
 }
@@ -114,11 +122,11 @@ struct ChatRoomView: View {
             carPoolManager: CarPoolManager()
         )
     )
-        .environmentObject(
-            AppData(
-                authManager: AuthManager(),
-                carPoolManager: CarPoolManager(),
-                locationSearchManager: LocationSearchManager()
-            )
+    .environmentObject(
+        AppData(
+            authManager: AuthManager(),
+            carPoolManager: CarPoolManager(),
+            locationSearchManager: LocationSearchManager()
         )
+    )
 }

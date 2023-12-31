@@ -84,7 +84,6 @@ final class AppData: ObservableObject {
         
         await MainActor.run {
             self.currentUser = currentUser
-            self.userCarPoolList = userCarPoolList
         }
         
         return currentUser
@@ -102,6 +101,8 @@ final class AppData: ObservableObject {
         authManager.logout()
         currentUser = nil
         userCarPoolList = []
+        
+        carPoolManager.removeUserCarPoolListener()
     }
     
     func clearLocation() {

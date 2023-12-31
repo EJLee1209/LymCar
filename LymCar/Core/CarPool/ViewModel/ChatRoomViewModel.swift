@@ -12,12 +12,15 @@ extension ChatRoomView {
         //MARK: - Properties
         @Published var title: String = ""
         @Published var messageText: String = ""
-        @Published var messages: [WrappedMessage] = []
+        @Published var prevMessages: [WrappedMessage] = []
+        @Published var newMessages: [WrappedMessage] = []
         @Published var isExit: Bool = false
         
         @Published var alertIsPresented: Bool = false
         var alertMessage: String = ""
         var alertPositiveAction: (() -> Void)?
+        
+        var messageListenerExist: Bool = false
         
         var carPool: CarPool
         let currentUser: User
@@ -25,6 +28,10 @@ extension ChatRoomView {
         
         var showDeactivateCarPoolButton: Bool {
             return carPool.participants.first == currentUser.uid && carPool.isActivate
+        }
+        
+        var messages: [WrappedMessage] {
+            return prevMessages + newMessages
         }
         
         //MARK: - LifeCycle
@@ -53,16 +60,34 @@ extension ChatRoomView {
             messageText.removeAll()
         }
         
-        func fetchMessageListener() {
-            carPoolManager.fetchMessageListener(roomId: carPool.id) { [weak self] messages in
-                DispatchQueue.main.async {
-                    self?.messages = messages
+        func fetchMessages() {
+            Task {
+                let prev = await carPoolManager.fetchMessages(roomId: carPool.id)
+                
+                if !messageListenerExist {
+                    subscribeNewMessage()
+                }
+                await MainActor.run {
+                    prevMessages.insert(contentsOf: prev, at: 0)
                 }
             }
         }
         
-        func removeMessageListener() {
+        private func subscribeNewMessage() {
+            messageListenerExist = true
+            
+            carPoolManager.subscribeNewMessages(roomId: carPool.id) { [weak self] newMessages in
+                self?.newMessages = newMessages
+            }
+        }
+        
+        func onDisappear() {
             carPoolManager.removeMessageListener()
+            messageListenerExist = false
+            
+            carPoolManager.resetPageProperties()
+            prevMessages.removeAll()
+            newMessages.removeAll()
         }
         
         func deactivateCarPoolButtonAction() {
@@ -121,5 +146,8 @@ extension ChatRoomView {
             }
         }
         
+        deinit {
+            print("DEBUG: ChatRoomViewModel is deinit")
+        }
     }
 }

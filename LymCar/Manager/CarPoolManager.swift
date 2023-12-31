@@ -49,17 +49,26 @@ protocol CarPoolManagerType {
     ) -> FirebaseNetworkResult<Message>
     
     /// 메세지 리스너 등록
-    func fetchMessageListener(
+    func subscribeNewMessages(
         roomId: String,
         completion: @escaping([WrappedMessage]) -> Void
     )
     
-    // 메세지 리스너 제거
-    func removeMessageListener()
+    /// 이전 메세지 가져오기
+    func fetchMessages(
+        roomId: String
+    ) async -> [WrappedMessage]
     
     /// 카풀 마감
     func deactivate(roomId: String) async -> FirebaseNetworkResult<String>
     
+    /// 메세지 리스너 제거
+    func removeMessageListener()
+    
+    /// 유저 카풀 리스너 제거
+    func removeUserCarPoolListener()
+    
+    func resetPageProperties()
 }
 
 final class CarPoolManager: CarPoolManagerType {
@@ -67,6 +76,7 @@ final class CarPoolManager: CarPoolManagerType {
     private let auth = Auth.auth()
     
     private var messageListenerRegistration: ListenerRegistration?
+    private var userCarPoolListenerRegistration: ListenerRegistration?
     
     func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void) {
         guard let uid = auth.currentUser?.uid else {
@@ -74,7 +84,7 @@ final class CarPoolManager: CarPoolManagerType {
             return
         }
         
-        db.collection("Rooms")
+        userCarPoolListenerRegistration = db.collection("Rooms")
             .whereField("participants", arrayContains: uid)
             .order(by: "departureDate")
             .addSnapshotListener { snapshot, error in
@@ -91,6 +101,8 @@ final class CarPoolManager: CarPoolManagerType {
                 do {
                     let carPoolList = try documents.map { try $0.data(as: CarPool.self) }
                     completion(carPoolList)
+                    
+                    print("DEBUG: fetch user car pool list")
                 } catch {
                     completion([])
                 }
@@ -330,51 +342,122 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
     
-    func fetchMessageListener(
+    var startDoc: DocumentSnapshot?
+    var lastDoc: DocumentSnapshot?
+    var endPaging: Bool = false
+    
+    func fetchMessages(
+        roomId: String
+    ) async -> [WrappedMessage] {
+        if endPaging { return [] }
+        guard let uid = auth.currentUser?.uid else { return [] }
+        
+        let commonQuery = db.collection("Rooms")
+            .document(roomId)
+            .collection("Messages")
+            .order(by: "timestamp")
+            .limit(toLast: 20)
+        
+        let requestQuery: Query
+        
+        if let startDoc = startDoc {
+            requestQuery = commonQuery
+                .end(beforeDocument: startDoc)
+        } else {
+            requestQuery = commonQuery
+        }
+        
+        do {
+            let snapshot = try await requestQuery.getDocuments()
+            
+            if snapshot.documents.isEmpty {
+                endPaging = true
+                return []
+            }
+            
+            startDoc = snapshot.documents.first
+            lastDoc = snapshot.documents.last
+            
+            let wrappedMessages = try snapshot.documents.map { document -> WrappedMessage in
+                let message = try document.data(as: Message.self)
+                if message.isSystemMsg {
+                    return .system(message: message)
+                } else if message.sender.uid == uid {
+                    return .currentUser(message: message)
+                } else {
+                    return .otherUser(message: message)
+                }
+            }
+            
+            if wrappedMessages.count < 20 { endPaging = true }
+            
+            return wrappedMessages
+        } catch {
+            print("DEBUG: Fail to subscribeNewMessages with error: \(error.localizedDescription)")
+            return []
+        }
+        
+    }
+    
+    func subscribeNewMessages(
         roomId: String,
         completion: @escaping([WrappedMessage]) -> Void
     ) {
         guard let uid = auth.currentUser?.uid else { return }
         
-        messageListenerRegistration = db.collection("Rooms")
+        let commonQuery = db
+            .collection("Rooms")
             .document(roomId)
             .collection("Messages")
             .order(by: "timestamp")
-            .addSnapshotListener { querySnapshot, error in
-                if let error = error {
-                    print("DEBUG: Fail to fetchMessage with error \(error)")
-                    return
-                }
-                
-                guard let documents = querySnapshot?.documents else {
-                    return
-                }
-                
-                do {
-                    let messageList = try documents
-                        .map { try $0.data(as: Message.self) }
-                        .map { message -> WrappedMessage in
-                            if message.isSystemMsg {
-                                return .system(message: message)
-                            }
-                            if message.sender.uid == uid {
-                                return .currentUser(message: message)
-                            }
-                            
+        
+        let requestQuery: Query
+        
+        if let lastDoc = lastDoc {
+            requestQuery = commonQuery
+                .start(afterDocument: lastDoc)
+        } else {
+            requestQuery = commonQuery
+        }
+        
+        requestQuery.addSnapshotListener { snapshot, error in
+            guard let document = snapshot?.documents else {
+                print("DEBUG: Fail to subscribeNewMessages with error document is nil")
+                return
+            }
+            
+            do {
+                let wrappedMessages = try document
+                    .map { document -> WrappedMessage in
+                        let message = try document.data(as: Message.self)
+                        if message.isSystemMsg {
+                            return .system(message: message)
+                        } else if message.sender.uid == uid {
+                            return .currentUser(message: message)
+                        } else {
                             return .otherUser(message: message)
                         }
-                    print("DEBUG: fetch message List")
-                    completion(messageList)
-                } catch {
-                    print("DEBUG: fetchMessage 디코딩 에러")
-                }
+                    }
+                
+                completion(wrappedMessages)
+            } catch {
+                print("DEBUG: Fail to subscribeNewMessages with error: \(error.localizedDescription)")
             }
+        }
         
+    }
+    
+    func resetPageProperties() {
+        endPaging = false
+        startDoc = nil
+        lastDoc = nil
     }
     
     func removeMessageListener() {
         messageListenerRegistration?.remove()
     }
     
-    
+    func removeUserCarPoolListener() {
+        userCarPoolListenerRegistration?.remove()
+    }
 }
