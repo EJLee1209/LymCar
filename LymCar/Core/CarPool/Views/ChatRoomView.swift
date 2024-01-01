@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatRoomView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appData: AppData
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     
     var body: some View {
         ZStack(alignment: .bottom) {

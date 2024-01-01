@@ -90,10 +90,8 @@ final class AppData: ObservableObject {
     }
     
     func fetchUserCarPool() {
-        carPoolManager.fetchUserCarPoolListener { list in
-            DispatchQueue.main.async { [weak self] in
-                self?.userCarPoolList = list
-            }
+        carPoolManager.subscribeUserCarPool { [weak self] list in
+            self?.userCarPoolList = list
         }
     }
     

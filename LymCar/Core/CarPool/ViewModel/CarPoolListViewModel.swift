@@ -25,8 +25,6 @@ extension CarPoolListView {
         ) {
             self.user = user
             self.carPoolManager = carPoolManager
-            
-            fetchCarPoolList()
         }
         
         func fetchCarPoolList() {

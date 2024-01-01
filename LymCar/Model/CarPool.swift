@@ -15,7 +15,7 @@ struct CarPool: Codable, Equatable, Identifiable {
     let destination: Location // 목적지
     let departureDate: Date // 출발 시간
     let genderOption: String // 성별 옵션
-    let participants: [String] // 참여자 uid
+    var participants: [String] // 참여자 uid
     let maxPersonCount: Int // 최대 참여자 수
     var personCount: Int = 1 // 참여자 수
     var isActivate: Bool = true // 방 활성화 여부

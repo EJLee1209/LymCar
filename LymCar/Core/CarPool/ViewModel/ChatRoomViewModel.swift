@@ -145,9 +145,5 @@ extension ChatRoomView {
                 }
             }
         }
-        
-        deinit {
-            print("DEBUG: ChatRoomViewModel is deinit")
-        }
     }
 }

@@ -11,13 +11,14 @@ import CoreLocation
 
 protocol CarPoolManagerType {
     /// 유저가 참여중인 카풀 리스트 리스너 등록
-    func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void)
+    func subscribeUserCarPool(completion: @escaping([CarPool]) -> Void)
     
     /// 카풀 리스트 가져오기
     func fetchCarPool(gender: String) async -> [CarPool]
     
     /// 카풀 생성
     func create(
+        user: User,
         departurePlaceName: String,
         destinationPlaceName: String,
         departurePlaceCoordinate: CLLocationCoordinate2D,
@@ -48,7 +49,7 @@ protocol CarPoolManagerType {
         isSystemMsg: Bool
     ) -> FirebaseNetworkResult<Message>
     
-    /// 메세지 리스너 등록
+    /// 새 메세지 리스너 등록
     func subscribeNewMessages(
         roomId: String,
         completion: @escaping([WrappedMessage]) -> Void
@@ -78,9 +79,8 @@ final class CarPoolManager: CarPoolManagerType {
     private var messageListenerRegistration: ListenerRegistration?
     private var userCarPoolListenerRegistration: ListenerRegistration?
     
-    func fetchUserCarPoolListener(completion: @escaping([CarPool]) -> Void) {
+    func subscribeUserCarPool(completion: @escaping([CarPool]) -> Void) {
         guard let uid = auth.currentUser?.uid else {
-            completion([])
             return
         }
         
@@ -89,7 +89,6 @@ final class CarPoolManager: CarPoolManagerType {
             .order(by: "departureDate")
             .addSnapshotListener { snapshot, error in
                 if let _ = error {
-                    completion([])
                     return
                 }
                 
@@ -100,11 +99,12 @@ final class CarPoolManager: CarPoolManagerType {
                 
                 do {
                     let carPoolList = try documents.map { try $0.data(as: CarPool.self) }
-                    completion(carPoolList)
                     
-                    print("DEBUG: fetch user car pool list")
+                    DispatchQueue.main.async {
+                        completion(carPoolList)
+                    }
                 } catch {
-                    completion([])
+                    print("DEBUG: Fail to subscribeUserCarPool with erro \(error.localizedDescription)")
                 }
             }
     }
@@ -139,7 +139,7 @@ final class CarPoolManager: CarPoolManagerType {
         let roomRef = db.collection("Rooms").document(carPool.id)
         
         do {
-            let _ = try await db.runTransaction { transaction, errorPointer in
+            let transactionResult = try await db.runTransaction { transaction, errorPointer in
                 let roomDocument: DocumentSnapshot
                 do {
                     try roomDocument = transaction.getDocument(roomRef)
@@ -148,12 +148,28 @@ final class CarPoolManager: CarPoolManagerType {
                     return nil
                 }
                 
-                let room: CarPool
+                if !roomDocument.exists {
+                    let error = NSError(
+                        domain: "AppErrorDomain",
+                        code: -1,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: "존재하지 않는 채팅방입니다"
+                        ]
+                    )
+                    errorPointer?.pointee = error
+                    return nil
+                }
+                
+                var room: CarPool
                 do {
                     room = try roomDocument.data(as: CarPool.self)
                 } catch let decodingError as NSError {
                     errorPointer?.pointee = decodingError
                     return nil
+                }
+                
+                if room.participants.contains(user.uid) {
+                    return room
                 }
                 
                 if !room.isActivate {
@@ -182,9 +198,12 @@ final class CarPoolManager: CarPoolManagerType {
                     return nil
                 }
                 
+                room.personCount += 1
+                room.participants.append(user.uid)
+                
                 let updateDict: [String: Any] = [
-                    "personCount" : room.personCount + 1,
-                    "participants": room.participants + [user.uid]
+                    "personCount" : room.personCount,
+                    "participants": room.participants
                 ]
                 
                 transaction.updateData(
@@ -192,17 +211,12 @@ final class CarPoolManager: CarPoolManagerType {
                     forDocument: roomRef
                 )
                 
-                return nil
+                return room
             }
             
-            do {
-                let carPool = try await roomRef.getDocument(as: CarPool.self)
-                sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
-                
-                return .success(response: carPool)
-            } catch {
-                return .failure(errorMessage: "카풀 정보를 가져오지 못했습니다")
-            }
+            let updatedCarPool = transactionResult as! CarPool
+            sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name) 님이 입장했습니다 -", isSystemMsg: true)
+            return .success(response: updatedCarPool)
             
         } catch {
             print("DEBUG: Transaction failed with error \(error)")
@@ -212,6 +226,7 @@ final class CarPoolManager: CarPoolManagerType {
     }
     
     func create(
+        user: User,
         departurePlaceName: String,
         destinationPlaceName: String,
         departurePlaceCoordinate: CLLocationCoordinate2D,
@@ -220,7 +235,6 @@ final class CarPoolManager: CarPoolManagerType {
         genderOption: Gender,
         maxPersonCount: Int
     ) -> FirebaseNetworkResult<CarPool> {
-        guard let uid = auth.currentUser?.uid else { return .failure(errorMessage: "사용자 정보를 가져오지 못했습니다") }
         let ref = db.collection("Rooms").document()
         
         let departurePlace = Location(
@@ -240,12 +254,13 @@ final class CarPoolManager: CarPoolManagerType {
             destination: destination,
             departureDate: departureDate,
             genderOption: genderOption.rawValue,
-            participants: [uid],
+            participants: [user.uid],
             maxPersonCount: maxPersonCount
         )
         
         do {
             try ref.setData(from: carPool)
+            sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
             return .success(response: carPool)
         } catch {
             return .failure(errorMessage: "카풀방을 생성하는데 실패했습니다. 잠시 후 다시 시도해주세요")
@@ -323,7 +338,7 @@ final class CarPoolManager: CarPoolManagerType {
     ) -> FirebaseNetworkResult<Message> {
         let ref = db.collection("Rooms")
             .document(roomId)
-            .collection("Messages")
+            .collection("ChatLogs")
             .document()
         
         let message = Message(
@@ -354,7 +369,7 @@ final class CarPoolManager: CarPoolManagerType {
         
         let commonQuery = db.collection("Rooms")
             .document(roomId)
-            .collection("Messages")
+            .collection("ChatLogs")
             .order(by: "timestamp")
             .limit(toLast: 20)
         
@@ -372,6 +387,7 @@ final class CarPoolManager: CarPoolManagerType {
             
             if snapshot.documents.isEmpty {
                 endPaging = true
+                print("DEBUG: 마지막 채팅 기록입니다.")
                 return []
             }
             
@@ -405,10 +421,9 @@ final class CarPoolManager: CarPoolManagerType {
     ) {
         guard let uid = auth.currentUser?.uid else { return }
         
-        let commonQuery = db
-            .collection("Rooms")
+        let commonQuery = db.collection("Rooms")
             .document(roomId)
-            .collection("Messages")
+            .collection("ChatLogs")
             .order(by: "timestamp")
         
         let requestQuery: Query
