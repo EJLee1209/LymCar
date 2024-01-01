@@ -53,27 +53,25 @@ extension MapView {
             _ location: MKLocalSearchCompletion,
             _ completion: @escaping () -> Void
         ) {
-            locationSearchManager.locationSearch(location) { result in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    
-                    switch result {
-                    case .success(let coordinate):
-                        switch searchType {
-                        case .departurePlace:
-                            departurePlaceText = location.title
-                            departurePlaceCoordinate = coordinate
-                        case .destination:
-                            destinationText = location.title
-                            destinationCoordinate = coordinate
-                        }
-                    case .failure(let errorMessage):
-                        alertMessage = errorMessage
-                        alertIsPresented = true
+            locationSearchManager.locationSearch(location) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let coordinate):
+                    switch searchType {
+                    case .departurePlace:
+                        departurePlaceText = location.title
+                        departurePlaceCoordinate = coordinate
+                    case .destination:
+                        destinationText = location.title
+                        destinationCoordinate = coordinate
                     }
-                    
-                    completion()
+                case .failure(let errorMessage):
+                    alertMessage = errorMessage
+                    alertIsPresented = true
                 }
+                
+                completion()
             }
         }
         

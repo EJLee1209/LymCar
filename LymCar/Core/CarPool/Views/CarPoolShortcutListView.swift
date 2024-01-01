@@ -16,7 +16,7 @@ struct CarPoolShortcutListView: View {
                 ForEach(appData.userCarPoolList) { carPool in
                     if let vm = appData.makeChatRoomVM(with: carPool) {
                         NavigationLink {
-                            ChatRoomView(viewModel: vm)
+                            ChatLogView(viewModel: vm)
                         } label: {
                             CarPoolShortCutCell(carPool: carPool)
                         }

@@ -25,7 +25,7 @@ struct CarPoolListView: View {
                     "",
                     isActive: $viewModel.navigateToChatRoomView,
                     destination: {
-                        ChatRoomView(viewModel: vm)
+                        ChatLogView(viewModel: vm)
                     }
                 )
             }
@@ -109,7 +109,6 @@ struct CarPoolListView: View {
             }
         }
         .onAppear {
-            print("DEBUG: CarPoolListView is on appear")
             viewModel.fetchCarPoolList()
         }
     }

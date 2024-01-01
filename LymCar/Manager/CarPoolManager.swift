@@ -79,6 +79,11 @@ final class CarPoolManager: CarPoolManagerType {
     private var messageListenerRegistration: ListenerRegistration?
     private var userCarPoolListenerRegistration: ListenerRegistration?
     
+    private var startDoc: DocumentSnapshot?
+    private var lastDoc: DocumentSnapshot?
+    private var endPaging: Bool = false
+    private var limit: Int = 20
+    
     func subscribeUserCarPool(completion: @escaping([CarPool]) -> Void) {
         guard let uid = auth.currentUser?.uid else {
             return
@@ -103,6 +108,7 @@ final class CarPoolManager: CarPoolManagerType {
                     DispatchQueue.main.async {
                         completion(carPoolList)
                     }
+                    print("DEBUG: user car pool!")
                 } catch {
                     print("DEBUG: Fail to subscribeUserCarPool with erro \(error.localizedDescription)")
                 }
@@ -357,10 +363,6 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
     
-    var startDoc: DocumentSnapshot?
-    var lastDoc: DocumentSnapshot?
-    var endPaging: Bool = false
-    
     func fetchMessages(
         roomId: String
     ) async -> [WrappedMessage] {
@@ -370,12 +372,14 @@ final class CarPoolManager: CarPoolManagerType {
         let commonQuery = db.collection("Rooms")
             .document(roomId)
             .collection("ChatLogs")
-            .order(by: "timestamp")
-            .limit(toLast: 20)
+            .order(by: "timestamp") // timestamp 필드를 기준으로 오름차순 정렬
+            .limit(toLast: limit) // 마지막에서 20개
         
         let requestQuery: Query
         
+        /// 이전 페이지의 첫번재 Document가 있는지 확인
         if let startDoc = startDoc {
+            /// 다음 페이지 = 이전 페이지의 첫번째 Document 이전까지의 20개
             requestQuery = commonQuery
                 .end(beforeDocument: startDoc)
         } else {
@@ -385,14 +389,19 @@ final class CarPoolManager: CarPoolManagerType {
         do {
             let snapshot = try await requestQuery.getDocuments()
             
+            /// document가 비어있다면, 더 이상 다음 페이지는 존재하지 않음.
+            /// 이후 쿼리 요청을 막기 위해서 Bool 타입 flag 변수 사용
             if snapshot.documents.isEmpty {
                 endPaging = true
-                print("DEBUG: 마지막 채팅 기록입니다.")
                 return []
             }
             
+            /// 현재 페이지의 첫번째 Document와 마지막 Document를 기록
+            /// startDoc은 다음 페이지의 마지막 Document를 지정하기 위해서 사용
+            /// lastDoc은 새로운 메세지를 구독하는 시작 Document를 지정하기 위해서 사용
             startDoc = snapshot.documents.first
             lastDoc = snapshot.documents.last
+            
             
             let wrappedMessages = try snapshot.documents.map { document -> WrappedMessage in
                 let message = try document.data(as: Message.self)
@@ -405,14 +414,14 @@ final class CarPoolManager: CarPoolManagerType {
                 }
             }
             
-            if wrappedMessages.count < 20 { endPaging = true }
+            /// 만약 20개(페이지 Document 수) 보다 작다면, 마지막 페이지임
+            if wrappedMessages.count < limit { endPaging = true }
             
             return wrappedMessages
         } catch {
             print("DEBUG: Fail to subscribeNewMessages with error: \(error.localizedDescription)")
             return []
         }
-        
     }
     
     func subscribeNewMessages(
@@ -424,18 +433,20 @@ final class CarPoolManager: CarPoolManagerType {
         let commonQuery = db.collection("Rooms")
             .document(roomId)
             .collection("ChatLogs")
-            .order(by: "timestamp")
+            .order(by: "timestamp") // timestamp를 기준으로 오름차순 정렬
         
         let requestQuery: Query
         
+        /// 첫번째 페이지의 마지막 Document(구독의 시작 지점)를 가져옴
         if let lastDoc = lastDoc {
+            /// lastDoc 이후의  Query
             requestQuery = commonQuery
                 .start(afterDocument: lastDoc)
         } else {
             requestQuery = commonQuery
         }
         
-        requestQuery.addSnapshotListener { snapshot, error in
+        messageListenerRegistration = requestQuery.addSnapshotListener { snapshot, error in
             guard let document = snapshot?.documents else {
                 print("DEBUG: Fail to subscribeNewMessages with error document is nil")
                 return
@@ -454,12 +465,14 @@ final class CarPoolManager: CarPoolManagerType {
                         }
                     }
                 
-                completion(wrappedMessages)
+                DispatchQueue.main.async {
+                    completion(wrappedMessages)
+                }
+                print("DEBUG: new message!")
             } catch {
                 print("DEBUG: Fail to subscribeNewMessages with error: \(error.localizedDescription)")
             }
         }
-        
     }
     
     func resetPageProperties() {

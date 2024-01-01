@@ -21,16 +21,18 @@ final class LocationSearchManager: LocationSearchManagerType {
         _ completion: @escaping (LocationSearchResult) -> Void
     ) {
         locationSearch(forLocalSearchCompletion: location) { response, error in
-            if let error = error {
-                completion(.failure(errorMessage: "위치 정보를 찾을 수 없습니다"))
-                return
+            DispatchQueue.main.async {
+                if let _ = error {
+                    completion(.failure(errorMessage: "위치 정보를 찾을 수 없습니다"))
+                    return
+                }
+                guard let item = response?.mapItems.first else {
+                    completion(.failure(errorMessage: "위치 정보를 찾을 수 없습니다"))
+                    return
+                }
+                let coordinate = item.placemark.coordinate
+                completion(.success(coordinate))
             }
-            guard let item = response?.mapItems.first else {
-                completion(.failure(errorMessage: "위치 정보를 찾을 수 없습니다"))
-                return
-            }
-            let coordinate = item.placemark.coordinate
-            completion(.success(coordinate))
         }
     }
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ChatRoomView {
+extension ChatLogView {
     final class ViewModel: ObservableObject {
         //MARK: - Properties
         @Published var title: String = ""

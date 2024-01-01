@@ -110,27 +110,24 @@ extension CarPoolGenerateView {
         func didSelectLocal(
             with location: MKLocalSearchCompletion
         ) {
-            locationSearchManager.locationSearch(location) { searchResult in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    switch searchResult {
-                    case .success(let coordinate):
-                        switch searchType {
-                        case .departurePlace:
-                            departurePlaceCoordinate = coordinate
-                            departurePlaceText = location.title
-                        case .destination:
-                            destinationCoordinate = coordinate
-                            destinationText = location.title
-                        default:
-                            break
-                        }
-                    case .failure(let errorMessage):
-                        alertMessage = errorMessage
-                        alertIsPresented = true
+            locationSearchManager.locationSearch(location) { [weak self] searchResult in
+                guard let self = self else { return }
+                switch searchResult {
+                case .success(let coordinate):
+                    switch searchType {
+                    case .departurePlace:
+                        departurePlaceCoordinate = coordinate
+                        departurePlaceText = location.title
+                    case .destination:
+                        destinationCoordinate = coordinate
+                        destinationText = location.title
+                    default:
+                        break
                     }
+                case .failure(let errorMessage):
+                    alertMessage = errorMessage
+                    alertIsPresented = true
                 }
-                
             }
         }
         

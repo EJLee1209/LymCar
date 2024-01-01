@@ -92,8 +92,8 @@
 		CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E102B347F2900C88D77 /* MenuView.swift */; };
 		CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3E122B347F3B00C88D77 /* HistoryView.swift */; };
 		CFE7A3942B3D4C01007432A0 /* CarPoolShortCutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */; };
-		CFE7A3962B3D73C6007432A0 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3952B3D73C6007432A0 /* ChatRoomView.swift */; };
-		CFE7A3982B3D75DC007432A0 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3972B3D75DC007432A0 /* ChatRoomViewModel.swift */; };
+		CFE7A3962B3D73C6007432A0 /* ChatLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3952B3D73C6007432A0 /* ChatLogView.swift */; };
+		CFE7A3982B3D75DC007432A0 /* ChatLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3972B3D75DC007432A0 /* ChatLogViewModel.swift */; };
 		CFE7A39A2B3D784A007432A0 /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3992B3D784A007432A0 /* MessageInputView.swift */; };
 		CFE7A39C2B3D7BAF007432A0 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A39B2B3D7BAF007432A0 /* MessageCell.swift */; };
 		CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A39D2B3D8394007432A0 /* Message.swift */; };
@@ -162,8 +162,8 @@
 		CFDB3E102B347F2900C88D77 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		CFDB3E122B347F3B00C88D77 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortCutCell.swift; sourceTree = "<group>"; };
-		CFE7A3952B3D73C6007432A0 /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
-		CFE7A3972B3D75DC007432A0 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		CFE7A3952B3D73C6007432A0 /* ChatLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogView.swift; sourceTree = "<group>"; };
+		CFE7A3972B3D75DC007432A0 /* ChatLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewModel.swift; sourceTree = "<group>"; };
 		CFE7A3992B3D784A007432A0 /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		CFE7A39B2B3D7BAF007432A0 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		CFE7A39D2B3D8394007432A0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -377,7 +377,7 @@
 			children = (
 				CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */,
 				CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */,
-				CFE7A3972B3D75DC007432A0 /* ChatRoomViewModel.swift */,
+				CFE7A3972B3D75DC007432A0 /* ChatLogViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -450,7 +450,7 @@
 				CF49530C2B380816009FD93A /* TimePickerView.swift */,
 				CF49530E2B381080009FD93A /* OptionView.swift */,
 				CFE7A3932B3D4C01007432A0 /* CarPoolShortCutCell.swift */,
-				CFE7A3952B3D73C6007432A0 /* ChatRoomView.swift */,
+				CFE7A3952B3D73C6007432A0 /* ChatLogView.swift */,
 				CFE7A3992B3D784A007432A0 /* MessageInputView.swift */,
 				CFE7A39B2B3D7BAF007432A0 /* MessageCell.swift */,
 				CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */,
@@ -580,7 +580,7 @@
 			files = (
 				CF4953092B380123009FD93A /* LocationSearchInputView.swift in Sources */,
 				CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */,
-				CFE7A3982B3D75DC007432A0 /* ChatRoomViewModel.swift in Sources */,
+				CFE7A3982B3D75DC007432A0 /* ChatLogViewModel.swift in Sources */,
 				CFA32E182B36ABA000385847 /* MenuType.swift in Sources */,
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
 				CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */,
@@ -598,7 +598,7 @@
 				CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */,
 				CF78A6E32B35519A00306F6A /* RootView.swift in Sources */,
 				CFE7A3A22B3D9B22007432A0 /* WrappedMessage.swift in Sources */,
-				CFE7A3962B3D73C6007432A0 /* ChatRoomView.swift in Sources */,
+				CFE7A3962B3D73C6007432A0 /* ChatLogView.swift in Sources */,
 				CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */,
 				CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */,
 				CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */,

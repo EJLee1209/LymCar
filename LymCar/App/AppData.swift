@@ -158,10 +158,10 @@ final class AppData: ObservableObject {
         )
     }
     
-    func makeChatRoomVM(with carPool: CarPool) -> ChatRoomView.ViewModel? {
+    func makeChatRoomVM(with carPool: CarPool) -> ChatLogView.ViewModel? {
         guard let user = currentUser else { return nil }
         
-        return ChatRoomView.ViewModel(
+        return ChatLogView.ViewModel(
             carPool: carPool,
             currentUser: user,
             carPoolManager: carPoolManager

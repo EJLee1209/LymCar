@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatRoomView: View {
+struct ChatLogView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appData: AppData
     @StateObject var viewModel: ViewModel
@@ -115,7 +115,7 @@ struct ChatRoomView: View {
 }
 
 #Preview {
-    ChatRoomView(
+    ChatLogView(
         viewModel: .init(
             carPool: CarPool.mock,
             currentUser: .mock,
