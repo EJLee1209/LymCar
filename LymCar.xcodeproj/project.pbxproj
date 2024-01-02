@@ -142,6 +142,7 @@
 		CFA32E1C2B36ABD800385847 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		CFA32E1E2B36BF3E00385847 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		CFA32E222B36D83500385847 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		CFA4DFA02B441AF000A791A7 /* LymCar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LymCar.entitlements; sourceTree = "<group>"; };
 		CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolGenerateViewModel.swift; sourceTree = "<group>"; };
 		CFB635022B398B230029BE3F /* CarPoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolManager.swift; sourceTree = "<group>"; };
 		CFB635042B399A310029BE3F /* CarPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPool.swift; sourceTree = "<group>"; };
@@ -229,6 +230,7 @@
 		CF3F49992B316A6F009E8A96 /* LymCar */ = {
 			isa = PBXGroup;
 			children = (
+				CFA4DFA02B441AF000A791A7 /* LymCar.entitlements */,
 				CF3F49E42B316E24009E8A96 /* App */,
 				CFDB3DFB2B33FC4B00C88D77 /* Extensions */,
 				CF3F49F02B31AA97009E8A96 /* Manager */,
@@ -771,12 +773,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "림카";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -805,12 +809,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "림카";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

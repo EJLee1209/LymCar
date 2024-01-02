@@ -38,7 +38,7 @@ struct ChatLogView: View {
             }
             
             VStack {
-                Text("인원 4명(남성끼리 타기)")
+                Text("인원 \(viewModel.carPool.personCount)명")
                     .font(.system(size: 15, weight: .medium))
                     .frame(maxWidth: .infinity)
                 
@@ -120,6 +120,7 @@ struct ChatLogView: View {
         })
         .onAppear {
             viewModel.fetchMessages()
+            viewModel.subscribeCarPool()
         }
         .onDisappear {
             viewModel.onDisappear()
