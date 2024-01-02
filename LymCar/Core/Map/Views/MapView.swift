@@ -9,9 +9,17 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    @EnvironmentObject var appData: AppData
-    @StateObject var viewModel: ViewModel
+    @EnvironmentObject private var appData: AppData
+    @StateObject private var viewModel: ViewModel
     @Binding var mapState: MapState
+    
+    init(
+        mapState: Binding<MapState>,
+        locationSearchManager: LocationSearchManagerType
+    ) {
+        _mapState = mapState
+        _viewModel = .init(wrappedValue: ViewModel(locationSearchManager: locationSearchManager))
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -70,8 +78,8 @@ struct MapView: View {
 
 #Preview {
     MapView(
-        viewModel: MapView.ViewModel(locationSearchManager: LocationSearchManager()),
-        mapState: .constant(.none)
+        mapState: .constant(.none),
+        locationSearchManager: LocationSearchManager()
     )
     .environmentObject(
         AppData(

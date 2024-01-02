@@ -20,13 +20,16 @@ final class AppData: ObservableObject {
     
     @Published var currentUser: User?
     @Published var userCarPoolList: [CarPool] = []
-    var departureLocation: Location?
-    var destination: Location?
-    var userLocation: Location?
     
-    private let authManager: AuthManagerType
-    private let carPoolManager: CarPoolManagerType
-    private let locationSearchManager: LocationSearchManagerType
+    var departurePlaceName: String = ""
+    var destinationName: String = ""
+    var departureLocationCoordinate: CLLocationCoordinate2D?
+    var destinationCoordinate: CLLocationCoordinate2D?
+    var userLocationCoordinate: CLLocationCoordinate2D?
+    
+    let authManager: AuthManagerType
+    let carPoolManager: CarPoolManagerType
+    let locationSearchManager: LocationSearchManagerType
     
     @Published var alertIsPresented: Bool = false
     var alertMessage: String = ""
@@ -60,22 +63,10 @@ final class AppData: ObservableObject {
         departureLocationCoordinate: CLLocationCoordinate2D?,
         destinationCoordinate: CLLocationCoordinate2D?
     ) {
-        if let departCoord = departureLocationCoordinate {
-            let departureLocation = Location(
-                placeName: departurePlaceName,
-                latitude: departCoord.latitude,
-                longitude: departCoord.longitude
-            )
-            self.departureLocation = departureLocation
-        }
-        if let destCoord = destinationCoordinate {
-            let destination = Location(
-                placeName: destinationName,
-                latitude: destCoord.latitude,
-                longitude: destCoord.longitude
-            )
-            self.destination = destination
-        }
+        self.departurePlaceName = departurePlaceName
+        self.destinationName = destinationName
+        self.departureLocationCoordinate = departureLocationCoordinate
+        self.destinationCoordinate = destinationCoordinate
     }
     
     func checkUserAndFetchUserCarPool() async -> User? {
@@ -104,59 +95,12 @@ final class AppData: ObservableObject {
     }
     
     func clearLocation() {
-        departureLocation = userLocation
-        destination = nil
+        departureLocationCoordinate = userLocationCoordinate
+        destinationCoordinate = nil
     }
     
     //MARK: - Make ViewModel
     
-    func makeAuthVM() -> AuthViewModel {
-        return AuthViewModel(authManager: self.authManager)
-    }
-    
-    func makeMapVM() -> MapView.ViewModel {
-        return .init(locationSearchManager: locationSearchManager)
-    }
-    
-    func makeCarPoolListVM() -> CarPoolListView.ViewModel? {
-        guard let user = currentUser else { return nil }
-        
-        return .init(
-            user: user,
-            carPoolManager: self.carPoolManager
-        )
-    }
-    
-    func makeCarPoolGenerateVM() -> CarPoolGenerateView.ViewModel? {
-        guard let user = currentUser else { return nil }
-        
-        var departurePlaceCoordinate: CLLocationCoordinate2D?
-        var destinationCoordinate: CLLocationCoordinate2D?
-        
-        if let departureLocation = departureLocation {
-            departurePlaceCoordinate = CLLocationCoordinate2D(
-                latitude: departureLocation.latitude,
-                longitude: departureLocation.longitude
-            )
-        }
-        
-        if let destination = destination {
-            destinationCoordinate = CLLocationCoordinate2D(
-                latitude: destination.latitude,
-                longitude: destination.longitude
-            )
-        }
-        
-        return .init(
-            currentUser: user,
-            departurePlaceText: departureLocation?.placeName ?? "",
-            destinationText: destination?.placeName ?? "",
-            departurePlaceCoordinate: departurePlaceCoordinate,
-            destinationCoordinate: destinationCoordinate,
-            carPoolManager: self.carPoolManager,
-            locationSearchManager: self.locationSearchManager
-        )
-    }
     
     func makeChatRoomVM(with carPool: CarPool) -> ChatLogView.ViewModel? {
         guard let user = currentUser else { return nil }

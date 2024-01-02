@@ -16,7 +16,7 @@ import MapKit
 struct MapViewRepresentable: UIViewRepresentable {
     
     //MARK: - Properties
-    @EnvironmentObject var appData: AppData
+    @EnvironmentObject private var appData: AppData
     @ObservedObject var mapViewModel: MapView.ViewModel
     @Binding var mapState: MapState
     
@@ -182,17 +182,14 @@ extension MapViewRepresentable {
                 
                 
                 DispatchQueue.main.async { [weak self] in
-                    if self?.parent.mapViewModel.departurePlaceText != address {
-                        self?.parent.mapViewModel.departurePlaceText = address
+                    guard let self = self else { return }
+                    if parent.mapViewModel.departurePlaceText != address {
+                        parent.mapViewModel.departurePlaceText = address
                         
-                        guard let userCoordinate = self?.parent.mapViewModel.userLocationCoordinate else { return }
-                        let userLocation = Location(
-                            placeName: address,
-                            latitude: userCoordinate.latitude,
-                            longitude: userCoordinate.longitude
-                        )
-                        self?.parent.appData.userLocation = userLocation
-                        self?.parent.appData.departureLocation = userLocation
+                        guard let userCoordinate = parent.mapViewModel.userLocationCoordinate else { return }
+                        parent.appData.departureLocationCoordinate = userCoordinate
+                        parent.appData.userLocationCoordinate = userCoordinate
+                        parent.appData.departurePlaceName = address
                     }
                 }
             }

@@ -6,13 +6,38 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CarPoolGenerateView: View {
-    @EnvironmentObject var AppData: AppData
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var AppData: AppData
+    @Environment(\.dismiss) private var dismiss
     
-    @StateObject var viewModel: ViewModel
-    @State var locationSearchResultViewIsPresented: Bool = false
+    @StateObject private var viewModel: ViewModel
+    @State private var locationSearchResultViewIsPresented: Bool = false
+    
+    
+    init(
+        currentUser: User,
+        departurePlaceText: String,
+        destinationText: String,
+        departurePlaceCoordinate: CLLocationCoordinate2D?,
+        destinationCoordinate: CLLocationCoordinate2D?,
+        carPoolManager: CarPoolManagerType,
+        locationSearchManager: LocationSearchManagerType
+    ) {
+        let viewModel = ViewModel(
+            currentUser: currentUser,
+            departurePlaceText: departurePlaceText,
+            destinationText: destinationText,
+            departurePlaceCoordinate: departurePlaceCoordinate,
+            destinationCoordinate: destinationCoordinate,
+            carPoolManager: carPoolManager,
+            locationSearchManager: locationSearchManager
+        )
+        
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -117,15 +142,13 @@ struct CarPoolGenerateView: View {
 
 #Preview {
     CarPoolGenerateView(
-        viewModel: .init(
-            currentUser: .init(email: "", gender: .male, name: "", uid: ""),
-            departurePlaceText: "강남역",
-            destinationText: "강남역 스타벅스",
-            departurePlaceCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
-            destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
-            carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager()
-        )
+        currentUser: .init(email: "", gender: .male, name: "", uid: ""),
+        departurePlaceText: "강남역",
+        destinationText: "강남역 스타벅스",
+        departurePlaceCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
+        destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
+        carPoolManager: CarPoolManager(),
+        locationSearchManager: LocationSearchManager()
     )
     .environmentObject(
         AppData(

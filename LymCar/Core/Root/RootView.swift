@@ -28,8 +28,8 @@ struct RootView: View {
                                 HistoryView()
                             case .map:
                                 MapView(
-                                    viewModel: appData.makeMapVM(),
-                                    mapState: $mapState
+                                    mapState: $mapState,
+                                    locationSearchManager: appData.locationSearchManager
                                 )
                             case .menu:
                                 MenuView(loginViewIsPresented: $loginViewIsPresented)
@@ -43,9 +43,12 @@ struct RootView: View {
                         
                         /// bottom sheet - 카풀 목록
                         if mapState == .locationSelected {
-                            if let vm = appData.makeCarPoolListVM() {
-                                CarPoolListView(viewModel: vm)
-                                    .transition(.move(edge: .bottom))
+                            if let user = appData.currentUser {
+                                CarPoolListView(
+                                    user: user,
+                                    carPoolManager: appData.carPoolManager
+                                )
+                                .transition(.move(edge: .bottom))
                             }
                         }
                         
@@ -55,8 +58,8 @@ struct RootView: View {
                         /// didLogin == false -> 로그인 화면을 보여줌
                         /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
                         LoginView(
-                            viewModel: appData.makeAuthVM(),
-                            loginViewIsPresented: $loginViewIsPresented
+                            isPresented: $loginViewIsPresented,
+                            authManager: appData.authManager
                         )
                     })
                 }

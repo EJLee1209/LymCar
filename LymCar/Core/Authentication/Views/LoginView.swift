@@ -13,12 +13,20 @@ struct LoginView: View {
     }
     
     @EnvironmentObject private var appData: AppData
-    @StateObject var viewModel: AuthViewModel
+    @StateObject private var viewModel: AuthViewModel
     @Binding var loginViewIsPresented: Bool
     
     @AppStorage("email") private var emailText: String = ""
     @State private var passwordText: String = ""
     @FocusState private var focusField: Field?
+    
+    init(
+        isPresented: Binding<Bool>,
+        authManager: AuthManagerType
+    ) {
+        _loginViewIsPresented = isPresented
+        _viewModel = StateObject(wrappedValue: AuthViewModel(authManager: authManager))
+    }
     
     var body: some View {
         NavigationView {
@@ -135,8 +143,8 @@ struct LoginView: View {
 
 #Preview {
     LoginView(
-        viewModel: AuthViewModel(authManager: AuthManager()),
-        loginViewIsPresented: .constant(false)
+        isPresented: .constant(true),
+        authManager: AuthManager()
     )
     .environmentObject(
         AppData(

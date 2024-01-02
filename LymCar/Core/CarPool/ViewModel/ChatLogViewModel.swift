@@ -10,6 +10,7 @@ import Foundation
 extension ChatLogView {
     final class ViewModel: ObservableObject {
         //MARK: - Properties
+        @Published var carPool: CarPool
         @Published var title: String = ""
         @Published var messageText: String = ""
         @Published var prevMessages: [WrappedMessage] = []
@@ -22,7 +23,7 @@ extension ChatLogView {
         
         var messageListenerExist: Bool = false
         
-        var carPool: CarPool
+        
         let currentUser: User
         let carPoolManager: CarPoolManagerType
         
@@ -46,6 +47,7 @@ extension ChatLogView {
             
             title = "\(carPool.departurePlace.placeName) - \(carPool.destination.placeName)"
         }
+        
         
         //MARK: - Helpers
         
@@ -78,6 +80,17 @@ extension ChatLogView {
             
             carPoolManager.subscribeNewMessages(roomId: carPool.id) { [weak self] newMessages in
                 self?.newMessages = newMessages
+            }
+        }
+        
+        func subscribeCarPool() {
+            carPoolManager.subscribeCarPool(roomId: carPool.id) { [weak self] result in
+                switch result {
+                case .success(let carPool):
+                    self?.carPool = carPool
+                case .failure(let errorMessage):
+                    print("DEBUG: Fail to subscribeCarPool with error \(errorMessage)")
+                }
             }
         }
         

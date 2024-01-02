@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct CarPoolListView: View {
-    @EnvironmentObject var appData: AppData
-    @StateObject var viewModel: ViewModel
+    @EnvironmentObject private var appData: AppData
+    @StateObject private var viewModel: ViewModel
     
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225))
     ]
     
+    init(
+        user: User,
+        carPoolManager: CarPoolManagerType
+    ) {
+        _viewModel = StateObject(wrappedValue: ViewModel(user: user, carPoolManager: carPoolManager))
+    }
+    
     var body: some View {
         ZStack {
             
             if let joinedCarPool = viewModel.joinedCarPool,
-               let vm = appData.makeChatRoomVM(with: joinedCarPool)
+               let user = appData.currentUser
             {
                 NavigationLink(
                     "",
                     isActive: $viewModel.navigateToChatRoomView,
                     destination: {
-                        ChatLogView(viewModel: vm)
+                        ChatLogView(
+                            carPool: joinedCarPool,
+                            user: user,
+                            carPoolManager: appData.carPoolManager
+                        )
                     }
                 )
             }
@@ -115,18 +126,24 @@ struct CarPoolListView: View {
     
     @ViewBuilder
     var carpoolGenderateViewNavigationLink: some View {
-        if let vm = appData.makeCarPoolGenerateVM() {
-            CarPoolGenerateView(viewModel: vm)
+        if let user = appData.currentUser {
+            CarPoolGenerateView(
+                currentUser: user,
+                departurePlaceText: appData.departurePlaceName,
+                destinationText: appData.destinationName,
+                departurePlaceCoordinate: appData.departureLocationCoordinate,
+                destinationCoordinate: appData.destinationCoordinate,
+                carPoolManager: appData.carPoolManager,
+                locationSearchManager: appData.locationSearchManager
+            )
         }
     }
 }
 
 #Preview {
     CarPoolListView(
-        viewModel: .init(
-            user: User.mock,
-            carPoolManager: CarPoolManager()
-        )
+        user: .mock,
+        carPoolManager: CarPoolManager()
     )
     .environmentObject(
         AppData(

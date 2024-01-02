@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct CarPoolShortcutListView: View {
-    @EnvironmentObject var appData: AppData
+    @EnvironmentObject private var appData: AppData
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
                 ForEach(appData.userCarPoolList) { carPool in
-                    if let vm = appData.makeChatRoomVM(with: carPool) {
+                    if let user = appData.currentUser {
                         NavigationLink {
-                            ChatLogView(viewModel: vm)
+                            ChatLogView(
+                                carPool: carPool,
+                                user: user,
+                                carPoolManager: appData.carPoolManager
+                            )
                         } label: {
                             CarPoolShortCutCell(carPool: carPool)
                         }
-                    } else {
+                    }else {
                         CarPoolShortCutCell(carPool: carPool)
                     }
                 }

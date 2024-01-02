@@ -13,6 +13,9 @@ protocol CarPoolManagerType {
     /// 유저가 참여중인 카풀 리스트 리스너 등록
     func subscribeUserCarPool(completion: @escaping([CarPool]) -> Void)
     
+    /// 카풀 리스너 등록
+    func subscribeCarPool(roomId: String, completion: @escaping(FirebaseNetworkResult<CarPool>) -> Void)
+    
     /// 카풀 리스트 가져오기
     func fetchCarPool(gender: String) async -> [CarPool]
     
@@ -66,6 +69,8 @@ protocol CarPoolManagerType {
     /// 메세지 리스너 제거
     func removeMessageListener()
     
+    func removeCarPoolListener()
+    
     /// 유저 카풀 리스너 제거
     func removeUserCarPoolListener()
     
@@ -78,6 +83,7 @@ final class CarPoolManager: CarPoolManagerType {
     
     private var messageListenerRegistration: ListenerRegistration?
     private var userCarPoolListenerRegistration: ListenerRegistration?
+    private var carPoolListenerRegistration: ListenerRegistration?
     
     private var startDoc: DocumentSnapshot?
     private var lastDoc: DocumentSnapshot?
@@ -93,26 +99,44 @@ final class CarPoolManager: CarPoolManagerType {
             .whereField("participants", arrayContains: uid)
             .order(by: "departureDate")
             .addSnapshotListener { snapshot, error in
-                if let _ = error {
-                    return
-                }
-                
-                guard let documents = snapshot?.documents else {
-                    completion([])
-                    return
-                }
-                
-                do {
-                    let carPoolList = try documents.map { try $0.data(as: CarPool.self) }
-                    
-                    DispatchQueue.main.async {
-                        completion(carPoolList)
+                DispatchQueue.main.async {
+                    guard let documents = snapshot?.documents else {
+                        return
                     }
-                    print("DEBUG: user car pool!")
-                } catch {
-                    print("DEBUG: Fail to subscribeUserCarPool with erro \(error.localizedDescription)")
+                    
+                    do {
+                        let carPoolList = try documents.map { try $0.data(as: CarPool.self) }
+                        completion(carPoolList)
+                        print("DEBUG: user car pool!")
+                    } catch {
+                        print("DEBUG: Fail to subscribeUserCarPool with erro \(error.localizedDescription)")
+                    }
                 }
             }
+    }
+    
+    func subscribeCarPool(roomId: String, completion: @escaping (FirebaseNetworkResult<CarPool>) -> Void) {
+        guard let uid = auth.currentUser?.uid else {
+            return
+        }
+        
+        carPoolListenerRegistration = db.collection("Rooms")
+            .whereField("id", isEqualTo: roomId)
+            .addSnapshotListener({ snapshot, error in
+                DispatchQueue.main.async {
+                    guard let document = snapshot?.documents.first else {
+                        completion(.failure(errorMessage: "존재하지 않는 채팅방입니다"))
+                        return
+                    }
+                    
+                    do {
+                        let carPool = try document.data(as: CarPool.self)
+                        completion(.success(response: carPool))
+                    } catch {
+                        completion(.failure(errorMessage: error.localizedDescription))
+                    }
+                }
+            })
     }
     
     func fetchCarPool(gender: String) async -> [CarPool] {
@@ -483,6 +507,10 @@ final class CarPoolManager: CarPoolManagerType {
     
     func removeMessageListener() {
         messageListenerRegistration?.remove()
+    }
+    
+    func removeCarPoolListener() {
+        carPoolListenerRegistration?.remove()
     }
     
     func removeUserCarPoolListener() {

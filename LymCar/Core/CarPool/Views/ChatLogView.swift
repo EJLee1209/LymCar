@@ -8,9 +8,22 @@
 import SwiftUI
 
 struct ChatLogView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var appData: AppData
-    @StateObject var viewModel: ViewModel
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var appData: AppData
+    @StateObject private var viewModel: ViewModel
+    
+    init(
+        carPool: CarPool,
+        user: User,
+        carPoolManager: CarPoolManagerType
+    ) {
+        let viewModel = ViewModel(
+            carPool: carPool,
+            currentUser: user,
+            carPoolManager: carPoolManager
+        )
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -116,11 +129,7 @@ struct ChatLogView: View {
 
 #Preview {
     ChatLogView(
-        viewModel: .init(
-            carPool: CarPool.mock,
-            currentUser: .mock,
-            carPoolManager: CarPoolManager()
-        )
+        carPool: .mock, user: .mock, carPoolManager: CarPoolManager()
     )
     .environmentObject(
         AppData(

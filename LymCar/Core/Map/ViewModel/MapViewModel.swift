@@ -45,6 +45,7 @@ extension MapView {
             
             super.init()
             searchCompleter.delegate = self
+            print("DEBUG: MapViewModel init")
         }
         
         //MARK: - Helpers
