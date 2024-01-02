@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @EnvironmentObject private var appData: AppData
     @State private var mapState: MapState = .none
     @State private var selectedTab: TabMenuItem = .map
@@ -106,6 +107,12 @@ struct RootView: View {
                 })
             }
         }
+        .onReceive(appDelegate.$fcmToken.combineLatest(appData.$currentUser), perform: { (fcmToken, user) in
+            /// fcmToken 퍼블리셔와 currentUser 퍼블리셔를 combineLatest로 묶어서 하나의 퍼블리셔로 만듬
+            /// 이렇게하면, 로그아웃 또는 로그인을 해서 유저 정보가 변경되었을 때에도 토큰 값을 Firestore에 업데이트 할 수 있음
+            guard let token = fcmToken, let _ = user else { return }
+            appData.updateFcmToken(token)
+        })
     }
 }
 
@@ -118,4 +125,5 @@ struct RootView: View {
                 locationSearchManager: LocationSearchManager()
             )
         )
+        .environmentObject(AppDelegate())
 }

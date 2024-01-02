@@ -71,7 +71,7 @@ final class AppData: ObservableObject {
     
     func checkUserAndFetchUserCarPool() async -> User? {
         let currentUser = await authManager.checkCurrentUser()
-        fetchUserCarPool()
+        subscribeUserCarPool()
         
         await MainActor.run {
             self.currentUser = currentUser
@@ -80,7 +80,7 @@ final class AppData: ObservableObject {
         return currentUser
     }
     
-    func fetchUserCarPool() {
+    func subscribeUserCarPool() {
         carPoolManager.subscribeUserCarPool { [weak self] list in
             self?.userCarPoolList = list
         }
@@ -99,16 +99,7 @@ final class AppData: ObservableObject {
         destinationCoordinate = nil
     }
     
-    //MARK: - Make ViewModel
-    
-    
-    func makeChatRoomVM(with carPool: CarPool) -> ChatLogView.ViewModel? {
-        guard let user = currentUser else { return nil }
-        
-        return ChatLogView.ViewModel(
-            carPool: carPool,
-            currentUser: user,
-            carPoolManager: carPoolManager
-        )
+    func updateFcmToken(_ token: String) {
+        authManager.updateFcmToken(token)
     }
 }

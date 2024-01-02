@@ -130,7 +130,7 @@ struct LoginView: View {
                 switch authResult {
                 case .successToNetworkRequest(let user):
                     appData.currentUser = user
-                    appData.fetchUserCarPool()
+                    appData.subscribeUserCarPool()
                     loginViewIsPresented.toggle()
                 default:
                     break

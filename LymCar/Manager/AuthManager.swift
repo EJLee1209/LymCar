@@ -26,6 +26,8 @@ protocol AuthManagerType {
     
     @discardableResult
     func logout() -> Bool
+    
+    func updateFcmToken(_ token: String)
 }
 
 final class AuthManager: AuthManagerType {
@@ -118,6 +120,15 @@ final class AuthManager: AuthManagerType {
             return false
         }
     }
+    
+    func updateFcmToken(_ token: String) {
+        guard let uid = auth.currentUser?.uid else {
+            return
+        }
+        
+        db.collection("FcmTokens").document(uid).setData(["token": token])
+    }
+    
     
 }
 

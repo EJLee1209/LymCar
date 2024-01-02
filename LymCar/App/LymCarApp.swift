@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct LymCarApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var appData: AppData = .init(
         authManager: AuthManager(),
         carPoolManager: CarPoolManager(),
@@ -20,8 +20,8 @@ struct LymCarApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(appData)
+                .environmentObject(appDelegate)
+                
         }
     }
 }
-
-
