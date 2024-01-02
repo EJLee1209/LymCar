@@ -126,7 +126,9 @@ final class AuthManager: AuthManagerType {
             return
         }
         
-        db.collection("FcmTokens").document(uid).setData(["token": token])
+        db.collection("FcmTokens")
+            .document(uid)
+            .setData(["token": token, "roomIds": [String]()])
     }
     
     

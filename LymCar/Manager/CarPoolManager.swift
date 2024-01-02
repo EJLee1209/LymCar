@@ -171,6 +171,7 @@ final class CarPoolManager: CarPoolManagerType {
         do {
             let transactionResult = try await db.runTransaction { transaction, errorPointer in
                 let roomDocument: DocumentSnapshot
+                
                 do {
                     try roomDocument = transaction.getDocument(roomRef)
                 } catch let fetchError as NSError {
@@ -246,6 +247,13 @@ final class CarPoolManager: CarPoolManagerType {
             
             let updatedCarPool = transactionResult as! CarPool
             sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name) 님이 입장했습니다 -", isSystemMsg: true)
+            
+            Task {
+                var roomIds = await getUserCarPoolIds()
+                roomIds.append(carPool.id)
+                try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": roomIds])
+            }
+            
             return .success(response: updatedCarPool)
             
         } catch {
@@ -291,6 +299,13 @@ final class CarPoolManager: CarPoolManagerType {
         do {
             try ref.setData(from: carPool)
             sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
+            
+            Task {
+                var roomIds = await getUserCarPoolIds()
+                roomIds.append(carPool.id)
+                try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": roomIds])
+            }
+            
             return .success(response: carPool)
         } catch {
             return .failure(errorMessage: "카풀방을 생성하는데 실패했습니다. 잠시 후 다시 시도해주세요")
@@ -334,16 +349,39 @@ final class CarPoolManager: CarPoolManagerType {
                     "participants": room.participants.filter { $0 != user.uid }
                 ]
                 transaction.updateData(updateDict, forDocument: roomRef)
-                
                 return nil
             }
             
             sendMessage(sender: user, roomId: roomId, text: "- \(user.name)님이 나갔습니다 -", isSystemMsg: true)
+            
+            let roomIds = await getUserCarPoolIds()
+            let newRoomIds = roomIds.filter { $0 != roomId }
+            try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": newRoomIds])
+            
             return .success(response: "")
         } catch {
             return .failure(errorMessage: error.localizedDescription)
         }
         
+    }
+    
+    func getUserCarPoolIds() async -> [String] {
+        guard let uid = auth.currentUser?.uid else { return [] }
+        
+        do {
+            let snapshot = try await db.collection("FcmTokens").document(uid).getDocument()
+            
+            guard let data = snapshot.data() else {
+                return []
+            }
+            let roomIds = data["roomIds"] as! [String]
+            
+            return roomIds
+        } catch {
+            print("DEBUG: Fail to getUserCarPoolIds with error \(error.localizedDescription)")
+            
+            return []
+        }
     }
     
     
@@ -379,11 +417,64 @@ final class CarPoolManager: CarPoolManagerType {
             isSystemMsg: isSystemMsg
         )
         
+        /// 채팅방에 참여 중인 사용자의 fcmToken 값을 가져와서 push 전송
+        Task {
+            let tokens = await getParticipantsTokens(roomId: roomId)
+            
+            for token in tokens {
+                let pushMessage = PushMessage(fcmToken: token, from: sender.name, msg: text)
+                await sendPush(pushMessage)
+            }
+        }
+        
         do {
             try ref.setData(from: message)
             return .success(response: message)
         } catch {
             return .failure(errorMessage: "메세지 전송 실패")
+        }
+    }
+    
+    func getParticipantsTokens(roomId: String) async -> [String] {
+        var tokens: [String] = []
+        
+        do {
+            let snapshot = try await db.collection("FcmTokens")
+                .whereField("roomIds", arrayContains: roomId)
+                .getDocuments()
+            
+            snapshot.documents.forEach { document in
+                let data = document.data()
+                let token = data["token"] as! String
+                tokens.append(token)
+            }
+            
+            return tokens
+        } catch {
+            print("DEBUG: Fail to getParticipantsTokens with error \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func sendPush(_ pushMessage: PushMessage) async {
+        guard let url = URL(string: "\(Constant.baseURL)/push") else {
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(pushMessage)
+        } catch {
+            print("DEBUG: Unable to convert PushMessage to JSON")
+        }
+        
+        do {
+            _ = try await URLSession.shared.data(for: request)
+        } catch {
+            print("DEBUG: Fail to sendPush with error \(error.localizedDescription)")
         }
     }
     

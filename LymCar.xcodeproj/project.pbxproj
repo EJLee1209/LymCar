@@ -72,6 +72,8 @@
 		CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1C2B36ABD800385847 /* MenuCell.swift */; };
 		CFA32E1F2B36BF3E00385847 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E1E2B36BF3E00385847 /* AppData.swift */; };
 		CFA32E232B36D83500385847 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E222B36D83500385847 /* SplashView.swift */; };
+		CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4DFA22B443BB300A791A7 /* Constant.swift */; };
+		CFA4DFA52B443FE500A791A7 /* PushMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4DFA42B443FE500A791A7 /* PushMessage.swift */; };
 		CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */; };
 		CFB635032B398B230029BE3F /* CarPoolManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635022B398B230029BE3F /* CarPoolManager.swift */; };
 		CFB635052B399A310029BE3F /* CarPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635042B399A310029BE3F /* CarPool.swift */; };
@@ -143,6 +145,8 @@
 		CFA32E1E2B36BF3E00385847 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		CFA32E222B36D83500385847 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CFA4DFA02B441AF000A791A7 /* LymCar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LymCar.entitlements; sourceTree = "<group>"; };
+		CFA4DFA22B443BB300A791A7 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		CFA4DFA42B443FE500A791A7 /* PushMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMessage.swift; sourceTree = "<group>"; };
 		CFB634FF2B39833E0029BE3F /* CarPoolGenerateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolGenerateViewModel.swift; sourceTree = "<group>"; };
 		CFB635022B398B230029BE3F /* CarPoolManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolManager.swift; sourceTree = "<group>"; };
 		CFB635042B399A310029BE3F /* CarPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPool.swift; sourceTree = "<group>"; };
@@ -232,7 +236,7 @@
 			children = (
 				CFA4DFA02B441AF000A791A7 /* LymCar.entitlements */,
 				CF3F49E42B316E24009E8A96 /* App */,
-				CFDB3DFB2B33FC4B00C88D77 /* Extensions */,
+				CFA4DFA12B443BAB00A791A7 /* Utils */,
 				CF3F49F02B31AA97009E8A96 /* Manager */,
 				CF3F49E62B316E76009E8A96 /* Model */,
 				CF3F49E32B316E1E009E8A96 /* Core */,
@@ -297,6 +301,7 @@
 				CFE7A39D2B3D8394007432A0 /* Message.swift */,
 				CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */,
 				CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */,
+				CFA4DFA42B443FE500A791A7 /* PushMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -372,6 +377,15 @@
 				CFA32E1C2B36ABD800385847 /* MenuCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CFA4DFA12B443BAB00A791A7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB3DFB2B33FC4B00C88D77 /* Extensions */,
+				CFA4DFA22B443BB300A791A7 /* Constant.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		CFB635012B3983420029BE3F /* ViewModel */ = {
@@ -628,9 +642,11 @@
 				CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */,
 				CFDB3E012B34048F00C88D77 /* SearchType.swift in Sources */,
 				CF49530D2B380816009FD93A /* TimePickerView.swift in Sources */,
+				CFA4DFA52B443FE500A791A7 /* PushMessage.swift in Sources */,
 				CFA32E132B369C2A00385847 /* User.swift in Sources */,
 				CF78A6EE2B3565A600306F6A /* AuthViewModel.swift in Sources */,
 				CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */,
+				CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */,
 				CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
