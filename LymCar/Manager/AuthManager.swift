@@ -27,7 +27,7 @@ protocol AuthManagerType {
     @discardableResult
     func logout() -> Bool
     
-    func updateFcmToken(_ token: String)
+    func updateFcmToken(_ token: String) async 
 }
 
 final class AuthManager: AuthManagerType {
@@ -121,16 +121,24 @@ final class AuthManager: AuthManagerType {
         }
     }
     
-    func updateFcmToken(_ token: String) {
+    func updateFcmToken(_ token: String) async {
         guard let uid = auth.currentUser?.uid else {
             return
         }
         
-        db.collection("FcmTokens")
-            .document(uid)
-            .setData(["token": token, "roomIds": [String]()])
+        let docRef = db.collection("FcmTokens").document(uid)
+        
+        do {
+            let snapshot = try await docRef.getDocument()
+            
+            if snapshot.exists {
+                try await docRef.updateData(["token": token])
+            } else {
+                try await docRef.setData(["token": token, "roomIds": [String]()])
+            }
+        } catch {
+            print("DEBUG: Fail to updateFcmToken with error \(error.localizedDescription)")
+        }
     }
-    
-    
 }
 

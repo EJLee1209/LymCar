@@ -100,6 +100,8 @@ final class AppData: ObservableObject {
     }
     
     func updateFcmToken(_ token: String) {
-        authManager.updateFcmToken(token)
+        Task {
+            await authManager.updateFcmToken(token)
+        }
     }
 }
