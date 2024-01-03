@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VisualEffectView: UIViewRepresentable {
+struct VisualEffectViewRepresentable: UIViewRepresentable {
     typealias UIViewType = UIVisualEffectView
     
     var effect: UIVisualEffect?

@@ -15,7 +15,7 @@ struct LoadingViewModifier<T: Decodable & Equatable>: ViewModifier {
             content
             
             if viewState == .loading {
-                VisualEffectView(effect: UIBlurEffect(style: .dark))
+                VisualEffectViewRepresentable(effect: UIBlurEffect(style: .dark))
                     .ignoresSafeArea()
                     .opacity(0.9)
                 

@@ -15,7 +15,7 @@ struct SplashView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             
-            VisualEffectView(effect: UIBlurEffect(style: .dark))
+            VisualEffectViewRepresentable(effect: UIBlurEffect(style: .dark))
                 .ignoresSafeArea()
             
             VStack {
