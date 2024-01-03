@@ -72,7 +72,12 @@ final class MessageManager: MessageManagerType {
             let tokens = await getParticipantsTokens(roomId: roomId)
             
             for token in tokens {
-                let pushMessage = PushMessage(fcmToken: token, from: sender.name, msg: text)
+                let pushMessage = PushMessage(
+                    fcmToken: token,
+                    roomId: roomId,
+                    from: sender.name,
+                    msg: text
+                )
                 await sendPush(pushMessage)
             }
         }
@@ -85,7 +90,7 @@ final class MessageManager: MessageManagerType {
         }
     }
     
-    func sendPush(_ pushMessage: PushMessage) async {
+    private func sendPush(_ pushMessage: PushMessage) async {
         guard let url = URL(string: "\(Constant.baseURL)/push") else {
             return
         }

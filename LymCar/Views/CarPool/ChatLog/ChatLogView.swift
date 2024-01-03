@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatLogView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var appData: AppData
+    @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var viewModel: ViewModel
     
     init(
@@ -123,9 +124,11 @@ struct ChatLogView: View {
         .onAppear {
             viewModel.fetchMessages()
             viewModel.subscribeCarPool()
+            appDelegate.viewingChatRoomId = viewModel.carPool.id
         }
         .onDisappear {
             viewModel.onDisappear()
+            appDelegate.viewingChatRoomId.removeAll()
         }
     }
 }
@@ -142,4 +145,5 @@ struct ChatLogView: View {
             messageManager: MessageManager()
         )
     )
+    .environmentObject(AppDelegate())
 }

@@ -11,6 +11,7 @@ import Firebase
 
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     @Published var fcmToken: String?
+    var viewingChatRoomId = ""
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -39,7 +40,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
-    
 }
 
 //MARK: - UNUserNotificationCenterDelegate
@@ -51,8 +51,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         let userInfo = notification.request.content.userInfo
-        
-        completionHandler([.banner, .sound])
+        guard let roomId = userInfo["roomId"] as? String else { return }
+           
+        if viewingChatRoomId != roomId { // 채팅방을 보고 있지 않은 경우에만 푸시 알림 표시
+            completionHandler([.banner, .sound])
+        }
     }
     
     /// 백그라운드에 푸시가 온 경우

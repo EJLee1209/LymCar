@@ -9,6 +9,7 @@ import Foundation
 
 struct PushMessage: Encodable {
     let fcmToken: String
+    let roomId: String
     let from: String
     let msg: String
 }
