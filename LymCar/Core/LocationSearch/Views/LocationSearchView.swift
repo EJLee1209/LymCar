@@ -89,7 +89,8 @@ struct LocationSearchView: View {
             AppData(
                 authManager: AuthManager(),
                 carPoolManager: CarPoolManager(),
-                locationSearchManager: LocationSearchManager()
+                locationSearchManager: LocationSearchManager(),
+                messageManager: MessageManager()
             )
         )
 }

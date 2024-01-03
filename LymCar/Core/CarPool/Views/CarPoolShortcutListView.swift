@@ -19,7 +19,8 @@ struct CarPoolShortcutListView: View {
                             ChatLogView(
                                 carPool: carPool,
                                 user: user,
-                                carPoolManager: appData.carPoolManager
+                                carPoolManager: appData.carPoolManager,
+                                messageManager: appData.messageManager
                             )
                         } label: {
                             CarPoolShortCutCell(carPool: carPool)
@@ -41,7 +42,8 @@ struct CarPoolShortcutListView: View {
             AppData(
                 authManager: AuthManager(),
                 carPoolManager: CarPoolManager(),
-                locationSearchManager: LocationSearchManager()
+                locationSearchManager: LocationSearchManager(),
+                messageManager: MessageManager()
             )
         )
 }

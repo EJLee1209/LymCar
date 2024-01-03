@@ -63,6 +63,7 @@ struct LocationSearchResultView: View {
         departurePlaceCoordinate: nil,
         destinationCoordinate: nil,
         carPoolManager: CarPoolManager(),
+        messageManager: MessageManager(),
         locationSearchManager: LocationSearchManager())
     )
 }

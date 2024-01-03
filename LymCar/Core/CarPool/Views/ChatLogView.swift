@@ -15,12 +15,14 @@ struct ChatLogView: View {
     init(
         carPool: CarPool,
         user: User,
-        carPoolManager: CarPoolManagerType
+        carPoolManager: CarPoolManagerType,
+        messageManager: MessageManagerType
     ) {
         let viewModel = ViewModel(
             carPool: carPool,
             currentUser: user,
-            carPoolManager: carPoolManager
+            carPoolManager: carPoolManager,
+            messageManager: messageManager
         )
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -130,13 +132,14 @@ struct ChatLogView: View {
 
 #Preview {
     ChatLogView(
-        carPool: .mock, user: .mock, carPoolManager: CarPoolManager()
+        carPool: .mock, user: .mock, carPoolManager: CarPoolManager(), messageManager: MessageManager()
     )
     .environmentObject(
         AppData(
             authManager: AuthManager(),
             carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager()
+            locationSearchManager: LocationSearchManager(),
+            messageManager: MessageManager()
         )
     )
 }

@@ -13,7 +13,8 @@ struct LymCarApp: App {
     @StateObject var appData: AppData = .init(
         authManager: AuthManager(),
         carPoolManager: CarPoolManager(),
-        locationSearchManager: LocationSearchManager()
+        locationSearchManager: LocationSearchManager(),
+        messageManager: MessageManager()
     )
     
     var body: some Scene {

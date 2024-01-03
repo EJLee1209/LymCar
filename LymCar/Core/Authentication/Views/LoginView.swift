@@ -150,7 +150,8 @@ struct LoginView: View {
         AppData(
             authManager: AuthManager(),
             carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager()
+            locationSearchManager: LocationSearchManager(),
+            messageManager: MessageManager()
         )
     )
 }

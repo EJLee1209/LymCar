@@ -30,6 +30,7 @@ final class AppData: ObservableObject {
     let authManager: AuthManagerType
     let carPoolManager: CarPoolManagerType
     let locationSearchManager: LocationSearchManagerType
+    let messageManager: MessageManagerType
     
     @Published var alertIsPresented: Bool = false
     var alertMessage: String = ""
@@ -38,11 +39,13 @@ final class AppData: ObservableObject {
     init(
         authManager: AuthManagerType,
         carPoolManager: CarPoolManagerType,
-        locationSearchManager: LocationSearchManagerType
+        locationSearchManager: LocationSearchManagerType,
+        messageManager: MessageManagerType
     ) {
         self.authManager = authManager
         self.carPoolManager = carPoolManager
         self.locationSearchManager = locationSearchManager
+        self.messageManager = messageManager
     }
     
     //MARK: - Helpers

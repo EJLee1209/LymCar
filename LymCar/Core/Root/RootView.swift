@@ -47,7 +47,8 @@ struct RootView: View {
                             if let user = appData.currentUser {
                                 CarPoolListView(
                                     user: user,
-                                    carPoolManager: appData.carPoolManager
+                                    carPoolManager: appData.carPoolManager,
+                                    messageManager: appData.messageManager
                                 )
                                 .transition(.move(edge: .bottom))
                             }
@@ -122,7 +123,8 @@ struct RootView: View {
             AppData(
                 authManager: AuthManager(),
                 carPoolManager: CarPoolManager(),
-                locationSearchManager: LocationSearchManager()
+                locationSearchManager: LocationSearchManager(),
+                messageManager: MessageManager()
             )
         )
         .environmentObject(AppDelegate())

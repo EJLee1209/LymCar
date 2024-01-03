@@ -18,13 +18,16 @@ extension CarPoolListView {
         
         private let user: User
         private let carPoolManager: CarPoolManagerType
+        private let messageManager: MessageManagerType
         
         init(
             user: User,
-            carPoolManager: CarPoolManagerType
+            carPoolManager: CarPoolManagerType,
+            messageManager: MessageManagerType
         ) {
             self.user = user
             self.carPoolManager = carPoolManager
+            self.messageManager = messageManager
         }
         
         func fetchCarPoolList() {
@@ -46,6 +49,7 @@ extension CarPoolListView {
                     switch result {
                     case .success(let carPool):
                         joinedCarPool = carPool
+                        sendJoinMessage(carPoolId: carPool.id)
                         navigateToChatRoomView = true
                     case .failure(let errorMessage):
                         alertMessage = errorMessage
@@ -54,6 +58,10 @@ extension CarPoolListView {
                 }
                 
             }
+        }
+        
+        private func sendJoinMessage(carPoolId: String) {
+            messageManager.sendMessage(sender: user, roomId: carPoolId, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
         }
         
     }

@@ -23,6 +23,7 @@ struct CarPoolGenerateView: View {
         departurePlaceCoordinate: CLLocationCoordinate2D?,
         destinationCoordinate: CLLocationCoordinate2D?,
         carPoolManager: CarPoolManagerType,
+        messageManager: MessageManagerType,
         locationSearchManager: LocationSearchManagerType
     ) {
         let viewModel = ViewModel(
@@ -32,6 +33,7 @@ struct CarPoolGenerateView: View {
             departurePlaceCoordinate: departurePlaceCoordinate,
             destinationCoordinate: destinationCoordinate,
             carPoolManager: carPoolManager,
+            messageManager: messageManager,
             locationSearchManager: locationSearchManager
         )
         
@@ -148,13 +150,15 @@ struct CarPoolGenerateView: View {
         departurePlaceCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
         destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
         carPoolManager: CarPoolManager(),
+        messageManager: MessageManager(),
         locationSearchManager: LocationSearchManager()
     )
     .environmentObject(
         AppData(
             authManager: AuthManager(),
             carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager()
+            locationSearchManager: LocationSearchManager(),
+            messageManager: MessageManager()
         )
     )
 }

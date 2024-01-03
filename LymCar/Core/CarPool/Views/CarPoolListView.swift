@@ -17,9 +17,15 @@ struct CarPoolListView: View {
     
     init(
         user: User,
-        carPoolManager: CarPoolManagerType
+        carPoolManager: CarPoolManagerType,
+        messageManager: MessageManagerType
     ) {
-        _viewModel = StateObject(wrappedValue: ViewModel(user: user, carPoolManager: carPoolManager))
+        let viewModel = ViewModel(
+            user: user,
+            carPoolManager: carPoolManager,
+            messageManager: messageManager
+        )
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
@@ -35,7 +41,8 @@ struct CarPoolListView: View {
                         ChatLogView(
                             carPool: joinedCarPool,
                             user: user,
-                            carPoolManager: appData.carPoolManager
+                            carPoolManager: appData.carPoolManager,
+                            messageManager: appData.messageManager
                         )
                     }
                 )
@@ -64,7 +71,18 @@ struct CarPoolListView: View {
                         Spacer()
 
                         NavigationLink {
-                            carpoolGenderateViewNavigationLink
+                            if let user = appData.currentUser {
+                                CarPoolGenerateView(
+                                    currentUser: user,
+                                    departurePlaceText: appData.departurePlaceName,
+                                    destinationText: appData.destinationName,
+                                    departurePlaceCoordinate: appData.departureLocationCoordinate,
+                                    destinationCoordinate: appData.destinationCoordinate,
+                                    carPoolManager: appData.carPoolManager,
+                                    messageManager: appData.messageManager,
+                                    locationSearchManager: appData.locationSearchManager
+                                )
+                            }
                         } label: {
                             Image(systemName: "plus")
                                 .frame(width: 24, height: 24)
@@ -123,33 +141,20 @@ struct CarPoolListView: View {
             viewModel.fetchCarPoolList()
         }
     }
-    
-    @ViewBuilder
-    var carpoolGenderateViewNavigationLink: some View {
-        if let user = appData.currentUser {
-            CarPoolGenerateView(
-                currentUser: user,
-                departurePlaceText: appData.departurePlaceName,
-                destinationText: appData.destinationName,
-                departurePlaceCoordinate: appData.departureLocationCoordinate,
-                destinationCoordinate: appData.destinationCoordinate,
-                carPoolManager: appData.carPoolManager,
-                locationSearchManager: appData.locationSearchManager
-            )
-        }
-    }
 }
 
 #Preview {
     CarPoolListView(
         user: .mock,
-        carPoolManager: CarPoolManager()
+        carPoolManager: CarPoolManager(),
+        messageManager: MessageManager()
     )
     .environmentObject(
         AppData(
             authManager: AuthManager(),
             carPoolManager: CarPoolManager(),
-            locationSearchManager: LocationSearchManager()
+            locationSearchManager: LocationSearchManager(),
+            messageManager: MessageManager()
         )
     )
 }

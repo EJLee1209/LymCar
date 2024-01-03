@@ -24,8 +24,9 @@ extension ChatLogView {
         var messageListenerExist: Bool = false
         
         
-        let currentUser: User
-        let carPoolManager: CarPoolManagerType
+        private let currentUser: User
+        private let carPoolManager: CarPoolManagerType
+        private let messageManager: MessageManagerType
         
         var showDeactivateCarPoolButton: Bool {
             return carPool.participants.first == currentUser.uid && carPool.isActivate
@@ -39,11 +40,13 @@ extension ChatLogView {
         init(
             carPool: CarPool,
             currentUser: User,
-            carPoolManager: CarPoolManagerType
+            carPoolManager: CarPoolManagerType,
+            messageManager: MessageManagerType
         ) {
             self.carPool = carPool
             self.currentUser = currentUser
             self.carPoolManager = carPoolManager
+            self.messageManager = messageManager
             
             title = "\(carPool.departurePlace.placeName) - \(carPool.destination.placeName)"
         }
@@ -52,7 +55,7 @@ extension ChatLogView {
         //MARK: - Helpers
         
         func sendMessage() {
-            carPoolManager.sendMessage(
+            messageManager.sendMessage(
                 sender: currentUser,
                 roomId: carPool.id,
                 text: messageText,
@@ -64,7 +67,7 @@ extension ChatLogView {
         
         func fetchMessages() {
             Task {
-                let prev = await carPoolManager.fetchMessages(roomId: carPool.id)
+                let prev = await messageManager.fetchMessages(roomId: carPool.id)
                 
                 if !messageListenerExist {
                     subscribeNewMessage()
@@ -78,7 +81,7 @@ extension ChatLogView {
         private func subscribeNewMessage() {
             messageListenerExist = true
             
-            carPoolManager.subscribeNewMessages(roomId: carPool.id) { [weak self] newMessages in
+            messageManager.subscribeNewMessages(roomId: carPool.id) { [weak self] newMessages in
                 self?.newMessages = newMessages
             }
         }
@@ -95,11 +98,11 @@ extension ChatLogView {
         }
         
         func onDisappear() {
-            carPoolManager.removeMessageListener()
+            messageManager.removeMessageListener()
             carPoolManager.removeCarPoolListener()
             messageListenerExist = false
             
-            carPoolManager.resetPageProperties()
+            messageManager.resetPageProperties()
             prevMessages.removeAll()
             newMessages.removeAll()
         }
@@ -126,7 +129,7 @@ extension ChatLogView {
                 await MainActor.run {
                     switch result {
                     case .success(let successMessage):
-                        carPoolManager.sendMessage(
+                        messageManager.sendMessage(
                             sender: currentUser,
                             roomId: carPool.id,
                             text: successMessage,
@@ -151,6 +154,12 @@ extension ChatLogView {
                 await MainActor.run {
                     switch result {
                     case .success:
+                        messageManager.sendMessage(
+                            sender: currentUser,
+                            roomId: carPool.id,
+                            text: "- \(currentUser.name)님이 나갔습니다 -",
+                            isSystemMsg: true
+                        )
                         isExit = true
                     case .failure(let errorMessage):
                         alertMessage = errorMessage

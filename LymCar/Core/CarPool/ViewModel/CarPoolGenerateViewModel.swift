@@ -33,7 +33,9 @@ extension CarPoolGenerateView {
         private var searchType: SearchType?
         
         private let carPoolManager: CarPoolManagerType
+        private let messageManager: MessageManagerType
         private let locationSearchManager: LocationSearchManagerType
+        
         
         //MARK: - LifeCycle
         init(
@@ -43,6 +45,7 @@ extension CarPoolGenerateView {
             departurePlaceCoordinate: CLLocationCoordinate2D?,
             destinationCoordinate: CLLocationCoordinate2D?,
             carPoolManager: CarPoolManagerType,
+            messageManager: MessageManagerType,
             locationSearchManager: LocationSearchManagerType
         ) {
             self.currentUser = currentUser
@@ -51,6 +54,7 @@ extension CarPoolGenerateView {
             self.departurePlaceCoordinate = departurePlaceCoordinate
             self.destinationCoordinate = destinationCoordinate
             self.carPoolManager = carPoolManager
+            self.messageManager = messageManager
             self.locationSearchManager = locationSearchManager
             
             super.init()
@@ -88,12 +92,22 @@ extension CarPoolGenerateView {
             
             switch result {
             case .success(let carPool):
+                sendJoinMessage(carPoolId: carPool.id)
                 viewState = .successToNetworkRequest(response: carPool)
             case .failure(let errorMessage):
                 viewState = .failToNetworkRequest
                 alertIsPresented = true
                 alertMessage = errorMessage
             }
+        }
+        
+        private func sendJoinMessage(carPoolId: String) {
+            messageManager.sendMessage(
+                sender: currentUser,
+                roomId: carPoolId,
+                text: "- \(currentUser.name)님이 입장했습니다 -",
+                isSystemMsg: true
+            )
         }
         
         func localSearch(searchType: SearchType) {
