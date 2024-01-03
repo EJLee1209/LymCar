@@ -60,6 +60,10 @@ extension CarPoolListView {
             }
         }
         
+        func isMyCarPool(_ carPool: CarPool) -> Bool {
+            return carPool.participants.contains(user.uid)
+        }
+        
         private func sendJoinMessage(carPoolId: String) {
             messageManager.sendMessage(sender: user, roomId: carPoolId, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
         }

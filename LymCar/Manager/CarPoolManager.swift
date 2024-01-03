@@ -133,10 +133,6 @@ final class CarPoolManager: CarPoolManagerType {
         carPool: CarPool
     ) async -> FirebaseNetworkResult<CarPool> {
         
-        if carPool.participants.contains(user.uid) { // 이미 참여중인 방
-            return .success(response: carPool)
-        }
-        
         let roomRef = db.collection("Rooms").document(carPool.id)
         
         do {
@@ -217,7 +213,6 @@ final class CarPoolManager: CarPoolManagerType {
             }
             
             let updatedCarPool = transactionResult as! CarPool
-//            sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name) 님이 입장했습니다 -", isSystemMsg: true)
             
             Task {
                 var roomIds = await getUserCarPoolIds()
@@ -269,7 +264,6 @@ final class CarPoolManager: CarPoolManagerType {
         
         do {
             try ref.setData(from: carPool)
-//            sendMessage(sender: user, roomId: carPool.id, text: "- \(user.name)님이 입장했습니다 -", isSystemMsg: true)
             
             Task {
                 var roomIds = await getUserCarPoolIds()

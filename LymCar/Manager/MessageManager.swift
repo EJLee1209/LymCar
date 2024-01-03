@@ -220,10 +220,13 @@ final class MessageManager: MessageManagerType {
     }
     
     private func getParticipantsTokens(roomId: String) async -> [String] {
+        guard let uid = auth.currentUser?.uid else { return [] }
+        
         var tokens: [String] = []
         
         do {
             let snapshot = try await db.collection("FcmTokens")
+                .whereField(.documentID(), isNotEqualTo: uid)
                 .whereField("roomIds", arrayContains: roomId)
                 .getDocuments()
             

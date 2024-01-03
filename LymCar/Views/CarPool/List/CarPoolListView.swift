@@ -106,13 +106,18 @@ struct CarPoolListView: View {
                             LazyHGrid(rows: rows, spacing: 9, content: {
                                 ForEach(viewModel.carPoolList) { carPool in
                                     Button(action: {
-                                        appData.alert(
-                                            message: "카풀방에 참여하시겠습니까?",
-                                            isPresented: true,
-                                            role: .withAction({
-                                                viewModel.joinCarPool(with: carPool)
-                                            })
-                                        )
+                                        if viewModel.isMyCarPool(carPool) {
+                                            viewModel.joinedCarPool = carPool
+                                            viewModel.navigateToChatRoomView = true
+                                        } else {
+                                            appData.alert(
+                                                message: "카풀방에 참여하시겠습니까?",
+                                                isPresented: true,
+                                                role: .withAction({
+                                                    viewModel.joinCarPool(with: carPool)
+                                                })
+                                            )
+                                        }
                                     }, label: {
                                         CarPoolCell(carPool: carPool)
                                     })
