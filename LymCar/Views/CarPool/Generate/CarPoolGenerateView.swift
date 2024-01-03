@@ -14,7 +14,8 @@ struct CarPoolGenerateView: View {
     
     @StateObject private var viewModel: ViewModel
     @State private var locationSearchResultViewIsPresented: Bool = false
-    
+    @Binding var chatLogViewIsPresented: Bool
+    @Binding var joinedRoom: CarPool?
     
     init(
         currentUser: User,
@@ -24,7 +25,9 @@ struct CarPoolGenerateView: View {
         destinationCoordinate: CLLocationCoordinate2D?,
         carPoolManager: CarPoolManagerType,
         messageManager: MessageManagerType,
-        locationSearchManager: LocationSearchManagerType
+        locationSearchManager: LocationSearchManagerType,
+        chatLogViewIsPresented: Binding<Bool>,
+        joinedRoom: Binding<CarPool?>
     ) {
         let viewModel = ViewModel(
             currentUser: currentUser,
@@ -38,6 +41,8 @@ struct CarPoolGenerateView: View {
         )
         
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._chatLogViewIsPresented = chatLogViewIsPresented
+        self._joinedRoom = joinedRoom
     }
     
     
@@ -134,6 +139,11 @@ struct CarPoolGenerateView: View {
             case .successToNetworkRequest(let carPool):
                 AppData.userCarPoolList.append(carPool)
                 dismiss()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    joinedRoom = carPool
+                    chatLogViewIsPresented = true
+                })
             default:
                 break
             }
@@ -151,7 +161,9 @@ struct CarPoolGenerateView: View {
         destinationCoordinate: .init(latitude: 37.1234, longitude: 127.1234),
         carPoolManager: CarPoolManager(),
         messageManager: MessageManager(),
-        locationSearchManager: LocationSearchManager()
+        locationSearchManager: LocationSearchManager(),
+        chatLogViewIsPresented: .constant(false),
+        joinedRoom: .constant(.mock)
     )
     .environmentObject(
         AppData(

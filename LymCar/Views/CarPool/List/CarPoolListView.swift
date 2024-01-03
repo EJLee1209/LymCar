@@ -80,7 +80,9 @@ struct CarPoolListView: View {
                                     destinationCoordinate: appData.destinationCoordinate,
                                     carPoolManager: appData.carPoolManager,
                                     messageManager: appData.messageManager,
-                                    locationSearchManager: appData.locationSearchManager
+                                    locationSearchManager: appData.locationSearchManager,
+                                    chatLogViewIsPresented: $viewModel.navigateToChatRoomView,
+                                    joinedRoom: $viewModel.joinedCarPool
                                 )
                             }
                         } label: {
