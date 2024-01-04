@@ -106,9 +106,9 @@ struct MenuView: View {
                             .frame(maxWidth: .infinity)
                         
                         Text("로그인이 필요합니다")
-                            .font(.system(size: 24, weight: .bold))
+                            .font(.system(size: 15, weight: .bold))
                             .multilineTextAlignment(.leading)
-                            .padding(.top, 46)
+                            .padding(.top, 32)
                             .padding(.horizontal, 21)
                             .frame(maxWidth: .infinity)
                     }
@@ -139,9 +139,13 @@ struct MenuView: View {
                     Text("취소")
                 })
             }
+            .onAppear {
+                tabViewIsHidden = false
+            }
             
         }
         .tint(.white)
+        
     }
 }
 

@@ -9,12 +9,31 @@ import SwiftUI
 
 struct HistoryView: View {
     var body: some View {
-        Text("HistoryView")
-            .font(.system(size: 20))
-            .foregroundStyle(.black)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.white)
-        
+        NavigationView {
+            ZStack {
+                Color.theme.brandColor
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 33) {
+                    Image("character")
+                    
+                    Text("개발 중인 기능입니다!")
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundStyle(Color.theme.primaryTextColor)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.theme.backgroundColor)
+                .padding(.top, 10)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("히스토리")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 20, weight: .bold))
+                }
+            }
+        }
     }
 }
 

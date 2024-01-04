@@ -71,6 +71,9 @@
 		CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */; };
 		CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */; };
 		CF7F73532B3E9316009041ED /* LocationSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */; };
+		CF8266902B469B8600D92487 /* EditFavoriteMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF82668F2B469B8600D92487 /* EditFavoriteMapView.swift */; };
+		CF8266932B46A9D900D92487 /* EditFavoriteMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8266922B46A9D900D92487 /* EditFavoriteMapViewModel.swift */; };
+		CF8266952B46AC5100D92487 /* FavoriteLocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */; };
 		CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41212B451B8A0091A9B8 /* MessageManager.swift */; };
 		CF9F41292B4524230091A9B8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41282B4524230091A9B8 /* AuthViewModel.swift */; };
 		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
@@ -150,6 +153,9 @@
 		CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchManager.swift; sourceTree = "<group>"; };
 		CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResult.swift; sourceTree = "<group>"; };
 		CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultView.swift; sourceTree = "<group>"; };
+		CF82668F2B469B8600D92487 /* EditFavoriteMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFavoriteMapView.swift; sourceTree = "<group>"; };
+		CF8266922B46A9D900D92487 /* EditFavoriteMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFavoriteMapViewModel.swift; sourceTree = "<group>"; };
+		CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationSearchView.swift; sourceTree = "<group>"; };
 		CF9F41212B451B8A0091A9B8 /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		CF9F41282B4524230091A9B8 /* AuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -343,6 +349,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		CF8266912B46A9CD00D92487 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				CF8266922B46A9D900D92487 /* EditFavoriteMapViewModel.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		CF9F41232B4522AB0091A9B8 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +387,7 @@
 		CF9F41252B4522D70091A9B8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				CF8266912B46A9CD00D92487 /* Menu */,
 				CF9F412A2B45243E0091A9B8 /* Auth */,
 				CF9F41272B45236E0091A9B8 /* Map */,
 				CF9F41262B4523550091A9B8 /* CarPool */,
@@ -561,9 +576,11 @@
 		CFDB3E0F2B347F2100C88D77 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
-				CFA32E1C2B36ABD800385847 /* MenuCell.swift */,
+				CF82668F2B469B8600D92487 /* EditFavoriteMapView.swift */,
 				CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */,
+				CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */,
+				CFA32E1C2B36ABD800385847 /* MenuCell.swift */,
+				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -687,6 +704,7 @@
 				CFB635052B399A310029BE3F /* CarPool.swift in Sources */,
 				CFE7A3A62B3DA6A2007432A0 /* ShowCarPoolButton.swift in Sources */,
 				CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */,
+				CF8266902B469B8600D92487 /* EditFavoriteMapView.swift in Sources */,
 				CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */,
 				CF49530B2B3805DF009FD93A /* CountView.swift in Sources */,
 				CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */,
@@ -697,6 +715,7 @@
 				CFE7A3962B3D73C6007432A0 /* ChatLogView.swift in Sources */,
 				CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */,
 				CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */,
+				CF8266952B46AC5100D92487 /* FavoriteLocationSearchView.swift in Sources */,
 				CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */,
 				CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */,
 				CF78A6F22B357D2700306F6A /* Gender.swift in Sources */,
@@ -707,6 +726,7 @@
 				CF78A6FF2B35A36600306F6A /* VisualEffectViewRepresentable.swift in Sources */,
 				CF7F73532B3E9316009041ED /* LocationSearchResultView.swift in Sources */,
 				CFA32E232B36D83500385847 /* SplashView.swift in Sources */,
+				CF8266932B46A9D900D92487 /* EditFavoriteMapViewModel.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,

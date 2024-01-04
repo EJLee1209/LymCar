@@ -28,7 +28,6 @@ struct MapViewRepresentable: UIViewRepresentable {
         mapView.delegate = context.coordinator
         mapView.isRotateEnabled = false
         mapView.showsUserLocation = true
-        
         return mapView
     }
     
@@ -85,11 +84,12 @@ extension MapViewRepresentable {
                 center: coordinate,
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             )
-            
-            parent.mapView.setRegion(region, animated: true)
             currentRegion = region
             parent.mapViewModel.userLocationCoordinate = coordinate
-            parent.mapViewModel.departurePlaceCoordinate = coordinate
+            if parent.mapState != .locationSelected {
+                parent.mapView.setRegion(region, animated: true)
+                parent.mapViewModel.departurePlaceCoordinate = coordinate
+            }
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

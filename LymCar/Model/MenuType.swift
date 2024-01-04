@@ -8,7 +8,6 @@
 import Foundation
 
 /// MenuView의 Menu List Items
-
 enum FirstMenuType: String, CaseIterable {
     case editFavorite = "즐겨찾기 편집"
     

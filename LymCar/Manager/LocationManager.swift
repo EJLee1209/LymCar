@@ -9,6 +9,7 @@ import CoreLocation
 
 final class LocationManager: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
+    @Published var lastLocation: CLLocation?
     
     override init() {
         super.init()
@@ -23,5 +24,7 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard !locations.isEmpty else { return }
         locationManager.stopUpdatingLocation()
+        
+        self.lastLocation = locations.first
     }
 }

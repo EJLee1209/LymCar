@@ -10,7 +10,6 @@ import SwiftUI
 struct EditFavoriteView: View {
     @Binding var tabViewIsHidden: Bool
     
-    
     var body: some View {
         ZStack(alignment: .top) {
             Color.theme.brandColor
@@ -40,10 +39,16 @@ struct EditFavoriteView: View {
                 
                 
                 NavigationLink {
-                    
+                    EditFavoriteMapView()
                 } label: {
-                    RoundedActionButton(label: "추가하기", action: { })
+                    Text("추가하기")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 16)
+                        .frame(maxWidth: .infinity)
                 }
+                .background(Color.theme.brandColor)
+                .clipShape(RoundedRectangle(cornerRadius: 100))
                 .padding(.horizontal ,21)
                 .padding(.bottom)
             }
@@ -70,9 +75,6 @@ struct EditFavoriteView: View {
         }
         .onAppear {
             tabViewIsHidden = true
-        }
-        .onDisappear {
-            tabViewIsHidden = false
         }
     }
 }

@@ -95,8 +95,6 @@ struct CarPoolGenerateView: View {
                         )
                         
                         Spacer()
-                        
-                        
                         RoundedActionButton(
                             label: "방 만들기",
                             action: viewModel.createCarPool
