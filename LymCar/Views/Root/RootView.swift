@@ -11,6 +11,7 @@ struct RootView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @EnvironmentObject private var appData: AppData
     @State private var mapState: MapState = .none
+    @State private var tabViewIsHidden: Bool = false
     @State private var selectedTab: TabMenuItem = .map
     @State private var loginViewIsPresented = false
     @State private var showSplashView = true
@@ -20,54 +21,40 @@ struct RootView: View {
             if showSplashView {
                 SplashView()
             } else {
-                NavigationView {
-                    ZStack(alignment: .bottom) {
-                        /// Tab item views - 탭바의 뷰들
-                        ZStack(alignment: .top) {
-                            switch selectedTab {
-                            case .history:
-                                HistoryView()
-                            case .map:
-                                MapView(
-                                    mapState: $mapState,
-                                    locationSearchManager: appData.locationSearchManager
-                                )
-                            case .menu:
-                                MenuView(loginViewIsPresented: $loginViewIsPresented)
-                            }
+                ZStack(alignment: .bottom) {
+                    /// Tab item views - 탭바의 뷰들
+                    ZStack(alignment: .top) {
+                        switch selectedTab {
+                        case .history:
+                            HistoryView()
+                        case .map:
+                            MapView(
+                                mapState: $mapState,
+                                locationSearchManager: appData.locationSearchManager
+                            )
+                        case .menu:
+                            MenuView(
+                                loginViewIsPresented: $loginViewIsPresented,
+                                tabViewIsHidden: $tabViewIsHidden
+                            )
                         }
-                        /// Tab bar view - 탭바
-                        if mapState != .searchingForLocation {
-                            MainTabView(selectedItem: $selectedTab)
-                                .transition(.move(edge: .bottom))
-                        }
-                        
-                        /// bottom sheet - 카풀 목록
-                        if mapState == .locationSelected {
-                            if let user = appData.currentUser {
-                                CarPoolListView(
-                                    user: user,
-                                    carPoolManager: appData.carPoolManager,
-                                    messageManager: appData.messageManager
-                                )
-                                .transition(.move(edge: .bottom))
-                            }
-                        }
-                        
                     }
-                    .ignoresSafeArea(.all, edges: .bottom)
-                    .fullScreenCover(isPresented: $loginViewIsPresented, content: {
-                        /// didLogin == false -> 로그인 화면을 보여줌
-                        /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
-                        LoginView(
-                            isPresented: $loginViewIsPresented,
-                            authManager: appData.authManager
-                        )
-                    })
+                    /// Tab bar view - 탭바
+                    if mapState == .none && !tabViewIsHidden {
+                        MainTabView(selectedItem: $selectedTab)
+                            .transition(.move(edge: .bottom))
+                    }
+                    
                 }
-                .tint(.white)
-                
-                
+                .ignoresSafeArea(.all, edges: .bottom)
+                .fullScreenCover(isPresented: $loginViewIsPresented, content: {
+                    /// didLogin == false -> 로그인 화면을 보여줌
+                    /// LoginView에서는 @Binding 프로퍼티를 통해 로그인 성공시 didLogin을 toggle -> 로그인 화면 dismiss
+                    LoginView(
+                        isPresented: $loginViewIsPresented,
+                        authManager: appData.authManager
+                    )
+                })
             }
         }
         .task {
@@ -79,13 +66,6 @@ struct RootView: View {
                     showSplashView.toggle()
                 }
             }
-        }
-        .onAppear {
-            /// 네비게이션바 타이틀 속성 변경
-            UINavigationBar.appearance().titleTextAttributes = [
-                .foregroundColor: UIColor.white,
-                .font: UIFont.systemFont(ofSize: 20, weight: .bold)
-            ]
         }
         .alert(
             appData.alertMessage,

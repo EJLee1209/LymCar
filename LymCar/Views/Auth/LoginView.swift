@@ -89,17 +89,12 @@ struct LoginView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        viewModel.signIn(withEmail: emailText, password: passwordText)
-                    }, label: {
-                        Text("로그인")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundStyle(.white)
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity)
-                    })
-                    .background(Color.theme.brandColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                    RoundedActionButton(
+                        label: "로그인",
+                        action: {
+                            viewModel.signIn(withEmail: emailText, password: passwordText)
+                        }
+                    )
                     .padding(.bottom, 47)
                 }
                 .padding(.horizontal, 21)

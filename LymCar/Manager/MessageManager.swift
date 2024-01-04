@@ -8,33 +8,6 @@
 import Foundation
 import Firebase
 
-protocol MessageManagerType {
-    /// 메세지 전송
-    @discardableResult
-    func sendMessage(
-        sender: User,
-        roomId: String,
-        text: String,
-        isSystemMsg: Bool
-    ) -> FirebaseNetworkResult<Message>
-    
-    /// 새 메세지 리스너 등록
-    func subscribeNewMessages(
-        roomId: String,
-        completion: @escaping([WrappedMessage]) -> Void
-    )
-    
-    /// 이전 메세지 가져오기
-    func fetchMessages(
-        roomId: String
-    ) async -> [WrappedMessage]
-    
-    /// 메세지 리스너 제거
-    func removeMessageListener()
-    
-    /// 메세지 페이지 관련 프로퍼티 초기화
-    func resetPageProperties()
-}
 
 final class MessageManager: MessageManagerType {
     private let db = Firestore.firestore()

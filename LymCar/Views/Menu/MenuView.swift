@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct MenuView: View {
-    @EnvironmentObject var appData: AppData
+    @EnvironmentObject private var appData: AppData
     @Binding var loginViewIsPresented: Bool
-    @State var alertIsPresented = false
+    @Binding var tabViewIsHidden: Bool
+    @State private var alertIsPresented = false
     
     var body: some View {
-        ZStack(alignment: .top) {
-            Color.theme.brandColor
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                Text("메뉴")
-                    .font(.system(size: 20, weight: .bold))
-                    .padding(.top, 10)
-                    .foregroundStyle(.white)
+        NavigationView {
+            ZStack(alignment: .top) {
+                Color.theme.brandColor
+                    .ignoresSafeArea()
                 
                 if let currentUser = appData.currentUser {
                     ScrollView {
@@ -50,11 +46,18 @@ struct MenuView: View {
                                 .padding(.top, 32)
                             
                             ForEach(FirstMenuType.allCases, id: \.self) { menu in
-                                MenuCell(
-                                    imageName: menu.imageName,
-                                    title: menu.rawValue,
-                                    rightContentType: .rightArrow
-                                )
+                                NavigationLink {
+                                    switch menu {
+                                    case .editFavorite:
+                                        EditFavoriteView(tabViewIsHidden: $tabViewIsHidden)
+                                    }
+                                } label: {
+                                    MenuCell(
+                                        imageName: menu.imageName,
+                                        title: menu.rawValue,
+                                        rightContentType: .rightArrow
+                                    )
+                                }
                             }
                             
                             Divider()
@@ -96,7 +99,7 @@ struct MenuView: View {
                         }
                     }
                     .background(Color.theme.backgroundColor)
-                    .padding(.top, 26)
+                    .padding(.top, 10)
                 } else {
                     VStack {
                         Image("character")
@@ -111,32 +114,40 @@ struct MenuView: View {
                     }
                     .frame(maxHeight: .infinity)
                     .background(Color.theme.backgroundColor)
-                    .padding(.top, 26)
+                    .padding(.top, 10)
                 }
             }
-        }
-        .alert(
-            "정말로 로그아웃 하시겠습니까?",
-            isPresented: $alertIsPresented
-        ) {
-            
-            Button(role: .destructive, action: {
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("메뉴")
+                        .font(.system(size: 20, weight: .bold))
+                }
+            }
+            .alert(
+                "정말로 로그아웃 하시겠습니까?",
+                isPresented: $alertIsPresented
+            ) {
+                
+                Button(role: .destructive, action: {
                     appData.logout()
                     loginViewIsPresented.toggle()
                 },label: {
                     Text("확인")
                 })
-            Button(role: .cancel, action: {}, label: {
-                Text("취소")
-            })
+                Button(role: .cancel, action: {}, label: {
+                    Text("취소")
+                })
+            }
+            
         }
-        
+        .tint(.white)
     }
 }
 
 #Preview {
     MenuView(
-        loginViewIsPresented: .constant(true)
+        loginViewIsPresented: .constant(true), tabViewIsHidden: .constant(true)
     )
     .environmentObject(
         AppData(

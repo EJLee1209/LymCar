@@ -50,19 +50,16 @@ struct RegisterView: View {
                     
                     Spacer()
                     
-                    Button(action: {
-                        withAnimation {
-                            buttonAction()
-                        }
-                    }, label: {
-                        Text(authStep == .privacyPolicy ? "회원가입" : "다음")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundStyle(buttonLabelColor())
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity)
-                    })
-                    .background(buttonBackgroundColor())
-                    .clipShape(RoundedRectangle(cornerRadius: 100))
+                    RoundedActionButton(
+                        label: authStep == .privacyPolicy ? "회원가입" : "다음",
+                        action: {
+                            withAnimation {
+                                buttonAction()
+                            }
+                        },
+                        backgroundColor: buttonBackgroundColor(),
+                        labelColor: buttonLabelColor()
+                    )
                     .padding(.bottom, 47)
                     .disabled(!viewModel.buttonIsEnabled(authStep))
                 }

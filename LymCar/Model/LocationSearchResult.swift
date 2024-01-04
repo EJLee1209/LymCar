@@ -11,3 +11,6 @@ enum LocationSearchResult {
     case success(CLLocationCoordinate2D)
     case failure(errorMessage: String)
 }
+
+
+

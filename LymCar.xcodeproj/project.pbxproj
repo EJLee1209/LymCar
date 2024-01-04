@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0A631D2B466C0300301A61 /* EditFavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */; };
 		CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1B79D02B32AACC005974B8 /* MapState.swift */; };
+		CF2C06942B467AF500A4E8FF /* RoundedActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */; };
+		CF32DD392B4538AB00B2F6C0 /* AuthManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF32DD382B4538AB00B2F6C0 /* AuthManagerType.swift */; };
+		CF32DD3B2B4538C700B2F6C0 /* CarPoolManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF32DD3A2B4538C700B2F6C0 /* CarPoolManagerType.swift */; };
+		CF32DD3E2B4538FE00B2F6C0 /* LocationSearchManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF32DD3D2B4538FE00B2F6C0 /* LocationSearchManagerType.swift */; };
+		CF32DD402B45391500B2F6C0 /* MessageManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF32DD3F2B45391500B2F6C0 /* MessageManagerType.swift */; };
 		CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F499A2B316A6F009E8A96 /* LymCarApp.swift */; };
 		CF3F499D2B316A6F009E8A96 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F499C2B316A6F009E8A96 /* MapView.swift */; };
 		CF3F499F2B316A70009E8A96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF3F499E2B316A70009E8A96 /* Assets.xcassets */; };
@@ -106,7 +112,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFavoriteView.swift; sourceTree = "<group>"; };
 		CF1B79D02B32AACC005974B8 /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
+		CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedActionButton.swift; sourceTree = "<group>"; };
+		CF32DD382B4538AB00B2F6C0 /* AuthManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerType.swift; sourceTree = "<group>"; };
+		CF32DD3A2B4538C700B2F6C0 /* CarPoolManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolManagerType.swift; sourceTree = "<group>"; };
+		CF32DD3D2B4538FE00B2F6C0 /* LocationSearchManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchManagerType.swift; sourceTree = "<group>"; };
+		CF32DD3F2B45391500B2F6C0 /* MessageManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManagerType.swift; sourceTree = "<group>"; };
 		CF3F49972B316A6F009E8A96 /* LymCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LymCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF3F499A2B316A6F009E8A96 /* LymCarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LymCarApp.swift; sourceTree = "<group>"; };
 		CF3F499C2B316A6F009E8A96 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -217,6 +229,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF2C06952B467D3A00A4E8FF /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
+				CFA32E222B36D83500385847 /* SplashView.swift */,
+				CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		CF32DD3C2B4538CE00B2F6C0 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				CF32DD382B4538AB00B2F6C0 /* AuthManagerType.swift */,
+				CF32DD3A2B4538C700B2F6C0 /* CarPoolManagerType.swift */,
+				CF32DD3D2B4538FE00B2F6C0 /* LocationSearchManagerType.swift */,
+				CF32DD3F2B45391500B2F6C0 /* MessageManagerType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		CF3F498E2B316A6F009E8A96 = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +328,7 @@
 				CFB635022B398B230029BE3F /* CarPoolManager.swift */,
 				CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */,
 				CF9F41212B451B8A0091A9B8 /* MessageManager.swift */,
+				CF32DD3C2B4538CE00B2F6C0 /* Protocol */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -385,8 +419,7 @@
 			isa = PBXGroup;
 			children = (
 				CF78A6E22B35519A00306F6A /* RootView.swift */,
-				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
-				CFA32E222B36D83500385847 /* SplashView.swift */,
+				CF2C06952B467D3A00A4E8FF /* Component */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -530,6 +563,7 @@
 			children = (
 				CFDB3E102B347F2900C88D77 /* MenuView.swift */,
 				CFA32E1C2B36ABD800385847 /* MenuCell.swift */,
+				CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -639,12 +673,14 @@
 			files = (
 				CF4953092B380123009FD93A /* LocationSearchInputView.swift in Sources */,
 				CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */,
+				CF32DD392B4538AB00B2F6C0 /* AuthManagerType.swift in Sources */,
 				CFE7A3982B3D75DC007432A0 /* ChatLogViewModel.swift in Sources */,
 				CFA32E182B36ABA000385847 /* MenuType.swift in Sources */,
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
 				CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */,
 				CFE7A3A02B3D97BE007432A0 /* Date.swift in Sources */,
 				CF78A6EB2B35638F00306F6A /* AuthManager.swift in Sources */,
+				CF32DD3E2B4538FE00B2F6C0 /* LocationSearchManagerType.swift in Sources */,
 				CFA32E1F2B36BF3E00385847 /* AppData.swift in Sources */,
 				CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
@@ -656,6 +692,7 @@
 				CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */,
 				CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */,
 				CF78A6E32B35519A00306F6A /* RootView.swift in Sources */,
+				CF32DD3B2B4538C700B2F6C0 /* CarPoolManagerType.swift in Sources */,
 				CFE7A3A22B3D9B22007432A0 /* WrappedMessage.swift in Sources */,
 				CFE7A3962B3D73C6007432A0 /* ChatLogView.swift in Sources */,
 				CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */,
@@ -681,6 +718,7 @@
 				CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */,
 				CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */,
 				CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */,
+				CF2C06942B467AF500A4E8FF /* RoundedActionButton.swift in Sources */,
 				CFB635032B398B230029BE3F /* CarPoolManager.swift in Sources */,
 				CF78A6E72B3556C700306F6A /* LoginView.swift in Sources */,
 				CFDB3E112B347F2900C88D77 /* MenuView.swift in Sources */,
@@ -693,6 +731,7 @@
 				CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
+				CF32DD402B45391500B2F6C0 /* MessageManagerType.swift in Sources */,
 				CF78A6F02B35676B00306F6A /* AuthStep.swift in Sources */,
 				CFE7A3942B3D4C01007432A0 /* CarPoolShortCutCell.swift in Sources */,
 				CF78A7012B35C67300306F6A /* ViewState.swift in Sources */,
@@ -703,6 +742,7 @@
 				CF49530F2B381080009FD93A /* OptionView.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,
 				CFB635072B399A470029BE3F /* Location.swift in Sources */,
+				CF0A631D2B466C0300301A61 /* EditFavoriteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

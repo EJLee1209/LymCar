@@ -5,30 +5,7 @@
 //  Created by 이은재 on 12/22/23.
 //
 
-import Foundation
-import FirebaseAuth
-import FirebaseFirestore
-
-protocol AuthManagerType {
-    func createUser(
-        withEmail email: String,
-        password: String,
-        gender: Gender,
-        name: String
-    ) async -> FirebaseNetworkResult<User>
-    
-    func signIn(
-        withEmail email: String,
-        password: String
-    ) async -> FirebaseNetworkResult<User>
-    
-    func checkCurrentUser() async -> User?
-    
-    @discardableResult
-    func logout() -> Bool
-    
-    func updateFcmToken(_ token: String) async 
-}
+import Firebase
 
 final class AuthManager: AuthManagerType {
     private let auth = Auth.auth()

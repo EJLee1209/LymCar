@@ -96,19 +96,12 @@ struct CarPoolGenerateView: View {
                         
                         Spacer()
                         
-                        /// 방 만들기 버튼
-                        Button(action: {
-                            viewModel.createCarPool()
-                        }, label: {
-                            Text("방 만들기")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundStyle(.white)
-                                .padding(.vertical, 16)
-                                .frame(maxWidth: .infinity)
-                        })
-                        .background(Color.theme.brandColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 100))
-                        .shadow(radius: 4, y: 2)
+                        
+                        RoundedActionButton(
+                            label: "방 만들기",
+                            action: viewModel.createCarPool
+                        )
+
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 36)

@@ -7,13 +7,6 @@
 
 import MapKit
 
-protocol LocationSearchManagerType {
-    func locationSearch(
-        _ location: MKLocalSearchCompletion,
-        _ completion: @escaping (LocationSearchResult) -> Void
-    )
-}
-
 final class LocationSearchManager: LocationSearchManagerType {
     /// 장소 검색 리스트에서 Row를 선택했을 때 호출
     func locationSearch(
