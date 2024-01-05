@@ -55,6 +55,10 @@
 		CF49530B2B3805DF009FD93A /* CountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF49530A2B3805DF009FD93A /* CountView.swift */; };
 		CF49530D2B380816009FD93A /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF49530C2B380816009FD93A /* TimePickerView.swift */; };
 		CF49530F2B381080009FD93A /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF49530E2B381080009FD93A /* OptionView.swift */; };
+		CF4D9B4E2B47C6FD00231455 /* FavoriteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B4C2B47C6FD00231455 /* FavoriteModel.xcdatamodeld */; };
+		CF4D9B542B47CA6000231455 /* Favorite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B522B47CA6000231455 /* Favorite+CoreDataClass.swift */; };
+		CF4D9B552B47CA6000231455 /* Favorite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B532B47CA6000231455 /* Favorite+CoreDataProperties.swift */; };
+		CF4D9B572B47CB1400231455 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B562B47CB1400231455 /* PersistenceController.swift */; };
 		CF78A6E32B35519A00306F6A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E22B35519A00306F6A /* RootView.swift */; };
 		CF78A6E72B3556C700306F6A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E62B3556C700306F6A /* LoginView.swift */; };
 		CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E82B35613F00306F6A /* RegisterView.swift */; };
@@ -137,6 +141,10 @@
 		CF49530A2B3805DF009FD93A /* CountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountView.swift; sourceTree = "<group>"; };
 		CF49530C2B380816009FD93A /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
 		CF49530E2B381080009FD93A /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
+		CF4D9B4D2B47C6FD00231455 /* FavoriteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FavoriteModel.xcdatamodel; sourceTree = "<group>"; };
+		CF4D9B522B47CA6000231455 /* Favorite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favorite+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CF4D9B532B47CA6000231455 /* Favorite+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favorite+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CF4D9B562B47CB1400231455 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		CF78A6E22B35519A00306F6A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CF78A6E62B3556C700306F6A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CF78A6E82B35613F00306F6A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -279,6 +287,7 @@
 				CF3F49E42B316E24009E8A96 /* App */,
 				CFA4DFA12B443BAB00A791A7 /* Utils */,
 				CF3F49F02B31AA97009E8A96 /* Manager */,
+				CF4D9B4F2B47C71600231455 /* CoreData */,
 				CF3F49E62B316E76009E8A96 /* Model */,
 				CF9F41242B4522CA0091A9B8 /* Views */,
 				CF9F41252B4522D70091A9B8 /* ViewModels */,
@@ -337,6 +346,17 @@
 				CF32DD3C2B4538CE00B2F6C0 /* Protocol */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		CF4D9B4F2B47C71600231455 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				CF4D9B4C2B47C6FD00231455 /* FavoriteModel.xcdatamodeld */,
+				CF4D9B522B47CA6000231455 /* Favorite+CoreDataClass.swift */,
+				CF4D9B532B47CA6000231455 /* Favorite+CoreDataProperties.swift */,
+				CF4D9B562B47CB1400231455 /* PersistenceController.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		CF78A6E42B3556B400306F6A /* Auth */ = {
@@ -693,6 +713,7 @@
 				CF32DD392B4538AB00B2F6C0 /* AuthManagerType.swift in Sources */,
 				CFE7A3982B3D75DC007432A0 /* ChatLogViewModel.swift in Sources */,
 				CFA32E182B36ABA000385847 /* MenuType.swift in Sources */,
+				CF4D9B552B47CA6000231455 /* Favorite+CoreDataProperties.swift in Sources */,
 				CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */,
 				CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */,
 				CFE7A3A02B3D97BE007432A0 /* Date.swift in Sources */,
@@ -747,6 +768,7 @@
 				CFA4DFA52B443FE500A791A7 /* PushMessage.swift in Sources */,
 				CFA32E132B369C2A00385847 /* User.swift in Sources */,
 				CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */,
+				CF4D9B542B47CA6000231455 /* Favorite+CoreDataClass.swift in Sources */,
 				CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */,
 				CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
@@ -760,9 +782,11 @@
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
 				CF9F41292B4524230091A9B8 /* AuthViewModel.swift in Sources */,
 				CF49530F2B381080009FD93A /* OptionView.swift in Sources */,
+				CF4D9B572B47CB1400231455 /* PersistenceController.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,
 				CFB635072B399A470029BE3F /* Location.swift in Sources */,
 				CF0A631D2B466C0300301A61 /* EditFavoriteView.swift in Sources */,
+				CF4D9B4E2B47C6FD00231455 /* FavoriteModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1131,6 +1155,19 @@
 			productName = "FirebaseStorageCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		CF4D9B4C2B47C6FD00231455 /* FavoriteModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CF4D9B4D2B47C6FD00231455 /* FavoriteModel.xcdatamodel */,
+			);
+			currentVersion = CF4D9B4D2B47C6FD00231455 /* FavoriteModel.xcdatamodel */;
+			path = FavoriteModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CF3F498F2B316A6F009E8A96 /* Project object */;
 }

@@ -16,12 +16,14 @@ struct LymCarApp: App {
         locationSearchManager: LocationSearchManager(),
         messageManager: MessageManager()
     )
+    let persistenceController = PersistenceController.shared
     
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(appData)
                 .environmentObject(appDelegate)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 
         }
     }

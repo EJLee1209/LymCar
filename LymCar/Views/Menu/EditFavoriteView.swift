@@ -8,38 +8,52 @@
 import SwiftUI
 
 struct EditFavoriteView: View {
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @EnvironmentObject private var appData: AppData
     @Binding var tabViewIsHidden: Bool
+    
+    @FetchRequest(
+        entity: Favorite.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Favorite.title, ascending: true)
+        ]
+    ) var favorites: FetchedResults<Favorite>
+    
     
     var body: some View {
         ZStack(alignment: .top) {
             Color.theme.brandColor
                 .ignoresSafeArea()
             
-            
             VStack {
-                ScrollView {
-                    LazyVStack {
-                        ForEach((1...10), id: \.self) { _ in
-                            VStack(alignment: .leading, spacing: 7) {
-                                Text("춘천역")
-                                    .font(.system(size: 16, weight: .bold))
-                                Text("강원도 춘천시 공지로 591")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(Color.theme.secondaryTextColor)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 18)
-                            .padding(.horizontal, 12)
-                            
-                            Divider()
+                List {
+                    ForEach(favorites) { favorite in
+                        VStack(alignment: .leading, spacing: 7) {
+                            Text(favorite.title)
+                                .font(.system(size: 16, weight: .bold))
+                            Text(favorite.subtitle)
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(Color.theme.secondaryTextColor)
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 18)
+                        .padding(.horizontal, 12)
                     }
-                    .padding(.bottom, 20)
+                    .onDelete { deleteOffsets in
+                        deleteFavorite(at: deleteOffsets)
+                    }
+                    
+                    
+                    .listRowBackground(Color.theme.backgroundColor)
+                    .listRowInsets(EdgeInsets())
                 }
+                .listStyle(.plain)
                 
                 
                 NavigationLink {
-                    EditFavoriteMapView()
+                    EditFavoriteMapView(
+                        locationSearchManager: appData.locationSearchManager
+                    )
                 } label: {
                     Text("추가하기")
                         .font(.system(size: 15, weight: .bold))
@@ -63,22 +77,32 @@ struct EditFavoriteView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    
-                }, label: {
-                    Text("편집")
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundStyle(.white)
-                        .padding()
-                })
+                EditButton()
             }
         }
         .onAppear {
             tabViewIsHidden = true
         }
     }
+    
+    func deleteFavorite(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let favorite = self.favorites[index]
+            self.managedObjectContext.delete(favorite)
+        }
+        saveContext()
+    }
+    
+    func saveContext() {
+      do {
+        try managedObjectContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
+    }
 }
 
 #Preview {
     EditFavoriteView(tabViewIsHidden: .constant(false))
+        .environmentObject(AppData(authManager: AuthManager(), carPoolManager: CarPoolManager(), locationSearchManager: LocationSearchManager(), messageManager: MessageManager()))
 }
