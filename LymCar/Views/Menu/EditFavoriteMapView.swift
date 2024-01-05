@@ -7,8 +7,6 @@
 
 import SwiftUI
 import MapKit
-import Combine
-
 
 struct EditFavoriteMapView: View {
     @StateObject private var viewModel: ViewModel

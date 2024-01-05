@@ -14,27 +14,33 @@ enum RightContentType {
 }
 
 struct MenuCell: View {
-    let imageName: String?
     let title: String
     let rightContentType: RightContentType
+    let labelColor: Color
+    
+    init(
+        title: String,
+        rightContentType: RightContentType,
+        labelColor: Color = Color.theme.secondaryTextColor
+    ) {
+        self.title = title
+        self.rightContentType = rightContentType
+        self.labelColor = labelColor
+    }
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                if let imageName = imageName {
-                    Image(imageName)
-                }
                 
                 Text(title)
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(Color.theme.secondaryTextColor)
-                    .padding(.horizontal, 17)
+                    .foregroundStyle(labelColor)
                 Spacer()
                 
                 switch rightContentType {
                 case .rightArrow:
                     Image(systemName: "chevron.right")
-                        .foregroundStyle(Color.theme.secondaryBackgroundColor)
+                        .foregroundStyle(Color.gray)
                 case .label(let text):
                     Text(text)
                         .font(.system(size: 13, weight: .medium))
@@ -43,18 +49,15 @@ struct MenuCell: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal, 19)
+            .padding(.horizontal, 14)
             .padding(.vertical, 12)
-            .background(Color.theme.backgroundColor)
-            
-            Divider()
+            .background(Color.theme.backgroundColor)    
         }
     }
 }
 
 #Preview {
     MenuCell(
-        imageName: nil,
         title: "계정정보",
         rightContentType: .rightArrow
     )

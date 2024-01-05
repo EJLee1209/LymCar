@@ -76,6 +76,15 @@ extension MapView {
             }
         }
         
+        func didSelectFavorite(with favorite: Favorite) {
+            let coordinate = CLLocationCoordinate2D(
+                latitude: favorite.latitude,
+                longitude: favorite.longitude
+            )
+            destinationCoordinate = coordinate
+            destinationText = favorite.title
+        }
+        
         /// 모든 프로퍼티 초기화(MapViewActionButton 클릭시)
         func clearAllPropertiesForLocationSearch() {
             departurePlaceCoordinate = userLocationCoordinate

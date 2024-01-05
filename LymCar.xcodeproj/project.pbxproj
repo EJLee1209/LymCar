@@ -80,6 +80,7 @@
 		CF8266952B46AC5100D92487 /* FavoriteLocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */; };
 		CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41212B451B8A0091A9B8 /* MessageManager.swift */; };
 		CF9F41292B4524230091A9B8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41282B4524230091A9B8 /* AuthViewModel.swift */; };
+		CFA219852B48015B00FA4228 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA219842B48015B00FA4228 /* FavoriteButton.swift */; };
 		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
 		CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */; };
 		CFA32E182B36ABA000385847 /* MenuType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E172B36ABA000385847 /* MenuType.swift */; };
@@ -166,6 +167,7 @@
 		CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationSearchView.swift; sourceTree = "<group>"; };
 		CF9F41212B451B8A0091A9B8 /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		CF9F41282B4524230091A9B8 /* AuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		CFA219842B48015B00FA4228 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkResult.swift; sourceTree = "<group>"; };
 		CFA32E172B36ABA000385847 /* MenuType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuType.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				CFDB3DFE2B33FF9700C88D77 /* MapViewActionButton.swift */,
 				CF3F49EE2B31A951009E8A96 /* MapViewRepresentable.swift */,
 				CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */,
+				CFA219842B48015B00FA4228 /* FavoriteButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
 				CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
+				CFA219852B48015B00FA4228 /* FavoriteButton.swift in Sources */,
 				CF3F49E82B316E87009E8A96 /* MapViewModel.swift in Sources */,
 				CFA32E1D2B36ABD800385847 /* MenuCell.swift in Sources */,
 				CFE7A39A2B3D784A007432A0 /* MessageInputView.swift in Sources */,

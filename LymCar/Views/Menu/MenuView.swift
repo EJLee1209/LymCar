@@ -21,7 +21,7 @@ struct MenuView: View {
                 
                 if let currentUser = appData.currentUser {
                     ScrollView {
-                        VStack(alignment: .leading, spacing: 0) {
+                        LazyVStack(alignment: .leading, spacing: 0) {
                             
                             Text("안녕하세요\n\(currentUser.name)님")
                                 .font(.system(size: 24, weight: .bold))
@@ -45,58 +45,32 @@ struct MenuView: View {
                             Divider()
                                 .padding(.top, 32)
                             
-                            ForEach(FirstMenuType.allCases, id: \.self) { menu in
-                                NavigationLink {
-                                    switch menu {
-                                    case .editFavorite:
+                            ForEach(MenuType.allCases, id: \.self) { menu in
+                                switch menu {
+                                case .editFavorite:
+                                    NavigationLink {
                                         EditFavoriteView(tabViewIsHidden: $tabViewIsHidden)
+                                    } label: {
+                                        MenuCell(
+                                            title: menu.rawValue,
+                                            rightContentType: .rightArrow
+                                        )
                                     }
-                                } label: {
-                                    MenuCell(
-                                        imageName: menu.imageName,
-                                        title: menu.rawValue,
-                                        rightContentType: .rightArrow
-                                    )
+                                default:
+                                    Button {
+                                        menuButtonAction(menu)
+                                    } label: {
+                                        MenuCell(
+                                            title: menu.rawValue,
+                                            rightContentType: menu.rightContentType,
+                                            labelColor: menu == .logout ? Color.theme.red : Color.theme.secondaryTextColor
+                                        )
+                                    }
                                 }
-                            }
-                            
-                            Divider()
-                                .frame(height: 10)
-                                .background(Color.theme.secondaryBackgroundColor)
-                            
-                            ForEach(SecondMenuType.allCases, id: \.self) { menu in
-                                Button(action: {
-                                    switch menu {
-                                    case .updateInformation:
-                                        break
-                                    case .privacyPolicy:
-                                        break
-                                    }
-                                }, label: {
-                                    MenuCell(
-                                        imageName: nil,
-                                        title: menu.rawValue,
-                                        rightContentType: .label(text: menu.labelText)
-                                    )
-                                })
-                            }
-                            
-                            Divider()
-                                .frame(height: 10)
-                                .background(Color.theme.secondaryBackgroundColor)
-                            
-                            ForEach(ThirdMenuType.allCases, id: \.self) { menu in
-                                Button(action: {
-                                    alertIsPresented.toggle()
-                                }, label: {
-                                    MenuCell(
-                                        imageName: nil,
-                                        title: menu.rawValue,
-                                        rightContentType: .rightArrow
-                                    )
-                                })
+                                Divider()
                             }
                         }
+                        
                     }
                     .background(Color.theme.backgroundColor)
                     .padding(.top, 10)
@@ -122,6 +96,7 @@ struct MenuView: View {
                 ToolbarItem(placement: .principal) {
                     Text("메뉴")
                         .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(.white)
                 }
             }
             .alert(
@@ -146,6 +121,15 @@ struct MenuView: View {
         }
         .tint(.white)
         
+    }
+    
+    private func menuButtonAction(_ menu: MenuType) {
+        switch menu {
+        case .logout:
+            alertIsPresented.toggle()
+        default:
+            break
+        }
     }
 }
 

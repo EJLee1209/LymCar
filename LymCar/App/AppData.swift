@@ -72,6 +72,15 @@ final class AppData: ObservableObject {
         self.destinationCoordinate = destinationCoordinate
     }
     
+    func didSelectFavorite(with favorite: Favorite) {
+        let coordinate = CLLocationCoordinate2D(
+            latitude: favorite.latitude,
+            longitude: favorite.longitude
+        )
+        destinationName = favorite.title
+        destinationCoordinate = coordinate
+    }
+    
     func checkUserAndFetchUserCarPool() async -> User? {
         let currentUser = await authManager.checkCurrentUser()
         subscribeUserCarPool()

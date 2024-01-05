@@ -8,31 +8,27 @@
 import Foundation
 
 /// MenuView의 Menu List Items
-enum FirstMenuType: String, CaseIterable {
+enum MenuType: String, CaseIterable {
     case editFavorite = "즐겨찾기 편집"
-    
-    var imageName: String {
-        switch self {
-        case .editFavorite:
-            return "map-pin"
-        }
-    }
-}
-
-enum SecondMenuType: String, CaseIterable {
     case updateInformation = "업데이트 정보"
     case privacyPolicy = "개인정보 취급방침"
+    case logout = "로그아웃"
     
     var labelText: String {
         switch self {
         case .updateInformation:
             return "최신 버전 입니다."
-        case .privacyPolicy:
+        default:
             return ""
         }
     }
-}
-
-enum ThirdMenuType: String, CaseIterable {
-    case logout = "로그아웃"
+    
+    var rightContentType: RightContentType {
+        switch self {
+        case .updateInformation:
+            return .label(text: "최신 버전 입니다.")
+        default:
+            return .rightArrow
+        }
+    }
 }

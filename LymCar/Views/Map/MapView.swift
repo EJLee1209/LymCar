@@ -9,9 +9,17 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    @Environment(\.managedObjectContext) private var managedObjectContext
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: ViewModel
     @Binding var mapState: MapState
+    
+    @FetchRequest(
+        entity: Favorite.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Favorite.title, ascending: true)
+        ]
+    ) var favorites: FetchedResults<Favorite>
     
     init(
         mapState: Binding<MapState>,
@@ -31,13 +39,33 @@ struct MapView: View {
                     )
                     .ignoresSafeArea()
                     if mapState == .none {
-                        LocationSearchActivationView()
-                            .padding(.top, 40)
-                            .onTapGesture {
-                                withAnimation(.spring) {
-                                    mapState = .searchingForLocation
+                        
+                        VStack(spacing: 0) {
+                            LocationSearchActivationView()
+                                .padding(.top, 20)
+                                .onTapGesture {
+                                    withAnimation(.spring) {
+                                        mapState = .searchingForLocation
+                                    }
                                 }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                LazyHStack(alignment: .center, spacing: 5) {
+                                    ForEach(favorites) { favorite in
+                                        Button(action: {
+                                            viewModel.didSelectFavorite(with: favorite)
+                                            appData.didSelectFavorite(with: favorite)
+                                            mapState = viewModel.departurePlaceCoordinate == nil ? .searchingForLocation : .locationSelected
+                                        }, label: {
+                                            FavoriteButton(label: favorite.title)
+                                        })
+                                    }
+                                }
+                                .padding(.horizontal, 12)
                             }
+                            .frame(height: 60)
+                            
+                            
+                        }
                     }
                     
                     if mapState == .locationSelected {
