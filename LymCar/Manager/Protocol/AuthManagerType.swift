@@ -8,6 +8,8 @@
 import Foundation
 
 protocol AuthManagerType {
+    func sendEmailVerification(_ email: String) async throws -> EmailVerification
+    
     func createUser(
         withEmail email: String,
         password: String,

@@ -72,6 +72,7 @@
 		CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */; };
 		CF78A6FF2B35A36600306F6A /* VisualEffectViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FE2B35A36600306F6A /* VisualEffectViewRepresentable.swift */; };
 		CF78A7012B35C67300306F6A /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* ViewState.swift */; };
+		CF7B99C42B492C1300737A76 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7B99C32B492C1300737A76 /* LoginViewModel.swift */; };
 		CF7F734F2B3E91C9009041ED /* LocationSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */; };
 		CF7F73512B3E92BB009041ED /* LocationSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */; };
 		CF7F73532B3E9316009041ED /* LocationSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */; };
@@ -79,7 +80,7 @@
 		CF8266932B46A9D900D92487 /* EditFavoriteMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8266922B46A9D900D92487 /* EditFavoriteMapViewModel.swift */; };
 		CF8266952B46AC5100D92487 /* FavoriteLocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */; };
 		CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41212B451B8A0091A9B8 /* MessageManager.swift */; };
-		CF9F41292B4524230091A9B8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41282B4524230091A9B8 /* AuthViewModel.swift */; };
+		CF9F41292B4524230091A9B8 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9F41282B4524230091A9B8 /* RegisterViewModel.swift */; };
 		CFA219852B48015B00FA4228 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA219842B48015B00FA4228 /* FavoriteButton.swift */; };
 		CFA32E132B369C2A00385847 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E122B369C2A00385847 /* User.swift */; };
 		CFA32E152B36A0BF00385847 /* FirebaseNetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */; };
@@ -117,6 +118,9 @@
 		CFE7A3A02B3D97BE007432A0 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A39F2B3D97BE007432A0 /* Date.swift */; };
 		CFE7A3A22B3D9B22007432A0 /* WrappedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */; };
 		CFE7A3A62B3DA6A2007432A0 /* ShowCarPoolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */; };
+		CFF8DA272B4BB28B0000C091 /* EmailVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8DA262B4BB28B0000C091 /* EmailVerification.swift */; };
+		CFF8DA292B4BB2B10000C091 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8DA282B4BB2B10000C091 /* NetworkError.swift */; };
+		CFF8DA2B2B4BB44F0000C091 /* VerificationCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF8DA2A2B4BB44F0000C091 /* VerificationCodeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -159,6 +163,7 @@
 		CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrivacyPolicyView.swift; sourceTree = "<group>"; };
 		CF78A6FE2B35A36600306F6A /* VisualEffectViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectViewRepresentable.swift; sourceTree = "<group>"; };
 		CF78A7002B35C67300306F6A /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		CF7B99C32B492C1300737A76 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		CF7F734E2B3E91C9009041ED /* LocationSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchManager.swift; sourceTree = "<group>"; };
 		CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResult.swift; sourceTree = "<group>"; };
 		CF7F73522B3E9316009041ED /* LocationSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultView.swift; sourceTree = "<group>"; };
@@ -166,7 +171,7 @@
 		CF8266922B46A9D900D92487 /* EditFavoriteMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFavoriteMapViewModel.swift; sourceTree = "<group>"; };
 		CF8266942B46AC5100D92487 /* FavoriteLocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationSearchView.swift; sourceTree = "<group>"; };
 		CF9F41212B451B8A0091A9B8 /* MessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
-		CF9F41282B4524230091A9B8 /* AuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		CF9F41282B4524230091A9B8 /* RegisterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		CFA219842B48015B00FA4228 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		CFA32E122B369C2A00385847 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CFA32E142B36A0BF00385847 /* FirebaseNetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNetworkResult.swift; sourceTree = "<group>"; };
@@ -205,6 +210,9 @@
 		CFE7A39F2B3D97BE007432A0 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedMessage.swift; sourceTree = "<group>"; };
 		CFE7A3A52B3DA6A2007432A0 /* ShowCarPoolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCarPoolButton.swift; sourceTree = "<group>"; };
+		CFF8DA262B4BB28B0000C091 /* EmailVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerification.swift; sourceTree = "<group>"; };
+		CFF8DA282B4BB2B10000C091 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		CFF8DA2A2B4BB44F0000C091 /* VerificationCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationCodeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,7 +297,6 @@
 				CF3F49E42B316E24009E8A96 /* App */,
 				CFA4DFA12B443BAB00A791A7 /* Utils */,
 				CF3F49F02B31AA97009E8A96 /* Manager */,
-				CF4D9B4F2B47C71600231455 /* CoreData */,
 				CF3F49E62B316E76009E8A96 /* Model */,
 				CF9F41242B4522CA0091A9B8 /* Views */,
 				CF9F41252B4522D70091A9B8 /* ViewModels */,
@@ -321,6 +328,7 @@
 		CF3F49E62B316E76009E8A96 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CF4D9B4F2B47C71600231455 /* CoreData */,
 				CF9F41232B4522AB0091A9B8 /* DTO */,
 				CF1B79D02B32AACC005974B8 /* MapState.swift */,
 				CFDB3E002B34048F00C88D77 /* SearchType.swift */,
@@ -333,6 +341,7 @@
 				CFA32E172B36ABA000385847 /* MenuType.swift */,
 				CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */,
 				CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */,
+				CFF8DA282B4BB2B10000C091 /* NetworkError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -387,6 +396,7 @@
 				CFB635062B399A470029BE3F /* Location.swift */,
 				CFE7A39D2B3D8394007432A0 /* Message.swift */,
 				CFA4DFA42B443FE500A791A7 /* PushMessage.swift */,
+				CFF8DA262B4BB28B0000C091 /* EmailVerification.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -438,7 +448,8 @@
 		CF9F412A2B45243E0091A9B8 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				CF9F41282B4524230091A9B8 /* AuthViewModel.swift */,
+				CF9F41282B4524230091A9B8 /* RegisterViewModel.swift */,
+				CF7B99C32B492C1300737A76 /* LoginViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -537,6 +548,7 @@
 				CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */,
 				CF78A6F62B3582AF00306F6A /* AuthTextField.swift */,
 				CF78A6F42B35809F00306F6A /* GenderSelectionView.swift */,
+				CFF8DA2A2B4BB44F0000C091 /* VerificationCodeView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -722,6 +734,7 @@
 				CFE7A3A02B3D97BE007432A0 /* Date.swift in Sources */,
 				CF78A6EB2B35638F00306F6A /* AuthManager.swift in Sources */,
 				CF32DD3E2B4538FE00B2F6C0 /* LocationSearchManagerType.swift in Sources */,
+				CFF8DA272B4BB28B0000C091 /* EmailVerification.swift in Sources */,
 				CFA32E1F2B36BF3E00385847 /* AppData.swift in Sources */,
 				CFB635002B39833E0029BE3F /* CarPoolGenerateViewModel.swift in Sources */,
 				CF3F49E22B316C11009E8A96 /* AppDelegate.swift in Sources */,
@@ -752,6 +765,7 @@
 				CFA32E232B36D83500385847 /* SplashView.swift in Sources */,
 				CF8266932B46A9D900D92487 /* EditFavoriteMapViewModel.swift in Sources */,
 				CF3F499B2B316A6F009E8A96 /* LymCarApp.swift in Sources */,
+				CFF8DA2B2B4BB44F0000C091 /* VerificationCodeView.swift in Sources */,
 				CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */,
 				CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */,
 				CFA219852B48015B00FA4228 /* FavoriteButton.swift in Sources */,
@@ -770,9 +784,11 @@
 				CFDB3E012B34048F00C88D77 /* SearchType.swift in Sources */,
 				CF49530D2B380816009FD93A /* TimePickerView.swift in Sources */,
 				CFA4DFA52B443FE500A791A7 /* PushMessage.swift in Sources */,
+				CFF8DA292B4BB2B10000C091 /* NetworkError.swift in Sources */,
 				CFA32E132B369C2A00385847 /* User.swift in Sources */,
 				CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */,
 				CF4D9B542B47CA6000231455 /* Favorite+CoreDataClass.swift in Sources */,
+				CF7B99C42B492C1300737A76 /* LoginViewModel.swift in Sources */,
 				CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */,
 				CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
@@ -784,7 +800,7 @@
 				CF4953072B3800B0009FD93A /* CarPoolGenerateView.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
-				CF9F41292B4524230091A9B8 /* AuthViewModel.swift in Sources */,
+				CF9F41292B4524230091A9B8 /* RegisterViewModel.swift in Sources */,
 				CF49530F2B381080009FD93A /* OptionView.swift in Sources */,
 				CF4D9B572B47CB1400231455 /* PersistenceController.swift in Sources */,
 				CFDB3E0B2B344DB100C88D77 /* View.swift in Sources */,

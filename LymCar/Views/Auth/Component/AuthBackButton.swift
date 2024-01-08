@@ -15,6 +15,7 @@ struct AuthBackButton: View {
         Button(action: {
             if authStep.rawValue > 0 {
                 authStep = AuthStep(rawValue: authStep.rawValue - 1)!
+                if authStep == .emailVerification { authStep = .email }
             } else if authStep.rawValue == 0 {
                 dismiss()
             }
@@ -23,10 +24,21 @@ struct AuthBackButton: View {
                 Image(systemName: "chevron.left")
                     .font(.title2)
                 
-                Text(AuthStep(rawValue: authStep.rawValue - 1)?.subTitle ?? "로그인")
+                Text(prevSubTitle())
             }
         })
         .tint(.white)
+    }
+    
+    private func prevSubTitle() -> String {
+        guard var prevStep = AuthStep(rawValue: authStep.rawValue - 1) else {
+            return "로그인"
+        }
+        if prevStep == .emailVerification {
+            prevStep = .email
+        }
+        
+        return prevStep.subTitle
     }
 }
 

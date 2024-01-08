@@ -13,11 +13,10 @@ struct LoginView: View {
     }
     
     @EnvironmentObject private var appData: AppData
-    @StateObject private var viewModel: AuthViewModel
+    @StateObject private var viewModel: ViewModel
     @Binding var loginViewIsPresented: Bool
     
-    @AppStorage("email") private var emailText: String = ""
-    @State private var passwordText: String = ""
+    
     @FocusState private var focusField: Field?
     
     init(
@@ -25,12 +24,12 @@ struct LoginView: View {
         authManager: AuthManagerType
     ) {
         _loginViewIsPresented = isPresented
-        _viewModel = StateObject(wrappedValue: AuthViewModel(authManager: authManager))
+        _viewModel = StateObject(wrappedValue: ViewModel(authManager: authManager))
     }
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
                 Text("Welcome!")
                     .font(.system(size: 40, weight: .heavy))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -40,12 +39,12 @@ struct LoginView: View {
                 VStack(spacing: 0) {
                     Text("로그인")
                         .font(.system(size: 24, weight: .heavy))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(maxWidth: UIScreen.main.bounds.width, alignment: .leading)
                         .padding(.top, 27)
                         .foregroundStyle(Color.theme.primaryTextColor)
                     
                     AuthTextField(
-                        text: $emailText,
+                        text: $viewModel.emailText,
                         inputType: .email,
                         height: 50,
                         isShowTitle: false
@@ -58,7 +57,7 @@ struct LoginView: View {
                     }
                     
                     AuthTextField(
-                        text: $passwordText,
+                        text: $viewModel.passwordText,
                         inputType: .password,
                         height: 50,
                         isShowTitle: false
@@ -67,13 +66,13 @@ struct LoginView: View {
                     .focused($focusField, equals: .password)
                     .submitLabel(.join)
                     .onSubmit {
-                        viewModel.signIn(withEmail: emailText, password: passwordText)
+                        viewModel.signIn()
                     }
                     
                     NavigationLink {
                         RegisterView(
-                            viewModel: viewModel,
-                            loginViewIsPresented: $loginViewIsPresented
+                            loginViewIsPresented: $loginViewIsPresented,
+                            authManager: appData.authManager
                         )
                     } label: {
                         HStack {
@@ -92,7 +91,7 @@ struct LoginView: View {
                     RoundedActionButton(
                         label: "로그인",
                         action: {
-                            viewModel.signIn(withEmail: emailText, password: passwordText)
+                            viewModel.signIn()
                         }
                     )
                     .padding(.bottom, 47)
@@ -104,12 +103,6 @@ struct LoginView: View {
                 .ignoresSafeArea()
             }
             .padding(.top, 100)
-            .background {
-                Image("WelcomeBackgroundImage")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-            }
             .alert(
                 viewModel.alertMessage,
                 isPresented: $viewModel.alertIsPresented
@@ -130,6 +123,12 @@ struct LoginView: View {
                 default:
                     break
                 }
+            }
+            .background {
+                Image("WelcomeBackgroundImage")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
             }
             .loadingProgress(viewState: $viewModel.viewState)
         }

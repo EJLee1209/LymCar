@@ -274,8 +274,6 @@ final class CarPoolManager: CarPoolManagerType {
                 return nil
             }
             
-//            sendMessage(sender: user, roomId: roomId, text: "- \(user.name)님이 나갔습니다 -", isSystemMsg: true)
-            
             let roomIds = await getUserCarPoolIds()
             let newRoomIds = roomIds.filter { $0 != roomId }
             try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": newRoomIds])

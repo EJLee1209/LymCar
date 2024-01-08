@@ -9,6 +9,7 @@ import Foundation
 
 enum AuthStep: Int {
     case email
+    case emailVerification
     case gender
     case name
     case password
@@ -17,7 +18,7 @@ enum AuthStep: Int {
     
     var title: String {
         switch self {
-        case .email:
+        case .email, .emailVerification:
             return "이메일 인증"
         default:
             return "사용자 정보"
@@ -28,6 +29,8 @@ enum AuthStep: Int {
         switch self {
         case .email:
             return "사용 가능한 이메일을 입력해주세요"
+        case .emailVerification:
+            return "인증을 위한 메일이 발송되었습니다.\n인증코드를 입력해주세요"
         case .gender:
             return "성별을 선택해주세요"
         case .name:
@@ -45,6 +48,8 @@ enum AuthStep: Int {
         switch self {
         case .email:
             return "이메일"
+        case .emailVerification:
+            return "이메일 코드 인증"
         case .gender:
             return "성별"
         case .name:

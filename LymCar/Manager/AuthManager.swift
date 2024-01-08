@@ -7,9 +7,33 @@
 
 import Firebase
 
+
+
 final class AuthManager: AuthManagerType {
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
+    
+    func sendEmailVerification(_ email: String) async throws -> EmailVerification {
+        guard let url = URL(string: "\(Constant.baseURL)/auth/email/verification/create") else {
+            throw NetworkError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        
+        let json: [String: Any] = ["email": email]
+        request.httpBody = try JSONSerialization.data(withJSONObject: json)
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw NetworkError.invalidServerResponse
+        }
+        
+        return try JSONDecoder().decode(EmailVerification.self, from: data)
+    }
     
     func createUser(
         withEmail email: String,
@@ -57,9 +81,12 @@ final class AuthManager: AuthManagerType {
             return .success(response: user)
         } catch {
             /// 에러 처리
+            
             switch error {
             case AuthErrorCode.invalidEmail:
                 return .failure(errorMessage: "잘못된 이메일 형식입니다")
+            case AuthErrorCode.invalidCredential:
+                return .failure(errorMessage: "이메일 또는 비밀번호 오류입니다")
             case AuthErrorCode.unverifiedEmail:
                 return .failure(errorMessage: "등록되지 않은 이메일입니다")
             case AuthErrorCode.wrongPassword:

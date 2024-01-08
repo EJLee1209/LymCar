@@ -30,7 +30,7 @@ struct AuthTextField: View {
             if isShowTitle {
                 Text(inputType.rawValue)
                     .font(.system(size: 15, weight: .semibold))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: UIScreen.main.bounds.width, alignment: .leading)
             }
             HStack {
                 if !isHidden {
