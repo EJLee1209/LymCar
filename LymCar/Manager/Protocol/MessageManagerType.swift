@@ -28,8 +28,6 @@ protocol MessageManagerType {
         roomId: String
     ) async -> [WrappedMessage]
     
-    /// 메세지 리스너 제거
-    func removeMessageListener()
     
     /// 메세지 페이지 관련 프로퍼티 초기화
     func resetPageProperties()

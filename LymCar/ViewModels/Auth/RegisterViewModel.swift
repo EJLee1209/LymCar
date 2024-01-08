@@ -56,17 +56,11 @@ extension RegisterView {
                     }
                 } catch {
                     await MainActor.run {
-                        switch error {
-                        case NetworkError.invalidURL:
-                            alertMessage = "잘못된 URL 요청입니다"
-                        case NetworkError.invalidServerResponse:
-                            alertMessage = "서버 요청 실패\n잠시 후 다시 시도해주세요"
-                        default:
-                            alertMessage = "메일 전송 실패\n\(error.localizedDescription)"
-                        }
-                        print("DEBUG: 에러 발생 \(error)")
+                        alertMessage = authManager.getErrorMsgFromError(error)
                         alertIsPresented = true
                         viewState = .none
+                        
+                        print("DEBUG: 에러 발생 \(error)")
                     }
                 }
             }
@@ -85,22 +79,24 @@ extension RegisterView {
             viewState = .loading
             
             Task {
-                let result = await authManager.createUser(
-                    withEmail: emailText,
-                    password: passwordText,
-                    gender: gender,
-                    name: nameText
-                )
-                await MainActor.run {
-                    alertIsPresented = true
+                do {
+                    let user = try await authManager.createUser(
+                        withEmail: emailText,
+                        password: passwordText,
+                        gender: gender,
+                        name: nameText
+                    )
                     
-                    switch result {
-                    case .success(let user):
-                        viewState = .successToNetworkRequest(response: user)
+                    await MainActor.run {
                         alertMessage = "회원가입이 완료되었습니다!"
-                    case .failure(let errorMessage):
+                        alertIsPresented = true
+                        viewState = .successToNetworkRequest(response: user)
+                    }
+                } catch {
+                    await MainActor.run {
+                        alertMessage = authManager.getErrorMsgFromError(error)
+                        alertIsPresented = true
                         viewState = .failToNetworkRequest
-                        alertMessage = errorMessage
                     }
                 }
             }

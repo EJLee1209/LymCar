@@ -15,7 +15,6 @@ extension LoginView {
         @Published var alertIsPresented: Bool = false
         var alertMessage: String = ""
         
-        
         private let authManager: AuthManagerType
         
         init(authManager: AuthManagerType) {
@@ -26,17 +25,17 @@ extension LoginView {
             viewState = .loading
             
             Task {
-                let result = await authManager.signIn(withEmail: emailText, password: passwordText)
-                await MainActor.run {
-                    switch result {
-                    case .success(let user):
+                do {
+                    let user = try await authManager.signIn(withEmail: emailText, password: passwordText)
+                    await MainActor.run {
                         viewState = .successToNetworkRequest(response: user)
-                    case .failure(let errorMessage):
+                    }
+                } catch {
+                    await MainActor.run {
                         viewState = .failToNetworkRequest
-                        alertMessage = errorMessage
+                        alertMessage = authManager.getErrorMsgFromError(error)
                         alertIsPresented = true
                     }
-                    
                 }
             }
         }

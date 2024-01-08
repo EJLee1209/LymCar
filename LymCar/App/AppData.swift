@@ -82,19 +82,25 @@ final class AppData: ObservableObject {
     }
     
     func checkUserAndFetchUserCarPool() async -> User? {
-        let currentUser = await authManager.checkCurrentUser()
-        subscribeUserCarPool()
-        
-        await MainActor.run {
-            self.currentUser = currentUser
+        do {
+            let currentUser = try await authManager.checkCurrentUser()
+            
+            await MainActor.run {
+                self.currentUser = currentUser
+            }
+            subscribeUserCarPool()
+            
+            return currentUser
+        } catch {
+            return nil
         }
-        
-        return currentUser
     }
     
     func subscribeUserCarPool() {
         carPoolManager.subscribeUserCarPool { [weak self] list in
             self?.userCarPoolList = list
+            
+            print("DEBUG: 유저 카풀 목록 수 \(list.count)")
         }
     }
     
@@ -102,8 +108,6 @@ final class AppData: ObservableObject {
         authManager.logout()
         currentUser = nil
         userCarPoolList = []
-        
-        carPoolManager.removeUserCarPoolListener()
     }
     
     func clearLocation() {

@@ -13,19 +13,15 @@ final class CarPoolManager: CarPoolManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
-    private var messageListenerRegistration: ListenerRegistration?
     private var userCarPoolListenerRegistration: ListenerRegistration?
     private var carPoolListenerRegistration: ListenerRegistration?
-    
-    private var startDoc: DocumentSnapshot?
-    private var lastDoc: DocumentSnapshot?
-    private var endPaging: Bool = false
-    private var limit: Int = 20
     
     func subscribeUserCarPool(completion: @escaping([CarPool]) -> Void) {
         guard let uid = auth.currentUser?.uid else {
             return
         }
+        
+        userCarPoolListenerRegistration?.remove()
         
         userCarPoolListenerRegistration = db.collection("Rooms")
             .whereField("participants", arrayContains: uid)
@@ -48,6 +44,8 @@ final class CarPoolManager: CarPoolManagerType {
     }
     
     func subscribeCarPool(roomId: String, completion: @escaping (FirebaseNetworkResult<CarPool>) -> Void) {
+        carPoolListenerRegistration?.remove()
+        
         carPoolListenerRegistration = db.collection("Rooms")
             .whereField("id", isEqualTo: roomId)
             .addSnapshotListener({ snapshot, error in
@@ -317,11 +315,5 @@ final class CarPoolManager: CarPoolManagerType {
         }
     }
 
-    func removeCarPoolListener() {
-        carPoolListenerRegistration?.remove()
-    }
     
-    func removeUserCarPoolListener() {
-        userCarPoolListenerRegistration?.remove()
-    }
 }

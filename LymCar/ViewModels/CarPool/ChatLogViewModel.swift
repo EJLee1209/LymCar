@@ -98,8 +98,6 @@ extension ChatLogView {
         }
         
         func onDisappear() {
-            messageManager.removeMessageListener()
-            carPoolManager.removeCarPoolListener()
             messageListenerExist = false
             
             messageManager.resetPageProperties()

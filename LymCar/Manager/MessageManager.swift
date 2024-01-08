@@ -168,6 +168,8 @@ final class MessageManager: MessageManagerType {
             requestQuery = commonQuery
         }
         
+        messageListenerRegistration?.remove()
+        
         messageListenerRegistration = requestQuery.addSnapshotListener { snapshot, error in
             guard let document = snapshot?.documents else {
                 print("DEBUG: Fail to subscribeNewMessages with error document is nil")
@@ -227,7 +229,4 @@ final class MessageManager: MessageManagerType {
         lastDoc = nil
     }
     
-    func removeMessageListener() {
-        messageListenerRegistration?.remove()
-    }
 }

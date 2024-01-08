@@ -44,8 +44,4 @@ protocol CarPoolManagerType {
     /// 카풀 마감
     func deactivate(roomId: String) async -> FirebaseNetworkResult<String>
     
-    func removeCarPoolListener()
-    
-    /// 유저 카풀 리스너 제거
-    func removeUserCarPoolListener()
 }
