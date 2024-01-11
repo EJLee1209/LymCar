@@ -31,6 +31,7 @@ struct RootView: View {
                         case .map:
                             MapView(
                                 mapState: $mapState,
+                                tabViewIsHidden: $tabViewIsHidden,
                                 locationSearchManager: appData.locationSearchManager
                             )
                         case .menu:

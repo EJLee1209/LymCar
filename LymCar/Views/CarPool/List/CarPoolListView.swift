@@ -11,15 +11,19 @@ struct CarPoolListView: View {
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: ViewModel
     
+    @Binding var tabViewIsHidden: Bool
+    
     let rows: [GridItem] = [
         GridItem(.flexible(minimum: 225))
     ]
     
     init(
         user: User,
+        tabViewIsHidden: Binding<Bool>,
         carPoolManager: CarPoolManagerType,
         messageManager: MessageManagerType
     ) {
+        self._tabViewIsHidden = tabViewIsHidden
         let viewModel = ViewModel(
             user: user,
             carPoolManager: carPoolManager,
@@ -41,6 +45,7 @@ struct CarPoolListView: View {
                         ChatLogView(
                             carPool: joinedCarPool,
                             user: user,
+                            tabViewIsHidden: $tabViewIsHidden,
                             carPoolManager: appData.carPoolManager,
                             messageManager: appData.messageManager
                         )
@@ -160,6 +165,7 @@ struct CarPoolListView: View {
 #Preview {
     CarPoolListView(
         user: .mock,
+        tabViewIsHidden: .constant(true),
         carPoolManager: CarPoolManager(),
         messageManager: MessageManager()
     )

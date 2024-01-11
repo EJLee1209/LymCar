@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CarPoolShortcutListView: View {
     @EnvironmentObject private var appData: AppData
+    @Binding var tabViewIsHidden: Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -19,6 +20,7 @@ struct CarPoolShortcutListView: View {
                             ChatLogView(
                                 carPool: carPool,
                                 user: user,
+                                tabViewIsHidden: $tabViewIsHidden,
                                 carPoolManager: appData.carPoolManager,
                                 messageManager: appData.messageManager
                             )
@@ -37,7 +39,7 @@ struct CarPoolShortcutListView: View {
 }
 
 #Preview {
-    CarPoolShortcutListView()
+    CarPoolShortcutListView(tabViewIsHidden: .constant(true))
         .environmentObject(
             AppData(
                 authManager: AuthManager(),

@@ -13,6 +13,7 @@ struct MapView: View {
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: ViewModel
     @Binding var mapState: MapState
+    @Binding var tabViewIsHidden: Bool
     
     @FetchRequest(
         entity: Favorite.entity(),
@@ -23,10 +24,12 @@ struct MapView: View {
     
     init(
         mapState: Binding<MapState>,
+        tabViewIsHidden: Binding<Bool>,
         locationSearchManager: LocationSearchManagerType
     ) {
-        _mapState = mapState
-        _viewModel = .init(wrappedValue: ViewModel(locationSearchManager: locationSearchManager))
+        self._mapState = mapState
+        self._tabViewIsHidden = tabViewIsHidden
+        self._viewModel = .init(wrappedValue: ViewModel(locationSearchManager: locationSearchManager))
     }
     
     var body: some View {
@@ -81,7 +84,7 @@ struct MapView: View {
                 VStack(spacing: 9) {
                     ShowCarPoolButton(mapState: $mapState)
                     if !appData.userCarPoolList.isEmpty {
-                        CarPoolShortcutListView()
+                        CarPoolShortcutListView(tabViewIsHidden: $tabViewIsHidden)
                     }
                 }
                 .padding(.bottom, 122)
@@ -99,6 +102,7 @@ struct MapView: View {
                     if let user = appData.currentUser {
                         CarPoolListView(
                             user: user,
+                            tabViewIsHidden: $tabViewIsHidden,
                             carPoolManager: appData.carPoolManager,
                             messageManager: appData.messageManager
                         )
@@ -130,6 +134,7 @@ struct MapView: View {
 #Preview {
     MapView(
         mapState: .constant(.none),
+        tabViewIsHidden: .constant(true),
         locationSearchManager: LocationSearchManager()
     )
     .environmentObject(

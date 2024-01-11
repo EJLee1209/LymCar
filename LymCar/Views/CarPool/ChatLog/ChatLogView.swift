@@ -13,12 +13,16 @@ struct ChatLogView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var viewModel: ViewModel
     
+    @Binding var tabViewIsHidden: Bool
+    
     init(
         carPool: CarPool,
         user: User,
+        tabViewIsHidden: Binding<Bool>,
         carPoolManager: CarPoolManagerType,
         messageManager: MessageManagerType
     ) {
+        self._tabViewIsHidden = tabViewIsHidden
         let viewModel = ViewModel(
             carPool: carPool,
             currentUser: user,
@@ -120,17 +124,27 @@ struct ChatLogView: View {
             viewModel.fetchMessages()
             viewModel.subscribeCarPool()
             appDelegate.viewingChatRoomId = viewModel.carPool.id
+            
+            tabViewIsHidden = true
         }
         .onDisappear {
             viewModel.onDisappear()
             appDelegate.viewingChatRoomId.removeAll()
+            
+            withAnimation {
+                tabViewIsHidden = false
+            }
         }
     }
 }
 
 #Preview {
     ChatLogView(
-        carPool: .mock, user: .mock, carPoolManager: CarPoolManager(), messageManager: MessageManager()
+        carPool: .mock,
+        user: .mock,
+        tabViewIsHidden: .constant(true),
+        carPoolManager: CarPoolManager(),
+        messageManager: MessageManager()
     )
     .environmentObject(
         AppData(
