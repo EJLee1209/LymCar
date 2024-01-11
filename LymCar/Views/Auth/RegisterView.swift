@@ -99,6 +99,7 @@ struct RegisterView: View {
                 switch viewModel.viewState {
                 case .successToNetworkRequest(let user):
                     appData.currentUser = user
+                    appData.subscribeUserCarPool()
                     loginViewIsPresented.toggle()
                 default:
                     break

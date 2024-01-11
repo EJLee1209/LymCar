@@ -24,8 +24,8 @@ extension RegisterView {
         
         var authNum: Int? = nil
         
-        var alertMessage: String = ""
         @Published var alertIsPresented: Bool = false
+        var alertMessage: String = ""
         
         private let authManager: AuthManagerType
         

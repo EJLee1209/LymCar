@@ -11,7 +11,6 @@ struct MenuView: View {
     @EnvironmentObject private var appData: AppData
     @Binding var loginViewIsPresented: Bool
     @Binding var tabViewIsHidden: Bool
-    @State private var alertIsPresented = false
     
     var body: some View {
         NavigationView {
@@ -99,21 +98,6 @@ struct MenuView: View {
                         .foregroundStyle(.white)
                 }
             }
-            .alert(
-                "정말로 로그아웃 하시겠습니까?",
-                isPresented: $alertIsPresented
-            ) {
-                
-                Button(role: .destructive, action: {
-                    appData.logout()
-                    loginViewIsPresented.toggle()
-                },label: {
-                    Text("확인")
-                })
-                Button(role: .cancel, action: {}, label: {
-                    Text("취소")
-                })
-            }
             .onAppear {
                 tabViewIsHidden = false
             }
@@ -126,7 +110,13 @@ struct MenuView: View {
     private func menuButtonAction(_ menu: MenuType) {
         switch menu {
         case .logout:
-            alertIsPresented.toggle()
+            appData.alert(
+                message: "정말로 로그아웃 하시겠습니까?",
+                role: .both(positiveAction: {
+                    appData.logout()
+                    loginViewIsPresented.toggle()
+                }, negativeAction: { })
+            )
         default:
             break
         }

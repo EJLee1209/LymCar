@@ -11,6 +11,8 @@ final class AuthManager: AuthManagerType {
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
     
+    private var deviceIdListener: ListenerRegistration?
+    
     func sendEmailVerification(_ email: String) async throws -> EmailVerification {
         guard let url = URL(string: "\(Constant.baseURL)/auth/email/verification/create") else {
             throw NetworkError.invalidURL
@@ -50,6 +52,7 @@ final class AuthManager: AuthManagerType {
         /// User 커스텀 객체 생성 및 FireStore DB에 저장
         let newUser = User(email: email, gender: gender, name: name, uid: uid)
         try db.collection("Users").document(uid).setData(from: newUser)
+
         
         return newUser
     }
@@ -78,17 +81,16 @@ final class AuthManager: AuthManagerType {
         return user
     }
     
-    @discardableResult
-    func logout() -> Bool {
-        do {
-            try auth.signOut()
-            return true
-        } catch {
-            return false
-        }
-    }
     
     func logout() throws {
+        guard let uid = auth.currentUser?.uid else {
+            throw AuthErrorCode(.nullUser)
+        }
+        
+        db.collection("FcmTokens")
+            .document(uid)
+            .updateData(["token": ""])
+        
         try auth.signOut()
     }
     
@@ -111,5 +113,6 @@ final class AuthManager: AuthManagerType {
             print("DEBUG: Fail to updateFcmToken with error \(error.localizedDescription)")
         }
     }
+    
 }
 

@@ -107,15 +107,10 @@ struct ChatLogView: View {
             }
         }
         .alert(
-            viewModel.alertMessage,
+            role: viewModel.alertRole,
+            alertMessage: viewModel.alertMessage,
             isPresented: $viewModel.alertIsPresented
-        ) {
-            if let alertPositiveAction = viewModel.alertPositiveAction {
-                Button("확인", role: .destructive, action: alertPositiveAction)
-            }
-            
-            Button("취소", role: .cancel, action: {})
-        }
+        )
         .onReceive(viewModel.$isExit, perform: { isExit in
             if isExit {
                 dismiss()

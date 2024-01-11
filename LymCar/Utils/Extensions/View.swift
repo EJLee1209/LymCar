@@ -15,6 +15,10 @@ extension View {
     func loadingProgress<T: Decodable & Equatable>(viewState: Binding<ViewState<T>>) -> some View {
         modifier(LoadingViewModifier(viewState: viewState))
     }
+    
+    func alert(role: AlertRole, alertMessage: String, isPresented: Binding<Bool>) -> some View {
+        modifier(AlertModifier(role: role, alertMessage: alertMessage, isPresented: isPresented))
+    }
 }
 
 struct RoundedCorner: Shape {

@@ -314,6 +314,4 @@ final class CarPoolManager: CarPoolManagerType {
             return .failure(errorMessage: "카풀을 마감하던 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요")
         }
     }
-
-    
 }

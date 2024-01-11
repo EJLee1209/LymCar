@@ -12,8 +12,10 @@ extension LoginView {
         @AppStorage("email") var emailText: String = ""
         @Published var passwordText: String = ""
         @Published var viewState: ViewState<User> = .none
+        
         @Published var alertIsPresented: Bool = false
         var alertMessage: String = ""
+        var alertRole: AlertRole = .none
         
         private let authManager: AuthManagerType
         
@@ -33,6 +35,7 @@ extension LoginView {
                 } catch {
                     await MainActor.run {
                         viewState = .failToNetworkRequest
+                        alertRole = .positive(action: { self.viewState = .none })
                         alertMessage = authManager.getErrorMsgFromError(error)
                         alertIsPresented = true
                     }

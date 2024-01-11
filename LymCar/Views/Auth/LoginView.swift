@@ -16,7 +16,6 @@ struct LoginView: View {
     @StateObject private var viewModel: ViewModel
     @Binding var loginViewIsPresented: Bool
     
-    
     @FocusState private var focusField: Field?
     
     init(
@@ -103,17 +102,6 @@ struct LoginView: View {
                 .ignoresSafeArea()
             }
             .padding(.top, 100)
-            .alert(
-                viewModel.alertMessage,
-                isPresented: $viewModel.alertIsPresented
-            ) {
-                Button {
-                    viewModel.viewState = .none
-                } label: {
-                    Text("확인")
-                        .font(.system(size: 15))
-                }
-            }
             .onReceive(viewModel.$viewState) { authResult in
                 switch authResult {
                 case .successToNetworkRequest(let user):
@@ -130,6 +118,11 @@ struct LoginView: View {
                     .scaledToFill()
                     .ignoresSafeArea()
             }
+            .alert(
+                role: viewModel.alertRole,
+                alertMessage: viewModel.alertMessage,
+                isPresented: $viewModel.alertIsPresented
+            )
             .loadingProgress(viewState: $viewModel.viewState)
         }
     }

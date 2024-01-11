@@ -108,18 +108,7 @@ struct CarPoolListView: View {
                             LazyHGrid(rows: rows, spacing: 9, content: {
                                 ForEach(viewModel.carPoolList) { carPool in
                                     Button(action: {
-                                        if viewModel.isMyCarPool(carPool) {
-                                            viewModel.joinedCarPool = carPool
-                                            viewModel.navigateToChatRoomView = true
-                                        } else {
-                                            appData.alert(
-                                                message: "카풀방에 참여하시겠습니까?",
-                                                isPresented: true,
-                                                role: .withAction({
-                                                    viewModel.joinCarPool(with: carPool)
-                                                })
-                                            )
-                                        }
+                                        didSelectListItem(carPool)
                                     }, label: {
                                         CarPoolCell(carPool: carPool)
                                     })
@@ -135,17 +124,35 @@ struct CarPoolListView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 30))
                 .shadow(radius: 2)
                 .onReceive(viewModel.$alertIsPresented, perform: { isPresented in
-                    appData.alert(
-                        message: viewModel.alertMessage,
-                        isPresented: isPresented,
-                        role: .cancel
-                    )
+                    if isPresented {
+                        appData.alert(
+                            message: viewModel.alertMessage,
+                            role: .negative(action: { })
+                        )
+                    }
                 })
                 
             }
         }
         .onAppear {
             viewModel.fetchCarPoolList()
+        }
+    }
+    
+    func didSelectListItem(_ carPool: CarPool) {
+        if viewModel.isMyCarPool(carPool) {
+            viewModel.joinedCarPool = carPool
+            viewModel.navigateToChatRoomView = true
+        } else {
+            appData.alert(
+                message: "카풀방에 참여하시겠습니까?",
+                role: .both(
+                    positiveAction: {
+                        viewModel.joinCarPool(with: carPool)
+                    },
+                    negativeAction: { }
+                )
+            )
         }
     }
 }

@@ -10,8 +10,10 @@ import Firebase
 import CoreLocation
 
 enum AlertRole {
-    case withAction(() -> Void)
-    case cancel
+    case positive(action: () -> Void)
+    case negative(action: () -> Void)
+    case both(positiveAction: () -> Void, negativeAction: () -> Void)
+    case none
 }
 
 final class AppData: ObservableObject {
@@ -20,6 +22,8 @@ final class AppData: ObservableObject {
     
     @Published var currentUser: User?
     @Published var userCarPoolList: [CarPool] = []
+    
+    @Published var token: String?
     
     var departurePlaceName: String = ""
     var destinationName: String = ""
@@ -34,7 +38,7 @@ final class AppData: ObservableObject {
     
     @Published var alertIsPresented: Bool = false
     var alertMessage: String = ""
-    var alertRole: AlertRole = .cancel
+    var alertRole: AlertRole = .none
     
     init(
         authManager: AuthManagerType,
@@ -52,12 +56,11 @@ final class AppData: ObservableObject {
     
     func alert(
         message: String,
-        isPresented: Bool,
         role: AlertRole
     ) {
         alertMessage = message
-        alertIsPresented = isPresented
         alertRole = role
+        alertIsPresented = true
     }
     
     func didSelectLocation(
@@ -105,7 +108,7 @@ final class AppData: ObservableObject {
     }
     
     func logout() {
-        authManager.logout()
+        try? authManager.logout()
         currentUser = nil
         userCarPoolList = []
     }
@@ -120,4 +123,6 @@ final class AppData: ObservableObject {
             await authManager.updateFcmToken(token)
         }
     }
+    
+    
 }

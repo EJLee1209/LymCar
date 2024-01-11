@@ -19,14 +19,9 @@ extension ChatLogView {
         
         @Published var alertIsPresented: Bool = false
         var alertMessage: String = ""
-        var alertPositiveAction: (() -> Void)?
+        var alertRole: AlertRole = .none
         
         var messageListenerExist: Bool = false
-        
-        
-        private let currentUser: User
-        private let carPoolManager: CarPoolManagerType
-        private let messageManager: MessageManagerType
         
         var showDeactivateCarPoolButton: Bool {
             return carPool.participants.first == currentUser.uid && carPool.isActivate
@@ -35,6 +30,10 @@ extension ChatLogView {
         var messages: [WrappedMessage] {
             return prevMessages + newMessages
         }
+        
+        private let currentUser: User
+        private let carPoolManager: CarPoolManagerType
+        private let messageManager: MessageManagerType
         
         //MARK: - LifeCycle
         init(
@@ -54,6 +53,7 @@ extension ChatLogView {
         
         //MARK: - Helpers
         
+        // 메세지 전송
         func sendMessage() {
             messageManager.sendMessage(
                 sender: currentUser,
@@ -65,6 +65,7 @@ extension ChatLogView {
             messageText.removeAll()
         }
         
+        // 메세지 데이터 읽기 (with Paging)
         func fetchMessages() {
             Task {
                 let prev = await messageManager.fetchMessages(roomId: carPool.id)
@@ -78,6 +79,7 @@ extension ChatLogView {
             }
         }
         
+        // 새로운 메세지 구독
         private func subscribeNewMessage() {
             messageListenerExist = true
             
@@ -86,6 +88,7 @@ extension ChatLogView {
             }
         }
         
+        // 현재 카풀방 구독
         func subscribeCarPool() {
             carPoolManager.subscribeCarPool(roomId: carPool.id) { [weak self] result in
                 switch result {
@@ -97,30 +100,25 @@ extension ChatLogView {
             }
         }
         
-        func onDisappear() {
-            messageListenerExist = false
-            
-            messageManager.resetPageProperties()
-            prevMessages.removeAll()
-            newMessages.removeAll()
+        func showAlert(
+            role: AlertRole,
+            message: String
+        ) {
+            alertRole = .both(positiveAction: deactivateCarPool, negativeAction: { })
+            alertMessage = message
+            alertIsPresented = true
         }
         
+        // 카풀 비활성화 버튼 클릭 시 alert 표시
         func deactivateCarPoolButtonAction() {
-            alertPositiveAction = deactivateCarPool
-            alertMessage = "카풀을 마감하면 더이상 다른 사람들이 채팅방에 참여할 수 없습니다. 정말로 마감하시겠습니까?"
-            alertIsPresented = true
+            showAlert(
+                role: .both(positiveAction: deactivateCarPool, negativeAction: { }),
+                message: "카풀을 마감하면 더이상 다른 사람들이 채팅방에 참여할 수 없습니다. 정말로 마감하시겠습니까?"
+            )
         }
         
-        func exitCarPoolButtonAction() {
-            alertPositiveAction = exitCarPool
-            alertMessage = "정말로 채팅방을 나가시겠습니까?"
-            alertIsPresented = true
-        }
-        
-        
-        func deactivateCarPool() {
-            alertPositiveAction = nil
-            
+        // 카풀 비활성화
+        private func deactivateCarPool() {
             Task {
                 let result = await carPoolManager.deactivate(roomId: carPool.id)
                 
@@ -135,6 +133,7 @@ extension ChatLogView {
                         )
                         carPool.isActivate = false
                     case .failure(let errorMessage):
+                        alertRole = .positive(action: { })
                         alertMessage = errorMessage
                         alertIsPresented = true
                     }
@@ -143,9 +142,16 @@ extension ChatLogView {
             }
         }
         
-        func exitCarPool() {
-            alertPositiveAction = nil
-            
+        // 카풀 퇴장 버튼 클릭 시 alert 표시
+        func exitCarPoolButtonAction() {
+            showAlert(
+                role: .both(positiveAction: exitCarPool, negativeAction: { }),
+                message: "정말로 채팅방을 나가시겠습니까?"
+            )
+        }
+        
+        // 카풀 퇴장
+        private func exitCarPool() {
             Task {
                 let result = await carPoolManager.exit(user: currentUser, roomId: carPool.id)
                 
@@ -160,11 +166,21 @@ extension ChatLogView {
                         )
                         isExit = true
                     case .failure(let errorMessage):
+                        alertRole = .positive(action: { })
                         alertMessage = errorMessage
                         alertIsPresented = true
                     }
                 }
             }
+        }
+        
+        // View 생명주기인 onDisappear 에서 수행
+        func onDisappear() {
+            messageListenerExist = false
+            
+            messageManager.resetPageProperties()
+            prevMessages.removeAll()
+            newMessages.removeAll()
         }
     }
 }

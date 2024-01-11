@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CF0A631D2B466C0300301A61 /* EditFavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */; };
+		CF15E1D52B4FDF0400391054 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF15E1D42B4FDF0400391054 /* AlertModifier.swift */; };
 		CF1B79D12B32AACC005974B8 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1B79D02B32AACC005974B8 /* MapState.swift */; };
 		CF2C06942B467AF500A4E8FF /* RoundedActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */; };
 		CF32DD392B4538AB00B2F6C0 /* AuthManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF32DD382B4538AB00B2F6C0 /* AuthManagerType.swift */; };
@@ -125,6 +126,7 @@
 
 /* Begin PBXFileReference section */
 		CF0A631C2B466C0300301A61 /* EditFavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFavoriteView.swift; sourceTree = "<group>"; };
+		CF15E1D42B4FDF0400391054 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		CF1B79D02B32AACC005974B8 /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedActionButton.swift; sourceTree = "<group>"; };
 		CF32DD382B4538AB00B2F6C0 /* AuthManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerType.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				CFDB3E082B344B1500C88D77 /* MainTabView.swift */,
 				CFA32E222B36D83500385847 /* SplashView.swift */,
 				CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */,
+				CF15E1D42B4FDF0400391054 /* AlertModifier.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				CFB635072B399A470029BE3F /* Location.swift in Sources */,
 				CF0A631D2B466C0300301A61 /* EditFavoriteView.swift in Sources */,
 				CF4D9B4E2B47C6FD00231455 /* FavoriteModel.xcdatamodeld in Sources */,
+				CF15E1D52B4FDF0400391054 /* AlertModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

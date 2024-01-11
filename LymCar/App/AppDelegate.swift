@@ -65,7 +65,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        print("DEBUG: Did receive userInfo \(userInfo)")
         completionHandler()
     }
 }

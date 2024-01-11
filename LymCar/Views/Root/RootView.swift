@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct RootView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
@@ -58,8 +59,8 @@ struct RootView: View {
             }
         }
         .task {
-            if let _ = await appData.checkUserAndFetchUserCarPool() { }
-            else { loginViewIsPresented.toggle() }
+            if let _ = await appData.checkUserAndFetchUserCarPool() {}
+            else { loginViewIsPresented = true }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
@@ -68,30 +69,14 @@ struct RootView: View {
             }
         }
         .alert(
-            appData.alertMessage,
+            role: appData.alertRole,
+            alertMessage: appData.alertMessage,
             isPresented: $appData.alertIsPresented
-        ) {
-            switch appData.alertRole {
-            case .withAction(let action):
-                Button(role: .destructive, action: {
-                    action()
-                }, label: {
-                    Text("확인")
-                })
-                
-                Button(role: .cancel, action: {}, label: {
-                    Text("취소")
-                })
-            case .cancel:
-                Button(action: {}, label: {
-                    Text("확인")
-                })
-            }
-        }
+        )
         .onReceive(appDelegate.$fcmToken.combineLatest(appData.$currentUser), perform: { (fcmToken, user) in
             /// fcmToken 퍼블리셔와 currentUser 퍼블리셔를 combineLatest로 묶어서 하나의 퍼블리셔로 만듬
             /// 이렇게하면, 로그아웃 또는 로그인을 해서 유저 정보가 변경되었을 때에도 토큰 값을 Firestore에 업데이트 할 수 있음
-            guard let token = fcmToken, let _ = user else { return }
+            guard let token = fcmToken else { return }
             appData.updateFcmToken(token)
         })
     }

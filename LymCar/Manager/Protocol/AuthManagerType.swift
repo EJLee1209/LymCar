@@ -25,8 +25,7 @@ protocol AuthManagerType {
     
     func checkCurrentUser() async throws -> User?
     
-    @discardableResult
-    func logout() -> Bool
+    func logout() throws
     
     func updateFcmToken(_ token: String) async
 }
