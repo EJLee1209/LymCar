@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 extension ChatLogView {
     final class ViewModel: ObservableObject {
@@ -30,7 +31,7 @@ extension ChatLogView {
         var messages: [WrappedMessage] {
             return prevMessages + newMessages
         }
-        
+
         private let currentUser: User
         private let carPoolManager: CarPoolManagerType
         private let messageManager: MessageManagerType
@@ -104,7 +105,7 @@ extension ChatLogView {
             role: AlertRole,
             message: String
         ) {
-            alertRole = .both(positiveAction: deactivateCarPool, negativeAction: { })
+            alertRole = role
             alertMessage = message
             alertIsPresented = true
         }

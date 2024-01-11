@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ChatLogView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,6 +15,13 @@ struct ChatLogView: View {
     @StateObject private var viewModel: ViewModel
     
     @Binding var tabViewIsHidden: Bool
+    
+    private var keyboardisShowingPublisher: AnyPublisher<Bool, Never> {
+        Publishers.Merge(
+            NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification).map { _ in true },
+            NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification).map { _ in false }
+        ).eraseToAnyPublisher()
+    }
     
     init(
         carPool: CarPool,
@@ -67,10 +75,16 @@ struct ChatLogView: View {
                                 proxy.scrollTo(viewModel.messages.last, anchor: .bottom)
                             })
                         }
+                        .onReceive(keyboardisShowingPublisher, perform: { isShowing in
+                            withAnimation {
+                                proxy.scrollTo(viewModel.messages.last)
+                            }
+                        })
                     }
                     .refreshable {
                         viewModel.fetchMessages()
                     }
+                    
                 }
                 MessageInputView(
                     text: $viewModel.messageText,
@@ -135,6 +149,7 @@ struct ChatLogView: View {
                 tabViewIsHidden = false
             }
         }
+        
     }
 }
 
@@ -156,3 +171,4 @@ struct ChatLogView: View {
     )
     .environmentObject(AppDelegate())
 }
+
