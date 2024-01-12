@@ -24,7 +24,7 @@ struct LymCarApp: App {
                 .environmentObject(appData)
                 .environmentObject(appDelegate)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                
+                .navigationViewStyle(.stack)
         }
     }
 }
