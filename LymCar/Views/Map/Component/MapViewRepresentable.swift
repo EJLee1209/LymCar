@@ -184,8 +184,6 @@ extension MapViewRepresentable {
                     address += name
                 }
                 
-                print("DEBUG: 현재 ")
-                
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     if parent.mapViewModel.departurePlaceText != address {

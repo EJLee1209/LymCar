@@ -20,26 +20,12 @@ final class MessageManager: MessageManagerType {
     private var endPaging: Bool = false
     private var limit: Int = 20
     
-    @discardableResult
     func sendMessage(
         sender: User,
         roomId: String,
         text: String,
         isSystemMsg: Bool
-    ) -> FirebaseNetworkResult<Message> {
-        let ref = db.collection("Rooms")
-            .document(roomId)
-            .collection("ChatLogs")
-            .document()
-        
-        let message = Message(
-            id: ref.documentID,
-            roomId: roomId,
-            text: text,
-            sender: sender,
-            isSystemMsg: isSystemMsg
-        )
-        
+    ) {
         /// 채팅방에 참여 중인 사용자의 fcmToken 값을 가져와서 push 전송
         Task {
             let tokens = await getParticipantsTokens(roomId: roomId)
@@ -55,12 +41,24 @@ final class MessageManager: MessageManagerType {
             }
         }
         
-        do {
-            try ref.setData(from: message)
-            return .success(response: message)
-        } catch {
-            return .failure(errorMessage: "메세지 전송 실패")
-        }
+        /// Firestore DB 에 저장
+        let docRef = db.collection("Rooms")
+            .document(roomId)
+            .collection("ChatLogs")
+            .document()
+        
+        let message = Message(
+            id: docRef.documentID,
+            roomId: roomId,
+            text: text,
+            sender: sender,
+            isSystemMsg: isSystemMsg
+        )
+        
+        try! docRef.setData(from: message)
+        docRef.updateData([
+            "timestamp": FieldValue.serverTimestamp()
+        ]) // Firebase 서버 시간 사용
     }
     
     private func sendPush(_ pushMessage: PushMessage) async {

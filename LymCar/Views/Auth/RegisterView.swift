@@ -5,7 +5,6 @@
 //  Created by 이은재 on 12/22/23.
 //
 
-
 import SwiftUI
 
 struct RegisterView: View {

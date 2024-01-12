@@ -9,13 +9,12 @@ import Foundation
 
 protocol MessageManagerType {
     /// 메세지 전송
-    @discardableResult
     func sendMessage(
         sender: User,
         roomId: String,
         text: String,
         isSystemMsg: Bool
-    ) -> FirebaseNetworkResult<Message>
+    )
     
     /// 새 메세지 리스너 등록
     func subscribeNewMessages(
