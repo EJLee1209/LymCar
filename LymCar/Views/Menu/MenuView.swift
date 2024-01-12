@@ -11,6 +11,7 @@ struct MenuView: View {
     @EnvironmentObject private var appData: AppData
     @Binding var loginViewIsPresented: Bool
     @Binding var tabViewIsHidden: Bool
+    @State private var privacyPolicyIsPresented: Bool = false
     
     var body: some View {
         NavigationView {
@@ -45,31 +46,9 @@ struct MenuView: View {
                                 .padding(.top, 32)
                             
                             ForEach(MenuType.allCases, id: \.self) { menu in
-                                switch menu {
-                                case .editFavorite:
-                                    NavigationLink {
-                                        EditFavoriteView(tabViewIsHidden: $tabViewIsHidden)
-                                    } label: {
-                                        MenuCell(
-                                            title: menu.rawValue,
-                                            rightContentType: .rightArrow
-                                        )
-                                    }
-                                default:
-                                    Button {
-                                        menuButtonAction(menu)
-                                    } label: {
-                                        MenuCell(
-                                            title: menu.rawValue,
-                                            rightContentType: menu.rightContentType,
-                                            labelColor: menu == .logout ? Color.theme.red : Color.theme.secondaryTextColor
-                                        )
-                                    }
-                                }
-                                Divider()
+                                menuCell(menu)
                             }
                         }
-                        
                     }
                     .background(Color.theme.backgroundColor)
                     .padding(.top, 10)
@@ -90,6 +69,9 @@ struct MenuView: View {
                     .padding(.top, 10)
                 }
             }
+            .sheet(isPresented: $privacyPolicyIsPresented, content: {
+                WebView(url: Constant.privacyPolicyURL)
+            })
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -104,7 +86,32 @@ struct MenuView: View {
             
         }
         .tint(.white)
-        
+    }
+    
+    @ViewBuilder
+    private func menuCell(_ menu: MenuType) -> some View {
+        switch menu {
+        case .editFavorite:
+            NavigationLink {
+                EditFavoriteView(tabViewIsHidden: $tabViewIsHidden)
+            } label: {
+                MenuCell(
+                    title: menu.rawValue,
+                    rightContentType: .rightArrow
+                )
+            }
+        default:
+            Button {
+                menuButtonAction(menu)
+            } label: {
+                MenuCell(
+                    title: menu.rawValue,
+                    rightContentType: menu.rightContentType,
+                    labelColor: menu == .logout ? Color.theme.red : Color.theme.secondaryTextColor
+                )
+            }
+        }
+        Divider()
     }
     
     private func menuButtonAction(_ menu: MenuType) {
@@ -117,6 +124,8 @@ struct MenuView: View {
                     loginViewIsPresented.toggle()
                 }, negativeAction: { })
             )
+        case .privacyPolicy:
+            privacyPolicyIsPresented = true
         default:
             break
         }

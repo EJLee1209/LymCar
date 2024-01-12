@@ -9,12 +9,20 @@ import SwiftUI
 
 struct AnswerPrivacyPolicyView: View {
     @Binding var isAgreeForPrivacyPolicy: Bool
+    @State private var privacyPolicyIsPresented = false
     
     var body: some View {
         HStack(spacing: 0) {
-            Text("개인정보처리방침")
-                .font(.system(size: 14, weight: .medium))
-                .underline()
+            
+            Button(action: {
+                privacyPolicyIsPresented.toggle()
+            }, label: {
+                Text("개인정보처리방침")
+                    .font(.system(size: 14, weight: .medium))
+                    .underline()
+                    .foregroundStyle(Color.theme.brandColor)
+            })
+            
             Text("에 동의합니다")
                 .font(.system(size: 14))
             
@@ -29,6 +37,17 @@ struct AnswerPrivacyPolicyView: View {
                     }
                 }
         }
+        .sheet(isPresented: $privacyPolicyIsPresented, content: {
+            ZStack (alignment: .bottom) {
+                WebView(url: Constant.privacyPolicyURL)
+                
+                RoundedActionButton(label: "동의합니다") {
+                    isAgreeForPrivacyPolicy = true
+                    privacyPolicyIsPresented = false
+                }
+                .padding()
+            }
+        })
     }
 }
 

@@ -60,6 +60,9 @@
 		CF4D9B542B47CA6000231455 /* Favorite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B522B47CA6000231455 /* Favorite+CoreDataClass.swift */; };
 		CF4D9B552B47CA6000231455 /* Favorite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B532B47CA6000231455 /* Favorite+CoreDataProperties.swift */; };
 		CF4D9B572B47CB1400231455 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D9B562B47CB1400231455 /* PersistenceController.swift */; };
+		CF6969502B50F64B007F55BA /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF69694F2B50F64B007F55BA /* WebView.swift */; };
+		CF6969522B50F722007F55BA /* WKWebViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6969512B50F722007F55BA /* WKWebViewRepresentable.swift */; };
+		CF6969542B50FAFB007F55BA /* CharacterSayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6969532B50FAFB007F55BA /* CharacterSayView.swift */; };
 		CF78A6E32B35519A00306F6A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E22B35519A00306F6A /* RootView.swift */; };
 		CF78A6E72B3556C700306F6A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E62B3556C700306F6A /* LoginView.swift */; };
 		CF78A6E92B35613F00306F6A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6E82B35613F00306F6A /* RegisterView.swift */; };
@@ -152,6 +155,9 @@
 		CF4D9B522B47CA6000231455 /* Favorite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favorite+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CF4D9B532B47CA6000231455 /* Favorite+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favorite+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CF4D9B562B47CB1400231455 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		CF69694F2B50F64B007F55BA /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		CF6969512B50F722007F55BA /* WKWebViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewRepresentable.swift; sourceTree = "<group>"; };
+		CF6969532B50FAFB007F55BA /* CharacterSayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSayView.swift; sourceTree = "<group>"; };
 		CF78A6E22B35519A00306F6A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		CF78A6E62B3556C700306F6A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CF78A6E82B35613F00306F6A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -262,6 +268,7 @@
 				CFA32E222B36D83500385847 /* SplashView.swift */,
 				CF2C06932B467AF500A4E8FF /* RoundedActionButton.swift */,
 				CF15E1D42B4FDF0400391054 /* AlertModifier.swift */,
+				CF6969532B50FAFB007F55BA /* CharacterSayView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -378,6 +385,7 @@
 			children = (
 				CF78A6E62B3556C700306F6A /* LoginView.swift */,
 				CF78A6E82B35613F00306F6A /* RegisterView.swift */,
+				CF69694F2B50F64B007F55BA /* WebView.swift */,
 				CF9F41352B45264F0091A9B8 /* Component */,
 			);
 			path = Auth;
@@ -552,6 +560,7 @@
 				CF78A6F62B3582AF00306F6A /* AuthTextField.swift */,
 				CF78A6F42B35809F00306F6A /* GenderSelectionView.swift */,
 				CFF8DA2A2B4BB44F0000C091 /* VerificationCodeView.swift */,
+				CF6969512B50F722007F55BA /* WKWebViewRepresentable.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -754,6 +763,7 @@
 				CFE7A3A22B3D9B22007432A0 /* WrappedMessage.swift in Sources */,
 				CFE7A3962B3D73C6007432A0 /* ChatLogView.swift in Sources */,
 				CF9F41222B451B8A0091A9B8 /* MessageManager.swift in Sources */,
+				CF6969502B50F64B007F55BA /* WebView.swift in Sources */,
 				CFDB3E072B3440A900C88D77 /* CarPoolCell.swift in Sources */,
 				CF8266952B46AC5100D92487 /* FavoriteLocationSearchView.swift in Sources */,
 				CF3F49F22B31AA9E009E8A96 /* LocationManager.swift in Sources */,
@@ -794,6 +804,7 @@
 				CF7B99C42B492C1300737A76 /* LoginViewModel.swift in Sources */,
 				CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */,
 				CFE7A39E2B3D8394007432A0 /* Message.swift in Sources */,
+				CF6969522B50F722007F55BA /* WKWebViewRepresentable.swift in Sources */,
 				CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */,
 				CFDB3E092B344B1500C88D77 /* MainTabView.swift in Sources */,
 				CF32DD402B45391500B2F6C0 /* MessageManagerType.swift in Sources */,
@@ -802,6 +813,7 @@
 				CF78A7012B35C67300306F6A /* ViewState.swift in Sources */,
 				CF4953072B3800B0009FD93A /* CarPoolGenerateView.swift in Sources */,
 				CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */,
+				CF6969542B50FAFB007F55BA /* CharacterSayView.swift in Sources */,
 				CFDB3E0D2B347A0D00C88D77 /* TabMenuItem.swift in Sources */,
 				CF9F41292B4524230091A9B8 /* RegisterViewModel.swift in Sources */,
 				CF49530F2B381080009FD93A /* OptionView.swift in Sources */,
@@ -943,12 +955,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "림카";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -960,8 +973,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dldmswo1209.LymCar;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dldmswo1209.lymcar-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -979,12 +992,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "림카";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -996,8 +1010,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dldmswo1209.LymCar;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dldmswo1209.lymcar-SwiftUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

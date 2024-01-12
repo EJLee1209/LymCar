@@ -100,14 +100,9 @@ struct CarPoolListView: View {
                     .padding(.top, 18)
                     
                     if viewModel.carPoolList.isEmpty {
-                        Image("character")
+                        CharacterSayView(text: "+버튼을 눌러\n첫번째 채팅방을 생성해보세요!")
                             .padding(.top, 26)
-                        Text("+버튼을 눌러\n첫번째 채팅방을 생성해보세요!")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(Color.theme.primaryTextColor)
-                            .multilineTextAlignment(.center)
                             .padding(.bottom, 65)
-                            .padding(.top, 16)
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHGrid(rows: rows, spacing: 9, content: {
