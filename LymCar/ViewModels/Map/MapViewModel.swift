@@ -33,6 +33,7 @@ extension MapView {
         @Published var departurePlaceCoordinate: CLLocationCoordinate2D?
         @Published var destinationCoordinate: CLLocationCoordinate2D?
         var userLocationCoordinate: CLLocationCoordinate2D?
+        var userLocationText: String = ""
         
         @Published var alertIsPresented: Bool = false
         var alertMessage: String = ""
@@ -45,7 +46,6 @@ extension MapView {
             
             super.init()
             searchCompleter.delegate = self
-            print("DEBUG: MapViewModel init")
         }
         
         //MARK: - Helpers
@@ -89,7 +89,7 @@ extension MapView {
         func clearAllPropertiesForLocationSearch() {
             departurePlaceCoordinate = userLocationCoordinate
             destinationCoordinate = nil
-            departurePlaceText = ""
+            departurePlaceText = userLocationText
             destinationText = ""
             searchResults.removeAll()
         }

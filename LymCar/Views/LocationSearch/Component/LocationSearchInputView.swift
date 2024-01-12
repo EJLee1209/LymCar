@@ -19,7 +19,7 @@ struct LocationSearchInputView: View {
         HStack(spacing: 12) {
             VStack(spacing: 9) {
                 TextField(text: $departurePlaceText) {
-                    Text("현재 위치 또는 위치 검색")
+                    Text("어디에서 출발할까요?")
                         .font(.system(size: 15))
                 }
                 .padding(.vertical, 11)

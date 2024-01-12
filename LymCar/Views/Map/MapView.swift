@@ -83,7 +83,6 @@ struct MapView: View {
                 
                 VStack(spacing: 9) {
                     ShowCarPoolButton(mapState: $mapState)
-                        .ignoresSafeArea(.keyboard, edges: .bottom)
                     if !appData.userCarPoolList.isEmpty {
                         CarPoolShortcutListView(tabViewIsHidden: $tabViewIsHidden)
                     }

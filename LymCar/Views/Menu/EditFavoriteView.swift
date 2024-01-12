@@ -26,30 +26,33 @@ struct EditFavoriteView: View {
                 .ignoresSafeArea()
             
             VStack {
-                List {
-                    ForEach(favorites) { favorite in
-                        VStack(alignment: .leading, spacing: 7) {
-                            Text(favorite.title)
-                                .font(.system(size: 16, weight: .bold))
-                            Text(favorite.subtitle)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundStyle(Color.theme.secondaryTextColor)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 18)
-                        .padding(.horizontal, 12)
-                    }
-                    .onDelete { deleteOffsets in
-                        deleteFavorite(at: deleteOffsets)
-                    }
-                    
-                    
-                    .listRowBackground(Color.theme.backgroundColor)
-                    .listRowInsets(EdgeInsets())
+                
+                if favorites.isEmpty {
+                    CharacterSayView(text: "즐겨찾기를 추가해서\n더욱 편리하게 목적지를 설정해보세요!")
+                        .frame(maxHeight: .infinity)
                 }
-                .listStyle(.plain)
-                
-                
+                else {
+                    List {
+                        ForEach(favorites) { favorite in
+                            VStack(alignment: .leading, spacing: 7) {
+                                Text(favorite.title)
+                                    .font(.system(size: 16, weight: .bold))
+                                Text(favorite.subtitle)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(Color.theme.secondaryTextColor)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 18)
+                            .padding(.horizontal, 12)
+                        }
+                        .onDelete { deleteOffsets in
+                            deleteFavorite(at: deleteOffsets)
+                        }
+                        .listRowBackground(Color.theme.backgroundColor)
+                        .listRowInsets(EdgeInsets())
+                    }
+                    .listStyle(.plain)
+                }
                 NavigationLink {
                     EditFavoriteMapView(
                         locationSearchManager: appData.locationSearchManager

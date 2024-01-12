@@ -41,6 +41,7 @@ struct MapViewRepresentable: UIViewRepresentable {
                 latitude: userLocationCoordinate.latitude,
                 longitude: userLocationCoordinate.longitude
             )
+            
             context.coordinator.getAddress(from: userLocation)
         case .searchingForLocation:
             break
@@ -86,9 +87,12 @@ extension MapViewRepresentable {
             )
             currentRegion = region
             parent.mapViewModel.userLocationCoordinate = coordinate
+            parent.appData.userLocationCoordinate = coordinate
+            
             if parent.mapState != .locationSelected {
                 parent.mapView.setRegion(region, animated: true)
                 parent.mapViewModel.departurePlaceCoordinate = coordinate
+                parent.appData.departureLocationCoordinate = coordinate
             }
         }
         
@@ -180,16 +184,14 @@ extension MapViewRepresentable {
                     address += name
                 }
                 
+                print("DEBUG: 현재 ")
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     if parent.mapViewModel.departurePlaceText != address {
                         parent.mapViewModel.departurePlaceText = address
-                        
-                        guard let userCoordinate = parent.mapViewModel.userLocationCoordinate else { return }
-                        parent.appData.departureLocationCoordinate = userCoordinate
-                        parent.appData.userLocationCoordinate = userCoordinate
                         parent.appData.departurePlaceName = address
+                        parent.mapViewModel.userLocationText = address
                     }
                 }
             }
