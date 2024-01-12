@@ -25,7 +25,7 @@ protocol MessageManagerType {
     /// 이전 메세지 가져오기
     func fetchMessages(
         roomId: String
-    ) async -> [WrappedMessage]
+    ) async throws -> [WrappedMessage]
     
     
     /// 메세지 페이지 관련 프로퍼티 초기화

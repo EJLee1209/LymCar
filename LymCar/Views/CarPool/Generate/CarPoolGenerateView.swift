@@ -89,10 +89,12 @@ struct CarPoolGenerateView: View {
                         
                         TimePickerView(title: "출발시간", date: $viewModel.departureDate)
                         
-                        OptionView(
-                            title: "탑승 옵션",
-                            isActivate: $viewModel.genderOptionIsActivate
-                        )
+                        if viewModel.currentUser.gender != Gender.none.rawValue {
+                            OptionView(
+                                title: "탑승 옵션",
+                                isActivate: $viewModel.genderOptionIsActivate
+                            )
+                        }
                         
                         Spacer()
                         RoundedActionButton(

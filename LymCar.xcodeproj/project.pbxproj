@@ -101,6 +101,7 @@
 		CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */; };
 		CFC092012B3AC5B500260E78 /* CarPoolShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092002B3AC5B500260E78 /* CarPoolShortcutListView.swift */; };
 		CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */; };
+		CFC101682B515DCB00713112 /* AlertRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC101672B515DCB00713112 /* AlertRole.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -197,6 +198,8 @@
 		CFB635082B39A7FA0029BE3F /* LoadingViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModifier.swift; sourceTree = "<group>"; };
 		CFC092002B3AC5B500260E78 /* CarPoolShortcutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolShortcutListView.swift; sourceTree = "<group>"; };
 		CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPoolListViewModel.swift; sourceTree = "<group>"; };
+		CFC101672B515DCB00713112 /* AlertRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertRole.swift; sourceTree = "<group>"; };
+		CFCA6B252B5169CD00181BB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -304,6 +307,7 @@
 		CF3F49992B316A6F009E8A96 /* LymCar */ = {
 			isa = PBXGroup;
 			children = (
+				CFCA6B252B5169CD00181BB9 /* Info.plist */,
 				CFA4DFA02B441AF000A791A7 /* LymCar.entitlements */,
 				CF3F49E42B316E24009E8A96 /* App */,
 				CFA4DFA12B443BAB00A791A7 /* Utils */,
@@ -353,6 +357,7 @@
 				CFE7A3A12B3D9B22007432A0 /* WrappedMessage.swift */,
 				CF7F73502B3E92BB009041ED /* LocationSearchResult.swift */,
 				CFF8DA282B4BB2B10000C091 /* NetworkError.swift */,
+				CFC101672B515DCB00713112 /* AlertRole.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -756,6 +761,7 @@
 				CF3F49EF2B31A951009E8A96 /* MapViewRepresentable.swift in Sources */,
 				CF8266902B469B8600D92487 /* EditFavoriteMapView.swift in Sources */,
 				CFB635092B39A7FA0029BE3F /* LoadingViewModifier.swift in Sources */,
+				CFC101682B515DCB00713112 /* AlertRole.swift in Sources */,
 				CF49530B2B3805DF009FD93A /* CountView.swift in Sources */,
 				CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */,
 				CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */,
@@ -960,6 +966,7 @@
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LymCar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "림카";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";
@@ -997,6 +1004,7 @@
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LymCar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "림카";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치 정보를 표시합니다.";

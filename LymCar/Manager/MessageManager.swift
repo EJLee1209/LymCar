@@ -28,7 +28,7 @@ final class MessageManager: MessageManagerType {
     ) {
         /// 채팅방에 참여 중인 사용자의 fcmToken 값을 가져와서 push 전송
         Task {
-            let tokens = await getParticipantsTokens(roomId: roomId)
+            let tokens = try await getParticipantsTokens(roomId: roomId)
             
             for token in tokens {
                 let pushMessage = PushMessage(
@@ -37,7 +37,7 @@ final class MessageManager: MessageManagerType {
                     from: sender.name,
                     msg: text
                 )
-                await sendPush(pushMessage)
+                try await sendPush(pushMessage)
             }
         }
         
@@ -58,7 +58,7 @@ final class MessageManager: MessageManagerType {
 
     }
     
-    private func sendPush(_ pushMessage: PushMessage) async {
+    private func sendPush(_ pushMessage: PushMessage) async throws {
         guard let url = URL(string: "\(Constant.baseURL)/push") else {
             return
         }
@@ -67,31 +67,17 @@ final class MessageManager: MessageManagerType {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-type")
         
-        do {
-            request.httpBody = try JSONEncoder().encode(pushMessage)
-        } catch {
-            print("DEBUG: Unable to convert PushMessage to JSON")
-        }
-        
-        do {
-            _ = try await URLSession.shared.data(for: request)
-        } catch {
-            print("DEBUG: Fail to sendPush with error \(error.localizedDescription)")
-        }
+        request.httpBody = try JSONEncoder().encode(pushMessage)
+        _ = try await URLSession.shared.data(for: request)
     }
     
     func fetchMessages(
         roomId: String
-    ) async -> [WrappedMessage] {
+    ) async throws -> [WrappedMessage] {
         if endPaging { return [] }
         guard let uid = auth.currentUser?.uid else { return [] }
         
-        var timestamp = Timestamp()
-        do {
-            timestamp = try await getJoinTimeStamp(roomId: roomId)
-        } catch {
-            print("DEBUG: fail to getJoinTimeStamp with error \(error.localizedDescription)")
-        }
+        let timestamp = try await getJoinTimeStamp(roomId: roomId)
         
         let commonQuery = db.collection("Rooms")
             .document(roomId)
@@ -111,42 +97,37 @@ final class MessageManager: MessageManagerType {
             requestQuery = commonQuery
         }
         
-        do {
-            let snapshot = try await requestQuery.getDocuments()
-            
-            /// document가 비어있다면, 더 이상 다음 페이지는 존재하지 않음.
-            /// 이후 쿼리 요청을 막기 위해서 Bool 타입 flag 변수 사용
-            if snapshot.documents.isEmpty {
-                endPaging = true
-                return []
-            }
-            
-            /// 현재 페이지의 첫번째 Document와 마지막 Document를 기록
-            /// startDoc은 다음 페이지의 마지막 Document를 지정하기 위해서 사용
-            /// lastDoc은 새로운 메세지를 구독하는 시작 Document를 지정하기 위해서 사용
-            startDoc = snapshot.documents.first
-            lastDoc = snapshot.documents.last
-            
-            
-            let wrappedMessages = try snapshot.documents.map { document -> WrappedMessage in
-                let message = try document.data(as: Message.self)
-                if message.isSystemMsg {
-                    return .system(message: message)
-                } else if message.sender.uid == uid {
-                    return .currentUser(message: message)
-                } else {
-                    return .otherUser(message: message)
-                }
-            }
-            
-            /// 만약 20개(페이지 Document 수) 보다 작다면, 마지막 페이지임
-            if wrappedMessages.count < limit { endPaging = true }
-            
-            return wrappedMessages
-        } catch {
-            print("DEBUG: Fail to subscribeNewMessages with error: \(error.localizedDescription)")
+        let snapshot = try await requestQuery.getDocuments()
+        
+        /// document가 비어있다면, 더 이상 다음 페이지는 존재하지 않음.
+        /// 이후 쿼리 요청을 막기 위해서 Bool 타입 flag 변수 사용
+        if snapshot.documents.isEmpty {
+            endPaging = true
             return []
         }
+        
+        /// 현재 페이지의 첫번째 Document와 마지막 Document를 기록
+        /// startDoc은 다음 페이지의 마지막 Document를 지정하기 위해서 사용
+        /// lastDoc은 새로운 메세지를 구독하는 시작 Document를 지정하기 위해서 사용
+        startDoc = snapshot.documents.first
+        lastDoc = snapshot.documents.last
+        
+        
+        let wrappedMessages = try snapshot.documents.map { document -> WrappedMessage in
+            let message = try document.data(as: Message.self)
+            if message.isSystemMsg {
+                return .system(message: message)
+            } else if message.sender.uid == uid {
+                return .currentUser(message: message)
+            } else {
+                return .otherUser(message: message)
+            }
+        }
+        
+        /// 만약 20개(페이지 Document 수) 보다 작다면, 마지막 페이지임
+        if wrappedMessages.count < limit { endPaging = true }
+        
+        return wrappedMessages
     }
     
     func subscribeNewMessages(
@@ -202,28 +183,25 @@ final class MessageManager: MessageManagerType {
         }
     }
     
-    private func getParticipantsTokens(roomId: String) async -> [String] {
-        guard let uid = auth.currentUser?.uid else { return [] }
+    private func getParticipantsTokens(roomId: String) async throws -> [String] {
+        guard let uid = auth.currentUser?.uid else {
+            throw AuthErrorCode(.nullUser)
+        }
         
         var tokens: [String] = []
         
-        do {
-            let snapshot = try await db.collection("FcmTokens")
-                .whereField(.documentID(), isNotEqualTo: uid)
-                .whereField("roomIds", arrayContains: roomId)
-                .getDocuments()
-            
-            snapshot.documents.forEach { document in
-                let data = document.data()
-                let token = data["token"] as! String
-                tokens.append(token)
-            }
-            
-            return tokens
-        } catch {
-            print("DEBUG: Fail to getParticipantsTokens with error \(error.localizedDescription)")
-            return []
+        let snapshot = try await db.collection("FcmTokens")
+            .whereField(.documentID(), isNotEqualTo: uid)
+            .whereField("roomIds", arrayContains: roomId)
+            .getDocuments()
+        
+        snapshot.documents.forEach { document in
+            let data = document.data()
+            let token = data["token"] as! String
+            tokens.append(token)
         }
+        
+        return tokens
     }
     
     private func getJoinTimeStamp(roomId: String) async throws -> Timestamp {

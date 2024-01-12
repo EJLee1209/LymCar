@@ -69,7 +69,7 @@ extension ChatLogView {
         // 메세지 데이터 읽기 (with Paging)
         func fetchMessages() {
             Task {
-                let prev = await messageManager.fetchMessages(roomId: carPool.id)
+                let prev = try await messageManager.fetchMessages(roomId: carPool.id)
                 
                 if !messageListenerExist {
                     subscribeNewMessage()

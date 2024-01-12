@@ -9,13 +9,6 @@ import Foundation
 import Firebase
 import CoreLocation
 
-enum AlertRole {
-    case positive(action: () -> Void)
-    case negative(action: () -> Void)
-    case both(positiveAction: () -> Void, negativeAction: () -> Void)
-    case none
-}
-
 final class AppData: ObservableObject {
     
     //MARK: - Properties

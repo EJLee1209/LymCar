@@ -26,7 +26,7 @@ extension CarPoolGenerateView {
         @Published var localSearchResult: [MKLocalSearchCompletion] = []
         private var searchCompleter = MKLocalSearchCompleter()
         
-        private let currentUser: User
+        let currentUser: User
         private var departurePlaceCoordinate: CLLocationCoordinate2D?
         private var destinationCoordinate: CLLocationCoordinate2D?
         

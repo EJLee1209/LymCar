@@ -11,7 +11,7 @@ struct GenderSelectionView: View {
     @Binding var selectedGender: Gender
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 7) {
             Text("성별")
                 .font(.system(size: 15, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -38,7 +38,13 @@ struct GenderSelectionView: View {
                     Spacer()
                 }
             }
-            .padding(.top, 7)
+            
+            if selectedGender == .none {
+                Text("\"선택 안함\" 선택 시 카풀 참여에 제한이 있을 수 있습니다.")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color.theme.red)
+            }
+
         }
     }
     
@@ -52,6 +58,6 @@ struct GenderSelectionView: View {
 }
 
 #Preview {
-    GenderSelectionView(selectedGender: .constant(.male))
+    GenderSelectionView(selectedGender: .constant(.none))
         
 }

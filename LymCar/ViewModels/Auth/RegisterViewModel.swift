@@ -105,15 +105,15 @@ extension RegisterView {
         func buttonIsEnabled() -> Bool {
             switch authStep {
             case .email:
-                return emailText != ""
+                return validateEmail()
             case .emailVerification:
                 return String(emailCode ?? 0).count == 6
             case .gender:
                 return true
             case .name:
-                return nameText != ""
+                return !nameText.isEmpty
             case .password:
-                return passwordText.count >= 8
+                return validatePassword()
             case .passwordConfirm:
                 return passwordText == passwordConfirmText
             case .privacyPolicy:
@@ -121,6 +121,20 @@ extension RegisterView {
             }
         }
         
+        /// 이메일 정규성 체크
+        private func validateEmail() -> Bool {
+            let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            let emailPredicate = NSPredicate(format: "SELF MATCHES %@", regex)
+            return emailPredicate.evaluate(with: emailText)
+        }
+        
+        /// 패스워드 정규성 체크
+        private func validatePassword() -> Bool {
+            let regex = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,16}" // 8자리 ~ 16자리 영어+숫자+특수문자
+            let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+            return predicate.evaluate(with: passwordText)
+        }
+
         func nextButtonAction() {
             guard buttonIsEnabled() else { return }
             

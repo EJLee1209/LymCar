@@ -28,9 +28,18 @@ struct AuthTextField: View {
     var body: some View {
         VStack(spacing: 6) {
             if isShowTitle {
-                Text(inputType.rawValue)
-                    .font(.system(size: 15, weight: .semibold))
-                    .frame(maxWidth: UIScreen.main.bounds.width, alignment: .leading)
+                HStack(alignment: .bottom) {
+                    Text(inputType.rawValue)
+                        .font(.system(size: 15, weight: .semibold))
+                    
+                    if inputType == .password {
+                        Text("영문 대/소문자, 숫자, 특수문자 포함 8~16자")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.theme.secondaryTextColor)
+                    }
+                    
+                    Spacer()
+                }
             }
             HStack {
                 if !isHidden {

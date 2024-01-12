@@ -18,7 +18,7 @@ struct ShowCarPoolButton: View {
         }, label: {
             Text("카풀 목록 보기")
                 .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(Color.theme.brandColor)
+                .foregroundStyle(Color.theme.primaryTextColor)
                 .padding(.vertical, 6)
                 .padding(.horizontal, 14)
         })

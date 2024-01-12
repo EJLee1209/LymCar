@@ -32,9 +32,9 @@ struct EditFavoriteMapView: View {
                 
                 if viewModel.showPopUp {
                     Text("즐겨찾기 추가 완료")
-                        .font(.system(size: 15, weight: .bold))
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 12)
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
                         .background(Color.theme.backgroundColor)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                         .overlay {
