@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthStep: Int {
+enum AuthStep: Int, CaseIterable {
     case email
     case emailVerification
     case gender

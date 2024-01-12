@@ -33,6 +33,14 @@ struct RegisterView: View {
                     .foregroundStyle(.white)
                     .padding(.top, 50)
                 
+                ProgressView(
+                    value: Double(viewModel.authStep.rawValue + 1),
+                    total: Double(AuthStep.allCases.count)
+                )
+                .tint(Color.theme.brandColor)
+                .padding([.top, .horizontal], 10)
+                
+                
                 VStack(spacing: 0) {
                     Text(viewModel.authStep.title)
                         .font(.system(size: 24, weight: .heavy))
@@ -188,8 +196,6 @@ struct RegisterView: View {
         case .privacyPolicy:
             /// step7 - 개인정보처리방침 동의 뷰 & 회원가입 요청
             AnswerPrivacyPolicyView(isAgreeForPrivacyPolicy: $viewModel.isAgreeForPrivacyPolicy)
-            
-            
         }
     }
     
