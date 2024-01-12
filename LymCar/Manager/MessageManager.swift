@@ -13,13 +13,12 @@ final class MessageManager: MessageManagerType {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
-    private var messageListenerRegistration: ListenerRegistration?
-    
     private var startDoc: DocumentSnapshot?
     private var lastDoc: DocumentSnapshot?
     private var endPaging: Bool = false
     private var limit: Int = 20
     
+    private var messageListenerRegistration: ListenerRegistration?
     
     func sendMessage(
         sender: User,
@@ -48,18 +47,15 @@ final class MessageManager: MessageManagerType {
             .collection("ChatLogs")
             .document()
         
-        let message = Message(
-            id: docRef.documentID,
-            roomId: roomId,
-            text: text,
-            sender: sender,
-            isSystemMsg: isSystemMsg
-        )
-        
-        try! docRef.setData(from: message)
-        docRef.updateData([
+        docRef.setData([
+            "id": docRef.documentID,
+            "roomId": roomId,
+            "text": text,
+            "sender": sender.toDict,
+            "isSystemMsg": isSystemMsg,
             "timestamp": FieldValue.serverTimestamp()
-        ]) // Firebase 서버 시간 사용
+        ])
+
     }
     
     private func sendPush(_ pushMessage: PushMessage) async {
@@ -90,10 +86,18 @@ final class MessageManager: MessageManagerType {
         if endPaging { return [] }
         guard let uid = auth.currentUser?.uid else { return [] }
         
+        var timestamp = Timestamp()
+        do {
+            timestamp = try await getJoinTimeStamp(roomId: roomId)
+        } catch {
+            print("DEBUG: fail to getJoinTimeStamp with error \(error.localizedDescription)")
+        }
+        
         let commonQuery = db.collection("Rooms")
             .document(roomId)
             .collection("ChatLogs")
             .order(by: "timestamp") // timestamp 필드를 기준으로 오름차순 정렬
+            .whereField("timestamp", isGreaterThanOrEqualTo: timestamp)
             .limit(toLast: limit) // 마지막에서 20개
         
         let requestQuery: Query
@@ -220,6 +224,25 @@ final class MessageManager: MessageManagerType {
             print("DEBUG: Fail to getParticipantsTokens with error \(error.localizedDescription)")
             return []
         }
+    }
+    
+    private func getJoinTimeStamp(roomId: String) async throws -> Timestamp {
+        guard let uid = auth.currentUser?.uid else {
+            throw AuthErrorCode(.nullUser)
+        }
+        
+        let document = try await db.collection("Rooms")
+            .document(roomId)
+            .collection("joinTimeStamp")
+            .document(uid)
+            .getDocument()
+        
+        guard let data = document.data() else {
+            throw FirestoreErrorCode(.dataLoss)
+        }
+        
+        let timestamp = data["timestamp"] as! Timestamp
+        return timestamp
     }
     
     func resetPageProperties() {

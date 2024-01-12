@@ -175,6 +175,12 @@ final class CarPoolManager: CarPoolManagerType {
                     "roomIds": FieldValue.arrayUnion([carPool.id])
                 ])
             
+            try await roomRef.collection("joinTimeStamp")
+                .document(user.uid)
+                .setData([
+                    "timestamp": FieldValue.serverTimestamp()
+                ])
+            
             return .success(response: updatedCarPool)
             
         } catch {
@@ -194,7 +200,7 @@ final class CarPoolManager: CarPoolManagerType {
         genderOption: Gender,
         maxPersonCount: Int
     ) -> FirebaseNetworkResult<CarPool> {
-        let ref = db.collection("Rooms").document()
+        let docRef = db.collection("Rooms").document()
         
         let departurePlace = Location(
             placeName: departurePlaceName,
@@ -208,7 +214,7 @@ final class CarPoolManager: CarPoolManagerType {
         )
         
         let carPool = CarPool(
-            id: ref.documentID,
+            id: docRef.documentID,
             departurePlace: departurePlace,
             destination: destination,
             departureDate: departureDate,
@@ -218,12 +224,18 @@ final class CarPoolManager: CarPoolManagerType {
         )
         
         do {
-            try ref.setData(from: carPool)
+            try docRef.setData(from: carPool)
             
             db.collection("FcmTokens")
                 .document(user.uid)
                 .updateData([
                     "roomIds": FieldValue.arrayUnion([carPool.id])
+                ])
+            
+            docRef.collection("joinTimeStamp")
+                .document(user.uid)
+                .setData([
+                    "timestamp": FieldValue.serverTimestamp()
                 ])
             
             return .success(response: carPool)

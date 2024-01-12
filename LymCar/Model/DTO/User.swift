@@ -20,5 +20,14 @@ struct User: Codable, Equatable, Hashable {
         self.gender = gender.rawValue
     }
     
+    var toDict: [String: Any] { 
+        return [
+            "email": email,
+            "gender": gender,
+            "name": name,
+            "uid": uid
+        ]
+    }
+    
     static let mock = User(email: "dldmswo1209@naver.com", gender: .female, name: "이은재", uid: "yaiSZ4AxPTe1HWWot3zmfeImUe13")
 }
