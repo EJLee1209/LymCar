@@ -169,11 +169,11 @@ final class CarPoolManager: CarPoolManagerType {
             
             let updatedCarPool = transactionResult as! CarPool
             
-            Task {
-                var roomIds = await getUserCarPoolIds()
-                roomIds.append(carPool.id)
-                try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": roomIds])
-            }
+            try await db.collection("FcmTokens")
+                .document(user.uid)
+                .updateData([
+                    "roomIds": FieldValue.arrayUnion([carPool.id])
+                ])
             
             return .success(response: updatedCarPool)
             
@@ -220,11 +220,11 @@ final class CarPoolManager: CarPoolManagerType {
         do {
             try ref.setData(from: carPool)
             
-            Task {
-                var roomIds = await getUserCarPoolIds()
-                roomIds.append(carPool.id)
-                try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": roomIds])
-            }
+            db.collection("FcmTokens")
+                .document(user.uid)
+                .updateData([
+                    "roomIds": FieldValue.arrayUnion([carPool.id])
+                ])
             
             return .success(response: carPool)
         } catch {
@@ -272,9 +272,11 @@ final class CarPoolManager: CarPoolManagerType {
                 return nil
             }
             
-            let roomIds = await getUserCarPoolIds()
-            let newRoomIds = roomIds.filter { $0 != roomId }
-            try await db.collection("FcmTokens").document(user.uid).updateData(["roomIds": newRoomIds])
+            try await db.collection("FcmTokens")
+                .document(user.uid)
+                .updateData([
+                    "roomIds": FieldValue.arrayRemove([roomId])
+                ])
             
             return .success(response: "")
         } catch {
@@ -282,26 +284,6 @@ final class CarPoolManager: CarPoolManagerType {
         }
         
     }
-    
-    private func getUserCarPoolIds() async -> [String] {
-        guard let uid = auth.currentUser?.uid else { return [] }
-        
-        do {
-            let snapshot = try await db.collection("FcmTokens").document(uid).getDocument()
-            
-            guard let data = snapshot.data() else {
-                return []
-            }
-            let roomIds = data["roomIds"] as! [String]
-            
-            return roomIds
-        } catch {
-            print("DEBUG: Fail to getUserCarPoolIds with error \(error.localizedDescription)")
-            
-            return []
-        }
-    }
-    
     
     func deactivate(roomId: String) async -> FirebaseNetworkResult<String> {
         do {

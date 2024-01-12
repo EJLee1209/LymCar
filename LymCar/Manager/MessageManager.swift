@@ -20,6 +20,7 @@ final class MessageManager: MessageManagerType {
     private var endPaging: Bool = false
     private var limit: Int = 20
     
+    
     func sendMessage(
         sender: User,
         roomId: String,
