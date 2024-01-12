@@ -14,16 +14,10 @@ struct HistoryView: View {
                 Color.theme.brandColor
                     .ignoresSafeArea()
                 
-                VStack(spacing: 33) {
-                    Image("character")
-                    
-                    Text("개발 중인 기능입니다!")
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundStyle(Color.theme.primaryTextColor)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.theme.backgroundColor)
-                .padding(.top, 10)
+                CharacterSayView(text: "개발 중인 기능입니다!")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.theme.backgroundColor)
+                    .padding(.top, 10)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

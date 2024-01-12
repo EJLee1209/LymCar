@@ -53,20 +53,10 @@ struct MenuView: View {
                     .background(Color.theme.backgroundColor)
                     .padding(.top, 10)
                 } else {
-                    VStack {
-                        Image("character")
-                            .frame(maxWidth: .infinity)
-                        
-                        Text("로그인이 필요합니다")
-                            .font(.system(size: 15, weight: .bold))
-                            .multilineTextAlignment(.leading)
-                            .padding(.top, 32)
-                            .padding(.horizontal, 21)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .frame(maxHeight: .infinity)
-                    .background(Color.theme.backgroundColor)
-                    .padding(.top, 10)
+                    CharacterSayView(text: "로그인이 필요합니다")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.theme.backgroundColor)
+                        .padding(.top, 10)
                 }
             }
             .sheet(isPresented: $privacyPolicyIsPresented, content: {

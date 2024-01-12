@@ -12,7 +12,6 @@ struct WebView: View {
     
     var body: some View {
         WKWebViewRepresentable(url: url)
-//            .ignoresSafeArea()
     }
 }
 

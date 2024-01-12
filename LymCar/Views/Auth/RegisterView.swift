@@ -25,17 +25,13 @@ struct RegisterView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             /// 뒤로가기 버튼
-            AuthBackButton(authStep: $viewModel.authStep)
-                .padding(.top, 10)
-                .padding(.leading, 21)
-            
             VStack(alignment: .leading, spacing: 0) {
                 Text("회원가입")
                     .font(.system(size: 40, weight: .heavy))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 21)
                     .foregroundStyle(.white)
-                    .padding(.top, 100)
+                    .padding(.top, 50)
                 
                 VStack(spacing: 0) {
                     Text(viewModel.authStep.title)
@@ -58,7 +54,7 @@ struct RegisterView: View {
                         .submitLabel(.next)
                         .onSubmit {
                             withAnimation {
-                                viewModel.buttonAction()
+                                viewModel.nextButtonAction()
                             }
                         }
                     
@@ -68,14 +64,31 @@ struct RegisterView: View {
                         label: buttonLabel(),
                         action: {
                             withAnimation {
-                                viewModel.buttonAction()
+                                viewModel.nextButtonAction()
                             }
                         },
                         backgroundColor: buttonBackgroundColor(),
                         labelColor: buttonLabelColor()
                     )
-                    .padding(.bottom, 47)
                     .disabled(!viewModel.buttonIsEnabled())
+                    
+                    if viewModel.authStep != .email {
+                        RoundedActionButton(
+                            label: "이전 단계",
+                            action: {
+                                withAnimation {
+                                    viewModel.backButtonAction()
+                                }
+                            },
+                            backgroundColor: Color.theme.red
+                        )
+                        .padding(.top, 18)
+                    }
+                    
+                    
+                    Rectangle()
+                        .fill(.clear)
+                        .frame(height: 40)
                 }
                 .padding(.horizontal, 21)
                 .background(Color.theme.backgroundColor)
@@ -90,7 +103,6 @@ struct RegisterView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
         }
-        .navigationBarBackButtonHidden()
         .alert(
             viewModel.alertMessage,
             isPresented: $viewModel.alertIsPresented

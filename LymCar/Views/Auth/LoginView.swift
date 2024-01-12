@@ -97,11 +97,11 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 21)
                 .background(Color.theme.backgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: 40))
+                .cornerRadius(40, corners: [.topLeft, .topRight])
                 .padding(.top, 18)
                 .ignoresSafeArea()
             }
-            .padding(.top, 100)
+            .padding(.top, 90)
             .onReceive(viewModel.$viewState) { authResult in
                 switch authResult {
                 case .successToNetworkRequest(let user):
@@ -125,6 +125,8 @@ struct LoginView: View {
             )
             .loadingProgress(viewState: $viewModel.viewState)
         }
+        .tint(.white)
+        
     }
 }
 

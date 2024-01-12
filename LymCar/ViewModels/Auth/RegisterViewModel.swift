@@ -121,7 +121,7 @@ extension RegisterView {
             }
         }
         
-        func buttonAction() {
+        func nextButtonAction() {
             guard buttonIsEnabled() else { return }
             
             switch authStep {
@@ -138,6 +138,13 @@ extension RegisterView {
                 // 다음 step
                 authStep = AuthStep(rawValue: authStep.rawValue + 1)!
             }
+        }
+        
+        func backButtonAction() {
+            guard var prevStep = AuthStep(rawValue: authStep.rawValue - 1) else { return }
+            
+            if prevStep == .emailVerification { prevStep = .email }
+            authStep = prevStep
         }
         
     }

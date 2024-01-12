@@ -72,7 +72,6 @@
 		CF78A6F52B35809F00306F6A /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6F42B35809F00306F6A /* GenderSelectionView.swift */; };
 		CF78A6F72B3582AF00306F6A /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6F62B3582AF00306F6A /* AuthTextField.swift */; };
 		CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */; };
-		CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */; };
 		CF78A6FD2B358F0200306F6A /* AnswerPrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */; };
 		CF78A6FF2B35A36600306F6A /* VisualEffectViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A6FE2B35A36600306F6A /* VisualEffectViewRepresentable.swift */; };
 		CF78A7012B35C67300306F6A /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78A7002B35C67300306F6A /* ViewState.swift */; };
@@ -167,7 +166,6 @@
 		CF78A6F42B35809F00306F6A /* GenderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		CF78A6F62B3582AF00306F6A /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		CF78A6F82B35871A00306F6A /* AuthTextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextFieldType.swift; sourceTree = "<group>"; };
-		CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthBackButton.swift; sourceTree = "<group>"; };
 		CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrivacyPolicyView.swift; sourceTree = "<group>"; };
 		CF78A6FE2B35A36600306F6A /* VisualEffectViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectViewRepresentable.swift; sourceTree = "<group>"; };
 		CF78A7002B35C67300306F6A /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
@@ -556,7 +554,6 @@
 			isa = PBXGroup;
 			children = (
 				CF78A6FC2B358F0200306F6A /* AnswerPrivacyPolicyView.swift */,
-				CF78A6FA2B358AC100306F6A /* AuthBackButton.swift */,
 				CF78A6F62B3582AF00306F6A /* AuthTextField.swift */,
 				CF78A6F42B35809F00306F6A /* GenderSelectionView.swift */,
 				CFF8DA2A2B4BB44F0000C091 /* VerificationCodeView.swift */,
@@ -788,7 +785,6 @@
 				CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */,
 				CFE7A39C2B3D7BAF007432A0 /* MessageCell.swift in Sources */,
 				CFDB3E132B347F3B00C88D77 /* HistoryView.swift in Sources */,
-				CF78A6FB2B358AC100306F6A /* AuthBackButton.swift in Sources */,
 				CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */,
 				CF2C06942B467AF500A4E8FF /* RoundedActionButton.swift in Sources */,
 				CFB635032B398B230029BE3F /* CarPoolManager.swift in Sources */,
