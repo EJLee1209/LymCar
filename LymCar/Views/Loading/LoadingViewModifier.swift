@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoadingViewModifier<T: Decodable & Equatable>: ViewModifier {
-    @Binding var viewState: ViewState<T>
+    let viewState: ViewState<T>
     
     func body(content: Content) -> some View {
         ZStack {

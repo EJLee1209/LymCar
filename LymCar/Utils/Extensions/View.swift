@@ -12,7 +12,7 @@ extension View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
     
-    func loadingProgress<T: Decodable & Equatable>(viewState: Binding<ViewState<T>>) -> some View {
+    func loadingProgress<T: Decodable & Equatable>(viewState: ViewState<T>) -> some View {
         modifier(LoadingViewModifier(viewState: viewState))
     }
     

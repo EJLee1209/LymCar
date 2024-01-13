@@ -123,7 +123,7 @@ struct LoginView: View {
                 alertMessage: viewModel.alertMessage,
                 isPresented: $viewModel.alertIsPresented
             )
-            .loadingProgress(viewState: $viewModel.viewState)
+            .loadingProgress(viewState: viewModel.viewState)
         }
         .tint(.white)
         .fullScreenCover(isPresented: $isFirstRun, content: {

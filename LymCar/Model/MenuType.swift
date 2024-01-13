@@ -13,6 +13,7 @@ enum MenuType: String, CaseIterable {
     case updateInformation = "업데이트 정보"
     case privacyPolicy = "개인정보 취급방침"
     case logout = "로그아웃"
+    case deleteUser = "회원탈퇴"
     
     var labelText: String {
         switch self {

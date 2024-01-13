@@ -114,5 +114,17 @@ final class AuthManager: AuthManagerType {
         }
     }
     
+    func deleteUser(email: String, password: String) async throws {
+        let authResult = try await auth.signIn(withEmail: email, password: password)
+        
+        async let _ = db.collection("Users")
+            .document(authResult.user.uid)
+            .delete()
+        async let _ = db.collection("FcmTokens")
+            .document(authResult.user.uid)
+            .delete()
+        
+        try await authResult.user.delete()
+    }
 }
 

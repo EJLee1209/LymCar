@@ -46,6 +46,24 @@ struct AlertModifier: ViewModifier {
                         label: {
                             Text("취소")
                         })
+                case let .withTextField(
+                    text,
+                    positiveAction,
+                    negativeAction
+                ):
+                    TextField("패스워드", text: text)
+                    Button(
+                        role: .destructive,
+                        action: positiveAction,
+                        label: {
+                            Text("확인")
+                        })
+                    Button(
+                        role: .cancel,
+                        action: negativeAction,
+                        label: {
+                            Text("취소")
+                        })
                 case .none:
                     EmptyView()
                 }

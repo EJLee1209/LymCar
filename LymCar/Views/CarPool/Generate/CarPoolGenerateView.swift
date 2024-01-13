@@ -141,7 +141,7 @@ struct CarPoolGenerateView: View {
                 break
             }
         })
-        .loadingProgress(viewState: $viewModel.viewState)
+        .loadingProgress(viewState: viewModel.viewState)
     }
 }
 

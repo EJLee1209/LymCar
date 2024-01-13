@@ -12,6 +12,7 @@ struct MenuView: View {
     @Binding var loginViewIsPresented: Bool
     @Binding var tabViewIsHidden: Bool
     @State private var privacyPolicyIsPresented: Bool = false
+    @State private var password: String = ""
     
     var body: some View {
         NavigationView {
@@ -73,7 +74,14 @@ struct MenuView: View {
             .onAppear {
                 tabViewIsHidden = false
             }
-            
+            .onReceive(appData.$viewState, perform: { state in
+                switch state {
+                case ViewState.successToNetworkRequest:
+                    loginViewIsPresented = true
+                default:
+                    break
+                }
+            })
         }
         .tint(.white)
     }
@@ -97,7 +105,7 @@ struct MenuView: View {
                 MenuCell(
                     title: menu.rawValue,
                     rightContentType: menu.rightContentType,
-                    labelColor: menu == .logout ? Color.theme.red : Color.theme.secondaryTextColor
+                    labelColor: menu == .logout || menu == .deleteUser ? Color.theme.red : Color.theme.secondaryTextColor
                 )
             }
         }
@@ -113,6 +121,17 @@ struct MenuView: View {
                     appData.logout()
                     loginViewIsPresented.toggle()
                 }, negativeAction: { })
+            )
+        case .deleteUser:
+            appData.alert(
+                message: "회원 탈퇴를 원하시면 패스워드를 입력해주세요",
+                role: .withTextField(
+                    text: $password,
+                    positiveAction: {
+                        appData.deleteUser(withPassword: password)
+                    },
+                    negativeAction: { print("DEBUG: 회원탈퇴 취소") }
+                )
             )
         case .privacyPolicy:
             privacyPolicyIsPresented = true

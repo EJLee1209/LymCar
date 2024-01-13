@@ -24,14 +24,16 @@ final class AppData: ObservableObject {
     var destinationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     
+    @Published var alertIsPresented: Bool = false
+    var alertMessage: String = ""
+    var alertRole: AlertRole = .none
+    
+    @Published var viewState: ViewState<Bool> = .none
+    
     let authManager: AuthManagerType
     let carPoolManager: CarPoolManagerType
     let locationSearchManager: LocationSearchManagerType
     let messageManager: MessageManagerType
-    
-    @Published var alertIsPresented: Bool = false
-    var alertMessage: String = ""
-    var alertRole: AlertRole = .none
     
     init(
         authManager: AuthManagerType,
@@ -104,6 +106,32 @@ final class AppData: ObservableObject {
         try? authManager.logout()
         currentUser = nil
         userCarPoolList = []
+    }
+    
+    func deleteUser(withPassword password: String) {
+        guard let user = currentUser else {
+            alert(message: "회원 탈퇴 실패\n회원정보를 가져올 수 없습니다", role: .positive(action: { }))
+            return
+        }
+        
+        viewState = .loading
+        
+        Task {
+            do {
+                try await authManager.deleteUser(email: user.email, password: password)
+                await MainActor.run {
+                    viewState = .successToNetworkRequest(response: true)
+                    viewState = .none
+                }
+            } catch {
+                await MainActor.run {
+                    viewState = .failToNetworkRequest
+                    viewState = .none
+                    
+                    alert(message: "회원 탈퇴 실패\n\(authManager.getErrorMsgFromError(error))", role: .positive(action: { }))
+                }
+            }
+        }
     }
     
     func clearLocation() {

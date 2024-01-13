@@ -129,7 +129,7 @@ struct RegisterView: View {
                     .font(.system(size: 15))
             }
         }
-        .loadingProgress(viewState: $viewModel.viewState)
+        .loadingProgress(viewState: viewModel.viewState)
     }
     
     private func buttonBackgroundColor() -> Color {

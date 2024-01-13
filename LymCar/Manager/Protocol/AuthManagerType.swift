@@ -28,6 +28,8 @@ protocol AuthManagerType {
     func logout() throws
     
     func updateFcmToken(_ token: String) async
+    
+    func deleteUser(email: String, password: String) async throws
 }
 
 extension AuthManagerType {
