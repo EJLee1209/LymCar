@@ -51,8 +51,7 @@ final class AuthManager: AuthManagerType {
         
         /// User 커스텀 객체 생성 및 FireStore DB에 저장
         let newUser = User(email: email, gender: gender, name: name, uid: uid)
-        try db.collection("Users").document(uid).setData(from: newUser)
-
+        try FSCollection.reference(type: .users).document(uid).setData(from: newUser)
         
         return newUser
     }
@@ -68,7 +67,7 @@ final class AuthManager: AuthManagerType {
         }
         
         /// FireStore 데이터 읽기
-        let user = try await db.collection("Users").document(uid).getDocument(as: User.self)
+        let user = try await FSCollection.reference(type: .users).document(uid).getDocument(as: User.self)
         return user
     }
     
@@ -77,7 +76,7 @@ final class AuthManager: AuthManagerType {
             return nil
         }
         
-        let user = try await db.collection("Users").document(uid).getDocument(as: User.self)
+        let user = try await FSCollection.reference(type: .users).document(uid).getDocument(as: User.self)
         return user
     }
     
@@ -87,7 +86,7 @@ final class AuthManager: AuthManagerType {
             throw AuthErrorCode(.nullUser)
         }
         
-        db.collection("FcmTokens")
+        FSCollection.reference(type: .fcmToken)
             .document(uid)
             .updateData(["token": ""])
         
@@ -99,7 +98,7 @@ final class AuthManager: AuthManagerType {
             return
         }
         
-        let docRef = db.collection("FcmTokens").document(uid)
+        let docRef = FSCollection.reference(type: .fcmToken).document(uid)
         
         do {
             let snapshot = try await docRef.getDocument()
@@ -117,10 +116,10 @@ final class AuthManager: AuthManagerType {
     func deleteUser(email: String, password: String) async throws {
         let authResult = try await auth.signIn(withEmail: email, password: password)
         
-        async let _ = db.collection("Users")
+        async let _ = FSCollection.reference(type: .users)
             .document(authResult.user.uid)
             .delete()
-        async let _ = db.collection("FcmTokens")
+        async let _ = FSCollection.reference(type: .fcmToken)
             .document(authResult.user.uid)
             .delete()
         

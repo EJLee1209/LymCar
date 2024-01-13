@@ -103,6 +103,7 @@
 		CFC092032B3AD77000260E78 /* CarPoolListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC092022B3AD77000260E78 /* CarPoolListViewModel.swift */; };
 		CFC101682B515DCB00713112 /* AlertRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC101672B515DCB00713112 /* AlertRole.swift */; };
 		CFCAC8A32B5247E80098C898 /* PermissionRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCAC8A22B5247E80098C898 /* PermissionRequestView.swift */; };
+		CFCAC8AB2B52889E0098C898 /* FSCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCAC8AA2B52889E0098C898 /* FSCollection.swift */; };
 		CFDB3DF42B33F6AA00C88D77 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */; };
 		CFDB3DF62B33F98D00C88D77 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */; };
 		CFDB3DFD2B33FC5200C88D77 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDB3DFC2B33FC5200C88D77 /* Color.swift */; };
@@ -202,6 +203,7 @@
 		CFC101672B515DCB00713112 /* AlertRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertRole.swift; sourceTree = "<group>"; };
 		CFCA6B252B5169CD00181BB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CFCAC8A22B5247E80098C898 /* PermissionRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionRequestView.swift; sourceTree = "<group>"; };
+		CFCAC8AA2B52889E0098C898 /* FSCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCollection.swift; sourceTree = "<group>"; };
 		CFDB3DF32B33F6AA00C88D77 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		CFDB3DF52B33F98D00C88D77 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		CFDB3DFC2B33FC5200C88D77 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 			children = (
 				CFDB3DFB2B33FC4B00C88D77 /* Extensions */,
 				CFA4DFA22B443BB300A791A7 /* Constant.swift */,
+				CFCAC8AA2B52889E0098C898 /* FSCollection.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -818,6 +821,7 @@
 				CFF8DA292B4BB2B10000C091 /* NetworkError.swift in Sources */,
 				CFA32E132B369C2A00385847 /* User.swift in Sources */,
 				CF78A6F92B35871A00306F6A /* AuthTextFieldType.swift in Sources */,
+				CFCAC8AB2B52889E0098C898 /* FSCollection.swift in Sources */,
 				CF4D9B542B47CA6000231455 /* Favorite+CoreDataClass.swift in Sources */,
 				CF7B99C42B492C1300737A76 /* LoginViewModel.swift in Sources */,
 				CFA4DFA32B443BB300A791A7 /* Constant.swift in Sources */,
@@ -973,7 +977,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;
@@ -1011,7 +1015,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LymCar/LymCar.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"LymCar/Preview Content\"";
 				DEVELOPMENT_TEAM = EX6G2VC9J8;
 				ENABLE_PREVIEWS = YES;

@@ -23,7 +23,7 @@ final class CarPoolManager: CarPoolManagerType {
         
         userCarPoolListenerRegistration?.remove()
         
-        userCarPoolListenerRegistration = db.collection("Rooms")
+        userCarPoolListenerRegistration = FSCollection.reference(type: .rooms)
             .whereField("participants", arrayContains: uid)
             .order(by: "departureDate")
             .addSnapshotListener { snapshot, error in
@@ -46,7 +46,7 @@ final class CarPoolManager: CarPoolManagerType {
     func subscribeCarPool(roomId: String, completion: @escaping (FirebaseNetworkResult<CarPool>) -> Void) {
         carPoolListenerRegistration?.remove()
         
-        carPoolListenerRegistration = db.collection("Rooms")
+        carPoolListenerRegistration = FSCollection.reference(type: .rooms)
             .whereField("id", isEqualTo: roomId)
             .addSnapshotListener({ snapshot, error in
                 DispatchQueue.main.async {
@@ -67,7 +67,7 @@ final class CarPoolManager: CarPoolManagerType {
     
     func fetchCarPool(gender: String) async -> [CarPool] {
         do {
-            let querySnapshot = try await db.collection("Rooms")
+            let querySnapshot = try await FSCollection.reference(type: .rooms)
                 .order(by: "departureDate")
                 .whereField("departureDate", isGreaterThanOrEqualTo: Date())
                 .whereField("genderOption", in: [gender, Gender.none.rawValue])
@@ -88,7 +88,7 @@ final class CarPoolManager: CarPoolManagerType {
         carPool: CarPool
     ) async -> FirebaseNetworkResult<CarPool> {
         
-        let roomRef = db.collection("Rooms").document(carPool.id)
+        let roomRef = FSCollection.reference(type: .rooms).document(carPool.id)
         
         do {
             let transactionResult = try await db.runTransaction { transaction, errorPointer in
@@ -169,13 +169,14 @@ final class CarPoolManager: CarPoolManagerType {
             
             let updatedCarPool = transactionResult as! CarPool
             
-            try await db.collection("FcmTokens")
+            try await FSCollection.reference(type: .fcmToken)
                 .document(user.uid)
                 .updateData([
                     "roomIds": FieldValue.arrayUnion([carPool.id])
                 ])
             
-            try await roomRef.collection("joinTimeStamp")
+            
+            try await FSCollection.reference(type: .joinTimeStamp(id: carPool.id))
                 .document(user.uid)
                 .setData([
                     "timestamp": FieldValue.serverTimestamp()
@@ -200,7 +201,7 @@ final class CarPoolManager: CarPoolManagerType {
         genderOption: Gender,
         maxPersonCount: Int
     ) -> FirebaseNetworkResult<CarPool> {
-        let docRef = db.collection("Rooms").document()
+        let docRef = FSCollection.reference(type: .rooms).document()
         
         let departurePlace = Location(
             placeName: departurePlaceName,
@@ -226,13 +227,13 @@ final class CarPoolManager: CarPoolManagerType {
         do {
             try docRef.setData(from: carPool)
             
-            db.collection("FcmTokens")
+            FSCollection.reference(type: .fcmToken)
                 .document(user.uid)
                 .updateData([
                     "roomIds": FieldValue.arrayUnion([carPool.id])
                 ])
             
-            docRef.collection("joinTimeStamp")
+            FSCollection.reference(type: .joinTimeStamp(id: carPool.id))
                 .document(user.uid)
                 .setData([
                     "timestamp": FieldValue.serverTimestamp()
@@ -249,7 +250,7 @@ final class CarPoolManager: CarPoolManagerType {
         roomId: String
     ) async -> FirebaseNetworkResult<String> {
         
-        let roomRef = db.collection("Rooms").document(roomId)
+        let roomRef = FSCollection.reference(type: .rooms).document(roomId)
         
         do {
             let _ = try await db.runTransaction { transaction, errorPointer in
@@ -284,7 +285,7 @@ final class CarPoolManager: CarPoolManagerType {
                 return nil
             }
             
-            try await db.collection("FcmTokens")
+            try await FSCollection.reference(type: .fcmToken)
                 .document(user.uid)
                 .updateData([
                     "roomIds": FieldValue.arrayRemove([roomId])
@@ -299,7 +300,7 @@ final class CarPoolManager: CarPoolManagerType {
     
     func deactivate(roomId: String) async -> FirebaseNetworkResult<String> {
         do {
-            try await db.collection("Rooms")
+            try await FSCollection.reference(type: .rooms)
                 .document(roomId)
                 .updateData(["isActivate": false])
             

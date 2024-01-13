@@ -42,10 +42,7 @@ final class MessageManager: MessageManagerType {
         }
         
         /// Firestore DB 에 저장
-        let docRef = db.collection("Rooms")
-            .document(roomId)
-            .collection("ChatLogs")
-            .document()
+        let docRef = FSCollection.reference(type: .chatLogs(id: roomId)).document()
         
         docRef.setData([
             "id": docRef.documentID,
@@ -79,9 +76,9 @@ final class MessageManager: MessageManagerType {
         
         let timestamp = try await getJoinTimeStamp(roomId: roomId)
         
-        let commonQuery = db.collection("Rooms")
-            .document(roomId)
-            .collection("ChatLogs")
+        
+        let commonQuery = FSCollection
+            .reference(type: .chatLogs(id: roomId))
             .order(by: "timestamp") // timestamp 필드를 기준으로 오름차순 정렬
             .whereField("timestamp", isGreaterThanOrEqualTo: timestamp)
             .limit(toLast: limit) // 마지막에서 20개
@@ -136,9 +133,9 @@ final class MessageManager: MessageManagerType {
     ) {
         guard let uid = auth.currentUser?.uid else { return }
         
-        let commonQuery = db.collection("Rooms")
-            .document(roomId)
-            .collection("ChatLogs")
+        
+        let commonQuery = FSCollection
+            .reference(type: .chatLogs(id: roomId))
             .order(by: "timestamp") // timestamp를 기준으로 오름차순 정렬
         
         let requestQuery: Query
@@ -190,7 +187,7 @@ final class MessageManager: MessageManagerType {
         
         var tokens: [String] = []
         
-        let snapshot = try await db.collection("FcmTokens")
+        let snapshot = try await FSCollection.reference(type: .fcmToken)
             .whereField(.documentID(), isNotEqualTo: uid)
             .whereField("roomIds", arrayContains: roomId)
             .getDocuments()
@@ -209,9 +206,9 @@ final class MessageManager: MessageManagerType {
             throw AuthErrorCode(.nullUser)
         }
         
-        let document = try await db.collection("Rooms")
-            .document(roomId)
-            .collection("joinTimeStamp")
+        
+        let document = try await FSCollection
+            .reference(type: .joinTimeStamp(id: roomId))
             .document(uid)
             .getDocument()
         

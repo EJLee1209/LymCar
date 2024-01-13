@@ -12,3 +12,6 @@ final class Constant {
     static let baseURL: String = "http://203.245.41.173:80"
     static let privacyPolicyURL: String = "https://sites.google.com/view/hallymtaxi-privacy-policy-html/%ED%99%88"
 }
+
+
+
