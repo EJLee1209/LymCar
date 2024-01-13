@@ -80,6 +80,7 @@ struct RootView: View {
             guard let token = fcmToken else { return }
             appData.updateFcmToken(token)
         })
+        
     }
 }
 

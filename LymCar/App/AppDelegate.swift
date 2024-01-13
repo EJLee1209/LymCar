@@ -20,12 +20,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         /// 원격 알림 등록
         UNUserNotificationCenter.current().delegate = self
 
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-          options: authOptions,
-          completionHandler: { _, _ in }
-        )
-
         application.registerForRemoteNotifications()
         
         /// 메세징 델리게이트

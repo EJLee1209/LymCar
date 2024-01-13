@@ -15,8 +15,8 @@ struct LoginView: View {
     @EnvironmentObject private var appData: AppData
     @StateObject private var viewModel: ViewModel
     @Binding var loginViewIsPresented: Bool
-    
     @FocusState private var focusField: Field?
+    @AppStorage("isFirstRun") private var isFirstRun = true
     
     init(
         isPresented: Binding<Bool>,
@@ -126,6 +126,9 @@ struct LoginView: View {
             .loadingProgress(viewState: $viewModel.viewState)
         }
         .tint(.white)
+        .fullScreenCover(isPresented: $isFirstRun, content: {
+            PermissionRequestView()
+        })
         
     }
 }

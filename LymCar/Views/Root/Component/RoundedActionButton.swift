@@ -34,8 +34,8 @@ struct RoundedActionButton: View {
                 .foregroundStyle(labelColor)
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
+                .background(backgroundColor)
         })
-        .background(backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 100))
     }
 }
